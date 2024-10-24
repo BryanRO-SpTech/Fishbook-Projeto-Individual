@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/loginRegister.css">
 
+    <link href="../js/cropperJS/cropper.css" rel="stylesheet">
+    <script src="../js/cropperJS/cropper.js"></script>
+
     <script src="../js/register.js" defer></script>
 
     <title>Fishbook - Cadastro</title>
@@ -82,8 +85,17 @@
                 </div>
             </div>
         </div>
-
     </main>
+
+    <div class="crop-container">
+        <div class="crop-div">
+            <img src="" id="crop-profile">
+            <div class="cropper-mask"></div>
+
+            <button id="save-profile">Salvar</button>
+        </div>
+
+    </div>
 </body>
 
 </html>

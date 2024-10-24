@@ -115,11 +115,11 @@ form, .register-content {
     transition: all .3s;
 }
 
-.label-input input[type="submit"]:hover, .label-input button:hover {
+.label-input input[type="submit"]:hover, .label-input button:hover, #save-profile:hover {
     background-color: var(--sky-blue-hover);
 }
 
-.label-input button {
+.label-input button, #save-profile {
     background-color: var(--sky-blue);
     font-size: 1.3rem;
     cursor: pointer;
@@ -202,6 +202,40 @@ form, .register-content {
 
     cursor: pointer;
 }
+
+.crop-container {
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    background-color: #121f2bc9;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    display: none;
+}
+
+.crop-div {
+    width: 600px;
+    height: 600px;
+
+    margin: auto;
+}
+
+#save-profile {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+}
+
+#crop-profile {
+    width: 200px;
+    height: 200px;
+}
+
 
 #bio {
     height: 100px;
