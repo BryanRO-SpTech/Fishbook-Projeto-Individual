@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/loginRegister.css">
+
+    <script src="../js/register.js" defer></script>
+
+    <title>Fishbook - Cadastro</title>
+</head>
+
+<body>
+    <main class="register">
+        <div class="image"></div>
+
+        <div class="container">
+            <div class="welcome">
+                <h1>Fishbook</h1>
+                <h2>Realize seu cadastro</h2>
+            </div>
+
+            <div id="page1" class="register-content">
+                <div class="label-input">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name">
+                </div>
+
+                <div class="label-input">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email">
+                </div>
+
+                <div class="label-input">
+                    <label for="pass">Senha</label>
+                    <input type="password" id="pass">
+                </div>
+
+                <div class="label-input">
+                    <label for="confirmPass">Confirmar Senha</label>
+                    <input type="password" id="confirmPass">
+                </div>
+
+                <div class="label-input">
+                    <button onclick="nextPage()"><span>Prosseguir</span> <img
+                            src="../assets/icons/arrowRight.svg"></button>
+                </div>
+
+                <div class="no-account">
+                    <span>Já possuí uma conta?</span>
+                    <a href="./login.html">Clique aqui para logar</a>
+                </div>
+            </div>
+
+
+            <div id="page2" class="register-content">
+                <div id="profile-photo">
+                    <label for="upload"></label>
+                    <input type="file" id="upload" accept="image/*">
+                </div>
+
+                <div class="label-input">
+                    <label for="username">Usuário</label>
+                    <input type="text" placeholder="Digite seu nome de usuário" id="username">
+                </div>
+
+                <div class="label-input">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" placeholder="Digite sua bio"></textarea>
+                </div>
+
+                <div class="label-input prev">
+                    <button onclick="prevPage()"><img style="transform: scaleX(-1);"
+                            src="../assets/icons/arrowRight.svg"><span>Voltar</span></button>
+                    <button id="next"><span>Finalizar Cadastro</span></button>
+                </div>
+
+                <div class="no-account">
+                    <span>Já possuí uma conta?</span>
+                    <a href="./login.html">Clique aqui para logar</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>

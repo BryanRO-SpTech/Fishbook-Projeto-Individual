@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'ADLaM';
+    src: url(../fonts/ADLaMDisplay-Regular.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    font-family: 'ADLaM';
+    font-weight: 1;
+
+    text-decoration: none;
+    list-style: none;
+}
+
+:root {
+    --dark-navy: #202C36;
+    --sky-blue: #5EBEF2;
+    --golden-yellow: #EFAF3E;
+    --taupe-brown: #736F66;
+    --slate-gray: #666673;
+    --midnight-blue: #121F2B;
+
+    --sky-blue-hover: #3a7ea3;
+}

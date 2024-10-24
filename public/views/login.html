@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/loginRegister.css">
+    <title>Fishbook - Login</title>
+</head>
+
+<body>
+    <main>
+        <div class="image"></div>
+
+        <div class="container">
+            <div class="welcome">
+                <h1>Fishbook</h1>
+                <h2>Seja bem-vindo!!</h2>
+            </div>
+
+            <form onsubmit="event.preventDefault()" id="login">
+                <div class="label-input">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email">
+                </div>
+                
+                <div class="label-input">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password">
+                    <a href="./forgotPass.html">Esqueci a minha senha</a>
+                </div>
+                
+                <div class="label-input">
+                    <input type="submit" value="Entrar">
+                </div>
+                
+                <div class="no-account">
+                    <span>Não possuí uma conta?</span>
+                    <a href="./register.html">Clique aqui para se cadastrar</a>
+                </div>
+            </form>
+        </div>
+
+    </main>
+</body>
+
+</html>
