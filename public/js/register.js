@@ -24,6 +24,8 @@ function previewPhoto() {
 
     if (file.type.includes("image")) {
         previewPhotoDiv.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+    } else {
+        previewPhotoDiv.style.border = `2px solid red`;
     }
 }
 

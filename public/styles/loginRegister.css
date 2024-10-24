@@ -174,7 +174,7 @@ form, .register-content {
 #profile-photo {
     width: 180px;
     height: 180px;
-    border: 1px solid var(--sky-blue);
+    border: 2px solid var(--sky-blue);
     border-radius: 50%;
     background-image: url(../assets/icons/person.svg);
     background-size: 100% 100%;
