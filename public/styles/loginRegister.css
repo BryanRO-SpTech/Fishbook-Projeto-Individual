@@ -21,7 +21,7 @@ main {
 .register {
     width: 70vw;
     height: 80vh;
-    min-height: 750px;
+    min-height: 780px;
 }
 
 .image {
@@ -105,6 +105,12 @@ form, .register-content {
     outline: none;
     padding: 10px 10px;
     border-radius: 10px;
+}
+
+.error {
+    color: red;
+    font-size: .9rem;
+    text-indent: 10px;
 }
 
 .label-input input[type="submit"] {
@@ -218,10 +224,8 @@ form, .register-content {
 }
 
 .crop-div {
-    width: 600px;
-    height: 600px;
-
-    margin: auto;
+    width: 40vw;
+    aspect-ratio: 1/1;
 }
 
 #save-profile {
@@ -245,4 +249,9 @@ form, .register-content {
 
 .prev {
     gap: 10px;
+}
+
+/* Arredondando bordas do cropper */
+.cropper-view-box {
+    border-radius: 50%;
 }

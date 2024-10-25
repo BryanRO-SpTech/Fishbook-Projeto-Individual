@@ -69,13 +69,13 @@
   overflow: hidden;
   width: 100%;
 }
-
+/* 
 .cropper-dashed {
   border: 0 dashed #eee;
   display: block;
   opacity: 0.5;
   position: absolute;
-}
+} */
 
 .cropper-dashed.dashed-h {
     border-bottom-width: 1px;
@@ -95,7 +95,7 @@
     width: calc(100% / 3);
   }
 
-.cropper-center {
+/* .cropper-center {
   display: block;
   height: 0;
   left: 50%;
@@ -103,15 +103,15 @@
   position: absolute;
   top: 50%;
   width: 0;
-}
-
+} */
+/* 
 .cropper-center::before,
   .cropper-center::after {
     background-color: #eee;
     content: ' ';
     display: block;
     position: absolute;
-  }
+  } */
 
 .cropper-center::before {
     height: 1px;

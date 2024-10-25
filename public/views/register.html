@@ -27,27 +27,30 @@
             <div id="page1" class="register-content">
                 <div class="label-input">
                     <label for="name">Nome</label>
-                    <input type="text" id="name">
+                    <input type="text" id="name" oninput="validateName()">
+                    <span class="error" id="error-name"></span>
                 </div>
 
                 <div class="label-input">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email">
+                    <input type="email" id="email" oninput="validateEmail()">
+                    <span class="error" id="error-email"></span>
                 </div>
 
                 <div class="label-input">
                     <label for="pass">Senha</label>
-                    <input type="password" id="pass">
+                    <input type="password" id="pass" oninput="validatePass()">
+                    <span class="error" id="error-pass"></span>
                 </div>
 
                 <div class="label-input">
                     <label for="confirmPass">Confirmar Senha</label>
-                    <input type="password" id="confirmPass">
+                    <input type="password" id="confirmPass" oninput="validateConfirm()">
+                    <span class="error" id="error-confirm"></span>
                 </div>
 
                 <div class="label-input">
-                    <button onclick="nextPage()"><span>Prosseguir</span> <img
-                            src="../assets/icons/arrowRight.svg"></button>
+                    <button onclick="nextPage()"><span>Prosseguir</span> <img src="../assets/icons/arrowRight.svg"></button>
                 </div>
 
                 <div class="no-account">
@@ -90,11 +93,9 @@
     <div class="crop-container">
         <div class="crop-div">
             <img src="" id="crop-profile">
-            <div class="cropper-mask"></div>
 
             <button id="save-profile">Salvar</button>
         </div>
-
     </div>
 </body>
 
