@@ -21,6 +21,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "register.html"));
+});
+
+app.get("/feed", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "feed.html"));
+});
+
+
 app.listen(PORTA_APP, function () {
     console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  

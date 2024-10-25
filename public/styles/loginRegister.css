@@ -224,8 +224,7 @@ form, .register-content {
 }
 
 .crop-div {
-    width: 40vw;
-    aspect-ratio: 1/1;
+    width: fit-content;
 }
 
 #save-profile {
@@ -236,8 +235,8 @@ form, .register-content {
 }
 
 #crop-profile {
-    width: 200px;
-    height: 200px;
+    width: fit-content;
+    height: fit-content;
 }
 
 

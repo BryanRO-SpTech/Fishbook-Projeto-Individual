@@ -25,3 +25,143 @@
 
     --sky-blue-hover: #3a7ea3;
 }
+
+
+header {
+    background-color: var(--midnight-blue);
+    width: 100vw;
+    height: 80px;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .create {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+header .create img {
+    height: 45px;
+}
+
+header .create span {
+    font-size: 1.4rem;
+    color: white;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav ul {
+    display: flex;
+    color: white;
+    gap: 80px;
+}
+
+header nav ul li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+header nav ul li svg {
+    height: 32px;
+}
+
+header .search {
+    display: flex;
+    align-items: center;
+}
+
+header .search input {
+    height: 30px;
+    border: none;
+    outline: none;
+    background-color: var(--slate-gray);
+
+    border-radius: 8px 0 0 8px;
+    padding: 10px;
+    color: white;
+    font-size: 1rem;
+}
+
+header .search input::placeholder {
+    color: white;
+}
+
+header .search img {
+    height: 30px;
+    border-radius: 0 8px 8px 0;
+    background-color: var(--slate-gray);
+
+    cursor: pointer;
+}
+
+header .profile {
+    border: 2px solid var(--sky-blue);
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    height: 50px;
+
+    background-image: url(../assets/images/loginRegisterBackground.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+    cursor: pointer;
+}
+
+header .notification {
+    background-image: url(../assets/icons/bell.svg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 40px;
+    width: 40px;
+
+    display: flex;
+    justify-content: end;
+
+    cursor: pointer;
+}
+
+header .notification .counter {
+    background-color: var(--golden-yellow);
+    width: 18px;
+    height: 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .8rem;
+
+    border-radius: 50%;
+}
+
+header ul .selected {
+    color: var(--golden-yellow);
+}
+
+header ul .selected .grid path {
+    stroke: var(--golden-yellow);
+}
+
+header ul .selected svg path:not(.grid path) {
+    fill: var(--golden-yellow);
+}
+
+
+main {
+    height: calc(100vh - 80px);
+    overflow: auto;
+}
