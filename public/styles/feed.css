@@ -1,1 +1,98 @@
 @import url(root.css);
+
+:root {
+    --main-width: 85vw;
+}
+
+.container {
+    display: flex;
+}
+
+main {
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+
+.feed {
+    border: 1px solid blue;
+    width: 40vw;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.feed .post {
+    width: 80%;
+    aspect-ratio: 1.4/1;
+
+    border: solid red 1px;
+}
+
+.feed .post-content {
+    width: 100%;
+    height: 90%;
+
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feed .post-bar {
+    background-color: var(--midnight-blue);
+    width: 100%;
+    height: calc(100% - 90%);
+}
+
+
+
+
+.friends {
+    width: calc(100vw - var(--main-width));
+    background-color: var(--midnight-blue);
+}
+
+.friends h1 {
+    color: var(--sky-blue);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.friends .friends-content {
+    margin-top: 15px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.friends .friends-content .friend {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+
+.friends .friends-content .friend .profile {
+    border: 2px solid var(--sky-blue);
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}

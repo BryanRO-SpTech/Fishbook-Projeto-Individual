@@ -13,6 +13,7 @@
 
     text-decoration: none;
     list-style: none;
+    color: white;
 }
 
 :root {
@@ -55,7 +56,6 @@ header .create img {
 
 header .create span {
     font-size: 1.4rem;
-    color: white;
 }
 
 header nav {
@@ -65,7 +65,6 @@ header nav {
 
 header nav ul {
     display: flex;
-    color: white;
     gap: 80px;
 }
 
@@ -93,7 +92,6 @@ header .search input {
 
     border-radius: 8px 0 0 8px;
     padding: 10px;
-    color: white;
     font-size: 1rem;
 }
 
@@ -146,6 +144,8 @@ header .notification .counter {
     font-size: .8rem;
 
     border-radius: 50%;
+
+    color: black;
 }
 
 header ul .selected {
@@ -164,4 +164,5 @@ header ul .selected svg path:not(.grid path) {
 main {
     height: calc(100vh - 80px);
     overflow: auto;
+    background-color: var(--dark-navy);
 }
