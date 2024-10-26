@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
+
     font-family: 'ADLaM';
     font-weight: 1;
 
@@ -31,7 +31,7 @@
 header {
     background-color: var(--midnight-blue);
     width: 100vw;
-    height: 80px;
+    height: 65px;
 
     display: flex;
     justify-content: space-evenly;
@@ -107,16 +107,15 @@ header .search img {
     cursor: pointer;
 }
 
-header .profile {
+.profile {
     border: 2px solid var(--sky-blue);
     border-radius: 50%;
     aspect-ratio: 1/1;
     height: 50px;
 
-    background-image: url(../assets/images/loginRegisterBackground.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    
+
     cursor: pointer;
 }
 
@@ -148,7 +147,7 @@ header .notification .counter {
     color: black;
 }
 
-header ul .selected {
+header ul .selected span {
     color: var(--golden-yellow);
 }
 
@@ -162,7 +161,21 @@ header ul .selected svg path:not(.grid path) {
 
 
 main {
-    height: calc(100vh - 80px);
+    height: calc(100vh - 65px);
     overflow: auto;
     background-color: var(--dark-navy);
+    scrollbar-width: 12px;
+}
+
+main::-webkit-scrollbar {
+    width: 5px;
+}
+
+main::-webkit-scrollbar-track {
+    background: var(--midnight-blue);
+}
+
+main::-webkit-scrollbar-thumb {
+    background-color: var(--slate-gray);
+    border-radius: 20px;
 }

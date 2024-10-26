@@ -4,12 +4,16 @@
     --main-width: 85vw;
 }
 
+body {
+    overflow: hidden;
+}
+
 .container {
     display: flex;
 }
 
 main {
-    width: 85vw;
+    width:var(--main-width);
     display: flex;
     justify-content: center;
     padding: 30px;
@@ -17,21 +21,20 @@ main {
 
 
 .feed {
-    border: 1px solid blue;
     width: 40vw;
     height: fit-content;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    gap: 50px;
 }
 
 
 .feed .post {
-    width: 80%;
-    aspect-ratio: 1.4/1;
-
-    border: solid red 1px;
+    height: 55vh;
+    aspect-ratio: 13/9;
 }
 
 .feed .post-content {
@@ -46,16 +49,94 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border-radius: 10px 10px 0 0;
+}
+
+.feed .post-content img, .feed .post-content video {
+    max-height: 100%;
+    max-width: 100%;
+
+    border-radius: 10px 10px 0 0;
 }
 
 .feed .post-bar {
     background-color: var(--midnight-blue);
     width: 100%;
     height: calc(100% - 90%);
+    padding: 0 20px;
+
+    display: flex;
+    justify-content: space-between;
+
+    border-radius: 0 0 10px 10px;
+}
+
+.feed .post-bar .likes-comments {
+    height: 100%;
+
+    display: flex;
+    gap: 30px;
+}
+
+.feed .post-bar .likes-comments .likes {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.1rem;
+    gap: 10px;
+
+    width: fit-content;
+}
+
+.feed .post-bar .likes-comments .likes .heart {
+    height: 60%;
+    cursor: pointer;
+}
+
+.feed .post-bar .likes-comments .comments {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    width: fit-content;
+}
+
+.feed .post-bar .likes-comments .comment {
+    height: 60%;
+    cursor: pointer;
 }
 
 
+.feed .post-bar .post-owner {
+    width: fit-content;
 
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    cursor: pointer;
+}
+
+.feed .post-bar .post-owner .profile {
+    height: 80%;
+    border-width: 2px;
+}
+
+.feed .post-bar .post-owner span {
+    font-size: 1.1rem;
+}
+
+.feed .post-bar .post-owner button {
+    font-size: 1.1rem;
+    background-color: var(--sky-blue);
+    border-radius: 11px;
+    border: none;
+    padding: 3px 15px;
+    cursor: pointer;
+}
 
 .friends {
     width: calc(100vw - var(--main-width));
@@ -95,4 +176,117 @@ main {
     height: 40px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+}
+
+#comments {
+    height: 50vh;
+    width: var(--main-width);
+    background-color: #121f2bf6;
+
+    transform: translateY(0vh);
+
+    transition: all .5s;
+    position: relative;
+}
+
+#comments.open {
+    transform: translateY(-50vh);
+}
+
+#comments .caption-container {
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+}
+
+#comments .caption-container h3 {
+    text-align: center;
+    width: 100%;
+
+    color: var(--sky-blue);
+    font-size: 1.5rem;
+}
+
+#comments .caption-container .caption {
+    padding: 20px;
+}
+
+#comments .comments-content {
+    height: 85%;
+    padding: 0 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    overflow: auto;
+}
+
+
+#comments .comments-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+#comments .comments-content::-webkit-scrollbar-track {
+    background: var(--midnight-blue);
+}
+
+#comments .comments-content::-webkit-scrollbar-thumb {
+    background-color: var(--slate-gray);
+    border-radius: 20px;
+}
+
+
+#comments .comments-content .comment .profile {
+    height: 40px;
+}
+
+#comments .comments-content .comment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#comments .comments-content .comment .comment-owner {
+    color: var(--sky-blue);
+    cursor: pointer;
+}
+
+.comment-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-input input {
+    height: 45px;
+    width: 40%;
+    border: none;
+    outline: none;
+    background-color: var(--slate-gray);
+
+    border-radius: 30px 0 0 30px;
+    padding: 10px;
+    text-indent: 10px;
+    font-size: 1rem;
+}
+
+.comment-input input::placeholder {
+    color: white;
+}
+
+.comment-input img {
+    background-color: var(--slate-gray);
+    height: 45px;
+    border-radius: 0 30px 30px 0 ;
+    padding: 5px;
+
+    cursor: pointer;
+}
+
+#close-comments {
+    position: absolute;
+    width: 50px;
+    right: 0;
+    cursor: pointer;
 }

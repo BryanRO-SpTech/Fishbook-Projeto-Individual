@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/feed.css">
+
+    <script src="scripts/feed.js" defer></script>
+
     <title>Fishbook - Feed</title>
 </head>
 
@@ -24,8 +27,7 @@
         <nav>
             <ul>
                 <li class="selected">
-                    <svg viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="grid">
+                    <svg viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="grid">
                         <path d="M18.7619 5.5H5.92859V18.3333H18.7619V5.5Z" stroke="white" stroke-width="4"
                             stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M38.9286 5.5H26.0953V18.3333H38.9286V5.5Z" stroke="white" stroke-width="4"
@@ -48,12 +50,11 @@
                     <span>Pescar</span>
                 </li>
                 <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFF" class="bi bi-book"
-                        viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFF" class="bi bi-book" viewBox="0 0 16 16">
                         <path
                             d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
                     </svg>
-                    
+
                     <span>Catálogo</span>
                 </li>
             </ul>
@@ -68,52 +69,209 @@
             <div class="counter">99</div>
         </div>
 
-        <div class="profile"></div>
+        <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
     </header>
 
     <div class="container">
         <main>
             <section class="feed">
-                <div class="post">
-                    <div class="post-content" data-post-url="assets/images/loginRegisterBackground.png" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+
+                <div class="post" data-postId="1">
+                    <div class="post-content" data-post-url="assets/images/loginRegisterBackground.png">
+                        <!-- <img src="assets/8d3380e3d13f368c156df01ada661766.jpg" alt=""> -->
+                        <video src="assets/Fishbook - Cadastro - Opera 2024-10-23 23-07-20.mp4" loop muted controls preload="auto" controlsList="nodownload"></video>
+                    </div>
                     <div class="post-bar">
-                        
+                        <div class="likes-comments">
+                            <div class="likes">
+                                <svg class="heart" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M36.1016 7.87542C35.2291 7.00247 34.1931 6.30998 33.0529 5.83752C31.9126 5.36506 30.6905 5.12189 29.4562 5.12189C28.222 5.12189 26.9998 5.36506 25.8596 5.83752C24.7193 6.30998 23.6834 7.00247 22.8108 7.87542L21 9.68626L19.1891 7.87542C17.4267 6.11295 15.0362 5.1228 12.5437 5.1228C10.0512 5.1228 7.66079 6.11295 5.89831 7.87542C4.13584 9.6379 3.14569 12.0283 3.14569 14.5208C3.14569 17.0134 4.13584 19.4038 5.89831 21.1663L21 36.2679L36.1016 21.1663C36.9746 20.2937 37.6671 19.2577 38.1395 18.1175C38.612 16.9772 38.8552 15.7551 38.8552 14.5208C38.8552 13.2866 38.612 12.0644 38.1395 10.9242C37.6671 9.78395 36.9746 8.74796 36.1016 7.87542Z"
+                                        stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+    
+                                <span>600</span>
+                            </div>
+                            
+                            <div class="comments">
+                                <svg class="comment" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M33.2139 25.7576C35.2808 22.2871 35.9754 18.2049 35.1679 14.2736C34.3605 10.3423 32.1062 6.83078 28.8262 4.39506C25.5462 1.95935 21.4648 0.766033 17.3446 1.03805C13.2243 1.31007 9.34702 3.02882 6.43698 5.87321C3.52695 8.71759 1.78324 12.4931 1.5316 16.4943C1.27997 20.4955 2.53762 24.4488 5.0696 27.6157C7.60159 30.7826 11.2347 32.9463 15.2903 33.7028C19.3459 34.4593 23.5464 33.7568 27.1073 31.7264L35.5 34L33.2139 25.7576Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>    
+                            </div>
+                        </div>
+
+                        <div class="post-owner">
+                            <div class="profile"  style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                            <span>Bryan Rocha</span>
+                            <button>Adicionar</button>
+                        </div>
                     </div>
                 </div>
+                
+                <div class="post">
+                    <div class="post-content" data-post-url="assets/images/loginRegisterBackground.png">
+                        <img src="assets/8d3380e3d13f368c156df01ada661766.jpg" alt="">
+                    </div>
+                    <div class="post-bar">
+                        <div class="likes-comments">
+                            <div class="likes">
+                                <svg class="heart" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M36.1016 7.87542C35.2291 7.00247 34.1931 6.30998 33.0529 5.83752C31.9126 5.36506 30.6905 5.12189 29.4562 5.12189C28.222 5.12189 26.9998 5.36506 25.8596 5.83752C24.7193 6.30998 23.6834 7.00247 22.8108 7.87542L21 9.68626L19.1891 7.87542C17.4267 6.11295 15.0362 5.1228 12.5437 5.1228C10.0512 5.1228 7.66079 6.11295 5.89831 7.87542C4.13584 9.6379 3.14569 12.0283 3.14569 14.5208C3.14569 17.0134 4.13584 19.4038 5.89831 21.1663L21 36.2679L36.1016 21.1663C36.9746 20.2937 37.6671 19.2577 38.1395 18.1175C38.612 16.9772 38.8552 15.7551 38.8552 14.5208C38.8552 13.2866 38.612 12.0644 38.1395 10.9242C37.6671 9.78395 36.9746 8.74796 36.1016 7.87542Z"
+                                        stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+    
+                                <span>600</span>
+                            </div>
+                            
+                            <div class="comments">
+                                <svg class="comment" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M33.2139 25.7576C35.2808 22.2871 35.9754 18.2049 35.1679 14.2736C34.3605 10.3423 32.1062 6.83078 28.8262 4.39506C25.5462 1.95935 21.4648 0.766033 17.3446 1.03805C13.2243 1.31007 9.34702 3.02882 6.43698 5.87321C3.52695 8.71759 1.78324 12.4931 1.5316 16.4943C1.27997 20.4955 2.53762 24.4488 5.0696 27.6157C7.60159 30.7826 11.2347 32.9463 15.2903 33.7028C19.3459 34.4593 23.5464 33.7568 27.1073 31.7264L35.5 34L33.2139 25.7576Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>    
+                            </div>
+                        </div>
+
+                        <div class="post-owner">
+                            <div class="profile"  style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                            <span>Bryan Rocha</span>
+                            <button>Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-content" data-post-url="assets/images/loginRegisterBackground.png">
+                        <img src="assets/8d3380e3d13f368c156df01ada661766.jpg" alt="">
+                    </div>
+                    <div class="post-bar">
+                        <div class="likes-comments">
+                            <div class="likes">
+                                <svg class="heart" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M36.1016 7.87542C35.2291 7.00247 34.1931 6.30998 33.0529 5.83752C31.9126 5.36506 30.6905 5.12189 29.4562 5.12189C28.222 5.12189 26.9998 5.36506 25.8596 5.83752C24.7193 6.30998 23.6834 7.00247 22.8108 7.87542L21 9.68626L19.1891 7.87542C17.4267 6.11295 15.0362 5.1228 12.5437 5.1228C10.0512 5.1228 7.66079 6.11295 5.89831 7.87542C4.13584 9.6379 3.14569 12.0283 3.14569 14.5208C3.14569 17.0134 4.13584 19.4038 5.89831 21.1663L21 36.2679L36.1016 21.1663C36.9746 20.2937 37.6671 19.2577 38.1395 18.1175C38.612 16.9772 38.8552 15.7551 38.8552 14.5208C38.8552 13.2866 38.612 12.0644 38.1395 10.9242C37.6671 9.78395 36.9746 8.74796 36.1016 7.87542Z"
+                                        stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+    
+                                <span>600</span>
+                            </div>
+                            
+                            <div class="comments">
+                                <svg class="comment" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M33.2139 25.7576C35.2808 22.2871 35.9754 18.2049 35.1679 14.2736C34.3605 10.3423 32.1062 6.83078 28.8262 4.39506C25.5462 1.95935 21.4648 0.766033 17.3446 1.03805C13.2243 1.31007 9.34702 3.02882 6.43698 5.87321C3.52695 8.71759 1.78324 12.4931 1.5316 16.4943C1.27997 20.4955 2.53762 24.4488 5.0696 27.6157C7.60159 30.7826 11.2347 32.9463 15.2903 33.7028C19.3459 34.4593 23.5464 33.7568 27.1073 31.7264L35.5 34L33.2139 25.7576Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>    
+                            </div>
+                        </div>
+
+                        <div class="post-owner">
+                            <div class="profile"  style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                            <span>Bryan Rocha</span>
+                            <button>Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+
             </section>
         </main>
-    
+
         <section class="friends">
             <h1>Seus Amigos</h1>
 
             <div class="friends-content">
                 <div class="friend">
-                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');"></div>
+                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');">
+                    </div>
                     <span>Bryan Rocha</span>
-                </div>  
-                
+                </div>
+
                 <div class="friend">
-                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');"></div>
+                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');">
+                    </div>
                     <span>Bryan Rocha</span>
-                </div>  
-                
+                </div>
+
                 <div class="friend">
-                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');"></div>
+                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');">
+                    </div>
                     <span>Bryan Rocha</span>
-                </div>  
-                
+                </div>
+
                 <div class="friend">
-                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');"></div>
+                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');">
+                    </div>
                     <span>Bryan Rocha</span>
-                </div>  
-                
+                </div>
+
                 <div class="friend">
-                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');"></div>
+                    <div class="profile" style="background-image: url('assets/images/loginRegisterBackground.png');">
+                    </div>
                     <span>Bryan Rocha</span>
-                </div>  
+                </div>
             </div>
         </section>
     </div>
+
+    <section id="comments">
+        <img src="assets/icons/close.svg" alt="Fechar" id="close-comments">
+        <div class="comments-content">
+            <div class="caption-container">
+                <h3>Legenda do Post</h3>
+                <div class="caption">
+                    <span>Porque a melhor pescaria não é só sobre o que você pega, mas com quem você compartilha o momento. 🎣🌅 Uma tarde tranquila, boas risadas e muitas histórias para contar.</span>
+                </div>
+            </div>
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+            
+            <div class="comment">
+                <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+                <span><span class="comment-owner">Bryan Rocha: </span>Que aventura incrível! Nada como a emoção de pescar em alto mar, sentir a brisa e admirar a vastidão do oceano! 🐟🌊 Qual foi o destaque da pescaria? Parabéns pela conquista!</span>
+            </div>
+        </div>
+
+
+        <div class="comment-input">
+            <input type="text" maxlength="255" placeholder="Comentar">
+            <img src="assets/icons/send.svg">
+        </div>
+    </section>
 </body>
 
 </html>
