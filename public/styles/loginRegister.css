@@ -237,6 +237,9 @@ form, .register-content {
 #crop-profile {
     width: fit-content;
     height: fit-content;
+
+    max-height: 70vh;
+    max-width: 70vw;
 }
 
 

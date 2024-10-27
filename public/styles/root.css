@@ -179,3 +179,18 @@ main::-webkit-scrollbar-thumb {
     background-color: var(--slate-gray);
     border-radius: 20px;
 }
+
+.return-button {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.return-button span {
+    margin-bottom: 10px;
+}
+
+.return-button img {
+    height: 50px;
+}

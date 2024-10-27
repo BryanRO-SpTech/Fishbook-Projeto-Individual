@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/post.css">
+
+    <link href="scripts/cropperJS/cropper.css" rel="stylesheet">
+    <script src="scripts/cropperJS/cropper.js"></script>
+    <script src="scripts/ImageCropper.js" defer></script>
+    <script src="scripts/post.js" defer></script>
+    
+    <title>Fish Book - Novo Post</title>
+</head>
+<body>
+    <script src="components/navBar.js" data-page="feed"></script>
+    <script src="components/returnButton.js"></script>
+
+    <section class="post">
+        <h1>Criar Publicação</h1>
+
+        <div class="upload-container">
+            <div class="upload-content">
+                <label for="upload">Realizar upload</label>
+                <input type="file" id="upload">
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="crop-container">
+        <div class="crop-div">
+            <img src="" id="crop-post">
+
+            <button id="save-post">Salvar</button>
+        </div>
+    </div>
+</body>
+</html>

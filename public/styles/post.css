@@ -1,0 +1,117 @@
+@import url(./root.css);
+
+body {
+    background-color: var(--dark-navy);
+}
+
+.post {
+    text-align: center;
+    font-size: 1.4rem;
+
+    border: solid 1px blue;
+}
+
+
+.upload-container {
+    height: 40vh;
+    aspect-ratio: 16/9;
+    margin: 20px auto;
+    border-radius: 20px;
+    background-color: var(--midnight-blue);
+
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-content {
+    border: 2px dashed var(--slate-gray);
+
+    height: 90%;
+    aspect-ratio: 16/9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.upload-content label {
+    width: 200px;
+    height: 35px;
+    background-color: var(--slate-gray);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.upload-content input {
+    display: none;
+}
+
+
+
+.crop-container {
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    background-color: #121f2bc9;
+    top: 0;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    display: none;
+}
+
+.crop-div {
+    width: fit-content;
+}
+
+#save-post {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+}
+
+#crop-post {
+    width: fit-content;
+    height: fit-content;
+
+    max-height: 70vh;
+    max-width: 70vw;
+}
+
+#save-post {
+    background-color: var(--sky-blue);
+    font-size: 1.3rem;
+    cursor: pointer;
+
+    transition: all .3s;
+    color: white;
+    font-size: 1.1rem;
+
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+}
+
+#save-post:hover {
+    background-color: var(--sky-blue-hover);
+}
