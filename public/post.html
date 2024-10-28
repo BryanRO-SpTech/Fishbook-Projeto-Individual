@@ -7,7 +7,7 @@
 
     <link href="scripts/cropperJS/cropper.css" rel="stylesheet">
     <script src="scripts/cropperJS/cropper.js"></script>
-    <script src="scripts/ImageCropper.js" defer></script>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js"></script>
     <script src="scripts/post.js" defer></script>
     
     <title>Fish Book - Novo Post</title>
@@ -25,6 +25,19 @@
                 <input type="file" id="upload">
             </div>
         </div>
+
+        <div class="video-trim">
+            <span>Inicio</span>
+            <input id="time-start" type="number" style="color: black;" value="0" readonly>
+            <button id="cut-start"><img src="assets/icons/cut.svg"></button>
+
+            <span>Fim</span>
+            <input id="time-end" type="number" style="color: black;" readonly>
+            <button id="cut-end"><img src="assets/icons/cut.svg"></button>
+        </div>
+
+
+        <button id="play">Cortar</button>
     </section>
 
 

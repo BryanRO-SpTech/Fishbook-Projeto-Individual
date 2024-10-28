@@ -64,7 +64,6 @@ function previewImage() {
     }
 
     document.getElementById("save-profile").addEventListener("click", crop);
-    document.getElementById("cancel-profile").addEventListener("click", cancel);
 }
 
 
