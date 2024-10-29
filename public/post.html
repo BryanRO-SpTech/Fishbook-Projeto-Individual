@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="styles/post.css">
 
     <link href="scripts/cropperJS/cropper.css" rel="stylesheet">
+
     <script src="scripts/cropperJS/cropper.js"></script>
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js"></script>
     <script src="scripts/post.js" defer></script>
     
-    <title>Fish Book - Novo Post</title>
+    <title>Fishbook - Novo Post</title>
 </head>
 <body>
     <script src="components/navBar.js" data-page="feed"></script>
@@ -26,18 +26,14 @@
             </div>
         </div>
 
-        <div class="video-trim">
-            <span>Inicio</span>
-            <input id="time-start" type="number" style="color: black;" value="0" readonly>
-            <button id="cut-start"><img src="assets/icons/cut.svg"></button>
-
-            <span>Fim</span>
-            <input id="time-end" type="number" style="color: black;" readonly>
-            <button id="cut-end"><img src="assets/icons/cut.svg"></button>
+        <div id="video-trim">
+            <div id="start-selector"></div>
+            <div id="selector"></div>
+            <div id="end-selector"></div>
         </div>
 
+        <button id="play">play</button>
 
-        <button id="play">Cortar</button>
     </section>
 
 

@@ -9,6 +9,10 @@ body {
     font-size: 1.4rem;
 
     border: solid 1px blue;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
@@ -119,4 +123,62 @@ body {
 
 #save-post:hover {
     background-color: var(--sky-blue-hover);
+}
+
+
+
+
+
+/*
+    Video trimmer 
+*/
+
+
+#video-trim {
+    border: solid 1px red;
+    height: 50px;
+    width: 50%;
+    position: relative;
+
+    user-select: none;
+}
+
+#video-trim img {
+    height: 100%;
+}
+
+#start-selector {
+    position: absolute;
+    background-color: aliceblue;
+
+    width: 30px;
+    height: 100%;
+    cursor: grab;
+    border-radius: 0 10px 10px 0;
+    
+}
+
+#end-selector {
+    position: absolute;
+    background-color: aliceblue;
+
+    width: 30px;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 10px 0 0 10px;
+    cursor: grab;
+
+    right: 0;
+}
+
+#selector {
+    position: absolute;
+    background-color: var(--golden-yellow);
+    width: 5px;
+    height: 100%;
+
+    border-radius: 50px;
+
+    
+    cursor: pointer;
 }

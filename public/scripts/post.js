@@ -74,69 +74,90 @@ function previewImage() {
 function previewVideo() {
     const file = inputFile.files[0];
 
+    previewDiv.innerHTML = "";
 
     const videoUrl = URL.createObjectURL(file);
+
     const video = document.createElement("video");
-
-    const cutButton = document.getElementById("play");
-
     video.src = videoUrl;
     video.controls = true;
 
-    previewDiv.innerHTML = ""
-    previewDiv.appendChild(video);
+    const trimDiv = document.getElementById("video-trim");
 
-    const inputTimeStart = document.getElementById("time-start");
-    const inputTimeEnd = document.getElementById("time-end");
-
-    let trimStart = Number(inputTimeStart.value);
-    let trimEnd = Number(inputTimeEnd);
+    let framesLoaded = false;
 
     video.onloadedmetadata = () => {
-        const videoDuration = video.duration;
-        inputTimeEnd.value = videoDuration;
-        trimEnd = videoDuration;
-    };
+        previewDiv.appendChild(video);
+        video.currentTime = 1;
 
-    inputTimeStart.onchange = () => {
-        const value = inputTimeStart.value;
+        video.onseeked = () => {
+            if (!framesLoaded) {
+                let canvas = document.createElement("canvas");
 
-        if (value < video.duration || value > trimEnd) {
-            return inputTimeStart.value = trimStart;
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                let ctx = canvas.getContext("2d");
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                let img = new Image();
+                img.src = canvas.toDataURL();
+
+                trimDiv.appendChild(img);
+
+                if (video.currentTime < video.duration) {
+                    video.currentTime++;
+                } else {
+                    framesLoaded = true;
+                }
+
+                // console.log(trimDiv.childElementCount)
+
+                Array.from(trimDiv.children).forEach(element => {
+                    if (element.tagName == "IMG") {
+                        element.style.width = `${trimDiv.offsetWidth / trimDiv.childElementCount}px`;
+                    }
+                });
+            }
+        }
+    }
+
+    const videoTrimDiv = document.getElementById("video-trim");
+    const videoSelector = document.getElementById("selector");
+    const play = document.getElementById("play");
+
+    let mouseDown = false;
+
+    videoTrimDiv.onpointermove = (e) => {
+
+        const rect = videoTrimDiv.getBoundingClientRect();
+
+        const mouseX = e.clientX - rect.left;
+
+        const percentX = (mouseX / rect.width) * 100;
+
+        if (mouseDown && percentX < 100) {
+            videoSelector.style.left = `${percentX}%`;
+
+            video.currentTime = ((percentX / 100) * video.duration);
         }
 
-        trimStart = Number(inputTimeStart.value);
-    };
-    inputTimeEnd.onchange = () => trimEnd = Number(inputTimeEnd.value);
-
-    video.addEventListener("play", () => {
-        video.currentTime = trimStart;
-    });
-
-
-    const cutStartButton = document.getElementById("cut-start");
-    const cutEndButton = document.getElementById("cut-end");
-
-    cutStartButton.addEventListener("click", () => {
-        const videoCurrentTime = video.currentTime;
-
-        trimStart = videoCurrentTime;
-        inputTimeStart.value = videoCurrentTime;
-    });
-
-    cutEndButton.addEventListener("click", () => {
-        const videoCurrentTime = video.currentTime;
-
-        trimEnd = videoCurrentTime;
-        inputTimeEnd.value = videoCurrentTime;
-    });
-
-    video.addEventListener("timeupdate", () => {
-        if (video.currentTime >= trimEnd) {
-
-            video.currentTime = trimStart;
+        videoSelector.onpointerdown = () => {
+            mouseDown = true;
         }
-    });
+
+        videoSelector.onpointerup = () => {
+            mouseDown = false;
+        }
+    }
+
+    videoTrimDiv.onmouseleave = () => mouseDown = false;
+
+    video.ontimeupdate = () => {
+        console.log("teste")
+        videoSelector.style.left = `${(video.currentTime / video.duration) * 100}%`;
+    };
+
 
 }
 
