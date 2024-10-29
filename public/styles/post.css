@@ -135,50 +135,61 @@ body {
 
 
 #video-trim {
-    border: solid 1px red;
+    border: solid 2px var(--slate-gray);
     height: 50px;
     width: 50%;
     position: relative;
+    display: flex;
+    flex-wrap: nowrap;
 
     user-select: none;
 }
 
 #video-trim img {
     height: 100%;
+    width: auto;
+}
+
+#start-selector, #end-selector {
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.445);
+    width: 7px;
+    height: 100%;
+
+    
+    cursor: pointer;
+}
+
+
+#current-selector {
+    background-color: white;
+    width: 7px;
+    position: absolute;
+    height: 100%;
+    cursor: pointer;
+
+    border-radius: 50px;
 }
 
 #start-selector {
-    position: absolute;
-    background-color: aliceblue;
-
-    width: 30px;
-    height: 100%;
-    cursor: grab;
-    border-radius: 0 10px 10px 0;
-    
-}
+    border-right: solid 7px var(--golden-yellow);
+}   
 
 #end-selector {
-    position: absolute;
-    background-color: aliceblue;
-
-    width: 30px;
-    height: 100%;
-    cursor: pointer;
-    border-radius: 10px 0 0 10px;
-    cursor: grab;
-
     right: 0;
+    border-left: solid 7px var(--golden-yellow);
 }
 
-#selector {
-    position: absolute;
-    background-color: var(--golden-yellow);
-    width: 5px;
-    height: 100%;
-
-    border-radius: 50px;
-
-    
+#play, #pause {
+    margin-top: 10px;
     cursor: pointer;
+}
+
+#play svg, #pause svg {
+    width: 35px;
+    height: 35px;
+}
+
+#pause {
+    display: none;
 }

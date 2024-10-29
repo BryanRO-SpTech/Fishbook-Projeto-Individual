@@ -80,7 +80,6 @@ function previewVideo() {
 
     const video = document.createElement("video");
     video.src = videoUrl;
-    video.controls = true;
 
     const trimDiv = document.getElementById("video-trim");
 
@@ -109,13 +108,14 @@ function previewVideo() {
                     video.currentTime++;
                 } else {
                     framesLoaded = true;
+                    video.currentTime = 0;
                 }
 
                 // console.log(trimDiv.childElementCount)
 
                 Array.from(trimDiv.children).forEach(element => {
                     if (element.tagName == "IMG") {
-                        element.style.width = `${trimDiv.offsetWidth / trimDiv.childElementCount}px`;
+                        element.style.width = `${trimDiv.offsetWidth / (trimDiv.childElementCount - 2)}px`;
                     }
                 });
             }
@@ -123,42 +123,100 @@ function previewVideo() {
     }
 
     const videoTrimDiv = document.getElementById("video-trim");
-    const videoSelector = document.getElementById("selector");
-    const play = document.getElementById("play");
+    const videoCurrentSelector = document.getElementById("current-selector");
+    const videoStartSelector = document.getElementById("start-selector");
+    const videoEndSelector = document.getElementById("end-selector");
 
-    let mouseDown = false;
+    let mouseDownInCurrentSelector = false;
+    let mouseDownInStartSelector = false;
+    let mouseDownInEndSelector = false;
+
+    let timeStart = 0;
+    let timeEnd = video.duration;
+
 
     videoTrimDiv.onpointermove = (e) => {
+        const percentX = getMousePositionPercentage(e, videoTrimDiv)
 
-        const rect = videoTrimDiv.getBoundingClientRect();
+        // Mover seletor de inicio;
 
-        const mouseX = e.clientX - rect.left;
 
-        const percentX = (mouseX / rect.width) * 100;
+        if (mouseDownInStartSelector && (percentX < 100 && percentX > 0)) {
+            videoStartSelector.style.width = `${percentX}%`;
 
-        if (mouseDown && percentX < 100) {
-            videoSelector.style.left = `${percentX}%`;
+            timeStart = (percentX / 100) * video.duration;
+        }
 
+        videoStartSelector.onpointerdown = () => {
+            mouseDownInStartSelector = true;
+        }
+
+        videoStartSelector.onpointerup = () => {
+            mouseDownInStartSelector = false;
+        }
+
+        // Mover seletor de encerramento
+
+
+        if (mouseDownInEndSelector && percentX < 100) {
+            videoEndSelector.style.width = `${100 - percentX}%`;
+
+            timeEnd = ((percentX / 100) * video.duration);
+        }
+
+        videoEndSelector.onpointerdown = () => {
+            mouseDownInEndSelector = true;
+        }
+
+        videoEndSelector.onpointerup = () => {
+            mouseDownInEndSelector = false;
+        }
+
+
+        // Mover o seletor do tempo do video atual
+
+
+        if (mouseDownInCurrentSelector && percentX < 100) {
+            videoCurrentSelector.style.left = `${percentX}%`;
             video.currentTime = ((percentX / 100) * video.duration);
         }
 
-        videoSelector.onpointerdown = () => {
-            mouseDown = true;
+        videoCurrentSelector.onpointerdown = () => {
+            mouseDownInCurrentSelector = true;
         }
 
-        videoSelector.onpointerup = () => {
-            mouseDown = false;
+        videoCurrentSelector.onpointerup = () => {
+            mouseDownInCurrentSelector = false;
         }
     }
 
-    videoTrimDiv.onmouseleave = () => mouseDown = false;
-
-    video.ontimeupdate = () => {
-        console.log("teste")
-        videoSelector.style.left = `${(video.currentTime / video.duration) * 100}%`;
+    videoTrimDiv.onmouseleave = () => {
+        mouseDownInCurrentSelector = false;
+        mouseDownInStartSelector = false;
+        mouseDownInEndSelector = false;
     };
 
+    video.ontimeupdate = () => {
+        videoCurrentSelector.style.left = `${(video.currentTime / video.duration) * 100}%`;
 
+        if (video.currentTime >= timeEnd - 0.2 || video.currentTime < timeStart) {
+            video.currentTime = timeStart + 0.01;
+        }
+    };
+
+    const play = document.getElementById("play");
+    const pause = document.getElementById("pause");
+
+    play.onclick = () => {
+        video.play();
+        play.style.display = "none";
+        pause.style.display = "block"
+    }
+    pause.onclick = () => {
+        video.pause();
+        play.style.display = "block";
+        pause.style.display = "none"
+    }
 }
 
 inputFile.addEventListener("change", () => {
@@ -168,3 +226,13 @@ inputFile.addEventListener("change", () => {
         previewVideo();
     }
 });
+
+
+
+function getMousePositionPercentage(e, element) {
+    const rect = element.getBoundingClientRect();
+
+    const mouseX = e.clientX - rect.left;
+
+    return (mouseX / rect.width) * 100;
+}
