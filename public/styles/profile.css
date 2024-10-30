@@ -122,9 +122,6 @@ body {
 
     max-width: calc(33.33% - 4px);
     min-width: calc(33.33% - 4px);
-    box-sizing: border-box;
-
-    flex: calc(33.33% - 4px);
 }
 
 .posts-content .post img {

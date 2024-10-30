@@ -127,7 +127,6 @@ form, .register-content {
 
 .label-input button, #save-profile {
     background-color: var(--sky-blue);
-    font-size: 1.3rem;
     cursor: pointer;
 
     transition: all .3s;

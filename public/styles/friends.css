@@ -1,0 +1,71 @@
+@import url(root.css);
+
+body {
+    background-color: var(--dark-navy);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.container h1 {
+    font-size: 3rem;
+}
+
+.container .title-div {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    text-align: center;
+}
+
+.container .title-div a {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--sky-blue);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.friends {
+    border: solid 1px red;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.friends .friend {
+    display: flex;
+    background-color: var(--midnight-blue);
+    width: 25%;
+    aspect-ratio: 16/4;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 20px;
+}
+
+.friends .friend .profile-div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 100%;
+}
+
+
+.profile {
+    background-image: url(../assets/8d3380e3d13f368c156df01ada661766.jpg);
+    height: 55%;
+}
+
+.name {
+    font-size: 1.2rem;
+}
+
+
+

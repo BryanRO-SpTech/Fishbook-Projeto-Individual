@@ -1,0 +1,196 @@
+@import url(root.css);
+
+body {
+    background-color: var(--dark-navy);
+}
+
+
+.nav-buttons  {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.nav-buttons a {
+    background-color: var(--sky-blue);
+    border-radius: 10px;
+    height: 40px;
+    width: 180px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.label-input {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 60%;
+}
+
+.label-input label {
+    color: white;
+    font-size: 1.2rem;
+    text-indent: 10px;
+}
+
+.label-input input, textarea {
+    background-color: var(--slate-gray);
+    color: white;
+    font-size: 1.1rem;
+
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#name {
+    font-size: 2rem;
+}
+
+#username {
+    font-size: 1.3rem;
+}
+
+#profile-photo {
+    width: 250px;
+    height: 250px;
+    border: 2px solid var(--sky-blue);
+    border-radius: 50%;
+    background-image: url(../assets/icons/person.svg);
+    background-size: 100% 100%;
+
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 15px;
+}
+
+#profile-photo input {
+    display: none;
+}
+
+#profile-photo label {
+    background-color: var(--midnight-blue);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+
+    background-image: url(../assets/icons/pencil.svg);
+    background-repeat: no-repeat;
+    background-size: 75% 75%;
+    background-position: center;
+
+    cursor: pointer;
+}
+
+
+
+#save-profile {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+}
+
+#crop-profile {
+    width: fit-content;
+    height: fit-content;
+
+    max-height: 70vh;
+    max-width: 70vw;
+}
+
+
+#bio {
+    height: 100px;
+    padding: 15px;
+    resize: none;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 45%;
+    gap: 40px;
+
+    margin-top: 10px;
+}
+
+.button-container button, #save-profile {
+    background-color: var(--sky-blue);
+    cursor: pointer;
+
+    transition: all .3s;
+    color: white;
+    font-size: 1.1rem;
+
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-container #change-password {
+    background-color: var(--midnight-blue);
+}
+
+.button-container #delete-profile {
+    background-color: var(--midnight-blue);
+    color: red;
+}
+
+/* Arredondando bordas do cropper */
+.cropper-view-box {
+    border-radius: 50%;
+}
+
+.crop-container {
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    background-color: #121f2bc9;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    display: none;
+
+    left: 0;
+    top: 0;
+}
+
+.crop-div {
+    width: fit-content;
+}
+
+#save-profile {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+}

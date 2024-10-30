@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="scripts/cropperJS/cropper.css">
+    <link rel="stylesheet" href="styles/profileConfig.css">
+
+    <script src="scripts/cropperJS/cropper.js"></script>
+    <script src="scripts/profileConfig.js" defer></script>
+
+    <title>Fishbook - Configuração de Perfil</title>
+</head>
+<body>
+    <script src="components/navBar.js"></script>
+    
+    <div class="nav-buttons">
+        <script src="components/returnButton.js"></script>
+        <a href="/estatisticas">Ver estatisticas</a>
+    </div>
+
+    <section class="config">
+        <div class="profile-container">
+            <div id="profile-photo">
+                <label for="upload"></label>
+                <input type="file" id="upload" accept="image/*">
+            </div>
+
+            <h3 id="name">Bryan Rocha</h3>
+            <span id="username">@bryan_ro</span>
+        </div>
+        
+
+        <div class="label-input">
+            <label for="username">Nome</label>
+            <input type="text" placeholder="Digite seu nome" id="username">
+        </div>
+
+        <div class="label-input">
+            <label for="bio">Bio</label>
+            <textarea id="bio" placeholder="Digite sua bio"></textarea>
+        </div>
+
+        <div class="button-container">
+            <button id="change-password">Alterar Senha</button>
+            <button id="delete-profile">Excluir Perfil</button>
+            <button id="save">Salvar Alterações</button>
+        </div>
+    </section>
+
+
+    <div class="crop-container">
+        <div class="crop-div">
+            <img src="" id="crop-profile">
+
+            <button id="save-profile">Salvar</button>
+        </div>
+    </div>
+</body>
+</html>
