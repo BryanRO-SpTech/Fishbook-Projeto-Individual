@@ -1,0 +1,168 @@
+@import url(root.css);
+
+body {
+    background-color: var(--dark-navy);
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+}
+
+.profile-data {
+    width: 30%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    
+    gap: 10px;
+
+    width: 55%;
+    text-align: center;
+
+    margin-top: 20px;
+}
+
+.profile-photo {
+    border-radius: 50%;
+    border: 3px solid var(--sky-blue);
+
+    width: 100%;
+    aspect-ratio: 1;
+
+    background-image: url(../assets/8d3380e3d13f368c156df01ada661766.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#name {
+    font-size: 1.7rem;
+}
+
+#username {
+    font-size: 1.1rem;
+}
+
+#add-friend {
+    background-color: var(--sky-blue);
+    border: none;
+    border-radius: 50px;
+
+    font-size: 1.2rem;
+    
+    height: 35px;
+    width: 100%;
+
+    margin: 25px auto;
+    cursor: pointer;
+}
+
+.kpi-posts {
+    width: 100%;
+    height: calc(100vh - 65px - 60px);
+    overflow: auto;
+    scrollbar-width: 12px;
+}
+
+.kpi-posts::-webkit-scrollbar {
+    width: 5px;
+}
+
+.kpi-posts::-webkit-scrollbar-track {
+    background: var(--midnight-blue);
+}
+
+.kpi-posts::-webkit-scrollbar-thumb {
+    background-color: var(--slate-gray);
+    border-radius: 20px;
+}
+
+.kpis {
+    height: 100px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    font-size: 1.3rem;
+}
+
+
+.posts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+
+    margin: 0 auto;
+
+}
+
+.posts-content {
+    width: 90%;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.posts-content .post {
+    position: relative;
+    cursor: pointer;
+
+    aspect-ratio: 13/9;
+
+    max-width: calc(33.33% - 4px);
+    min-width: calc(33.33% - 4px);
+    box-sizing: border-box;
+
+    flex: calc(33.33% - 4px);
+}
+
+.posts-content .post img {
+    width: 100%;
+    height: 100%;
+}
+
+.posts-content .post .post-details {
+    position: absolute;
+    background-color: #666673b0;
+    width: 100%;
+    aspect-ratio: 13/9;
+    top: 0;
+    left: 0;
+    
+    opacity: 0;
+
+    transition: opacity 0.5s;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.posts-content .post .post-details:hover {
+    opacity: 1;
+}
+
+.posts-content .post .post-details .likes {
+    font-size: 1.5rem;
+}
+
+.posts-content .post .post-details img {
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+
+

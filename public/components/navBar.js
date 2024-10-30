@@ -1,4 +1,4 @@
-function navBar() {
+(function navBar() {
     const scriptParent = document.currentScript.parentElement;
     const page = document.currentScript.getAttribute("data-page");
 
@@ -66,7 +66,4 @@ function navBar() {
     
     
     `);
-}
-
-
-navBar();
+})();

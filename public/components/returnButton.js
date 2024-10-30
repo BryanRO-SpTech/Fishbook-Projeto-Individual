@@ -1,4 +1,4 @@
-function navBar() {
+(function navBar() {
     const scriptParent = document.currentScript.parentElement;
 
     scriptParent.insertAdjacentHTML("beforeend", `
@@ -7,7 +7,4 @@ function navBar() {
             <span>Voltar</span>
         </div>
     `)
-}
-
-
-navBar();
+})();

@@ -2,15 +2,24 @@ const previewDiv = document.querySelector(".upload-content");
 const inputFile = document.getElementById("upload");
 const inputLabel = document.querySelector(".upload-content label");
 const postDiv = document.querySelector(".post");
+const trimDiv = document.getElementById("video-trim");
 
 function previewImage() {
-    const file = inputFile.files[0];
-
-    if (!file.type.includes("image") && !file.type.includes("video")) {
-        previewDiv.style.border = "2px solid red";
-
-        return;
+    // Resetar divs, caso um novo upload seja realizado:
+    const previewChild = previewDiv.querySelector("video");
+    if (previewChild) {
+        previewDiv.removeChild(previewChild);
     }
+    document.querySelector(".trim-container").style.display = "none";
+
+    const trimChild = trimDiv.querySelector("img");
+    if (trimChild) {
+        trimDiv.removeChild(trimChild);
+    }
+
+    // ================================================================ //
+
+    const file = inputFile.files[0];
 
     const cropContainer = document.querySelector(".crop-container");
 
@@ -47,24 +56,13 @@ function previewImage() {
 
         cropContainer.style.display = "none";
 
+        modifyReuploadButton();
+
         document.removeEventListener("click", crop);
         cropper.destroy();
 
         inputFile.value = "";
 
-        inputLabel.style.opacity = .2;
-
-        previewDiv.addEventListener("mouseover", () => {
-            inputLabel.style.transition = "opacity .5s"
-            inputLabel.style.opacity = 1;
-        });
-
-        previewDiv.addEventListener("mouseout", () => {
-            inputLabel.style.opacity = .4;
-        });
-
-
-        inputLabel.innerHTML = "Refazer Upload";
     }
 
     document.getElementById("save-post").addEventListener("click", crop);
@@ -72,22 +70,41 @@ function previewImage() {
 
 
 function previewVideo() {
+    // Resetar divs, caso um novo upload seja realizado:
+    previewDiv.style.background = "";
+
+    const previewChild = previewDiv.querySelector("video");
+    if (previewChild) {
+        previewDiv.removeChild(previewChild);
+    }
+    document.querySelector(".trim-container").style.display = "none";
+
+    const trimChild = trimDiv.querySelector("img");
+    if (trimChild) {
+        trimDiv.removeChild(trimChild);
+    }
+
+    // ================================================================ //
+
+
     const file = inputFile.files[0];
 
-    previewDiv.innerHTML = "";
+    document.querySelector(".trim-container").style.display = "block";
 
     const videoUrl = URL.createObjectURL(file);
 
     const video = document.createElement("video");
     video.src = videoUrl;
 
-    const trimDiv = document.getElementById("video-trim");
+
 
     let framesLoaded = false;
 
     video.onloadedmetadata = () => {
         previewDiv.appendChild(video);
         video.currentTime = 1;
+
+        modifyReuploadButton();
 
         video.onseeked = () => {
             if (!framesLoaded) {
@@ -111,8 +128,6 @@ function previewVideo() {
                     video.currentTime = 0;
                 }
 
-                // console.log(trimDiv.childElementCount)
-
                 Array.from(trimDiv.children).forEach(element => {
                     if (element.tagName == "IMG") {
                         element.style.width = `${trimDiv.offsetWidth / (trimDiv.childElementCount - 2)}px`;
@@ -120,6 +135,8 @@ function previewVideo() {
                 });
             }
         }
+
+        inputFile.value = "";
     }
 
     const videoTrimDiv = document.getElementById("video-trim");
@@ -224,9 +241,29 @@ inputFile.addEventListener("change", () => {
         previewImage();
     } else if (inputFile.files[0].type.includes("video")) {
         previewVideo();
+    } else {
+        previewDiv.style.border = "2px solid red";
+
+        return;
     }
 });
 
+
+function modifyReuploadButton() {
+    inputLabel.style.opacity = .2;
+
+    previewDiv.addEventListener("mouseover", () => {
+        inputLabel.style.transition = "opacity .5s"
+        inputLabel.style.opacity = 1;
+    });
+
+    previewDiv.addEventListener("mouseout", () => {
+        inputLabel.style.opacity = .4;
+    });
+
+
+    inputLabel.innerHTML = "Refazer Upload";
+}
 
 
 function getMousePositionPercentage(e, element) {
