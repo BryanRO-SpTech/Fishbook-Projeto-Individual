@@ -67,5 +67,12 @@ body {
     font-size: 1.2rem;
 }
 
+.friend button {
+    background-color: var(--slate-gray);
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+}
+
 
 
