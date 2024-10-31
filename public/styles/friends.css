@@ -2,6 +2,8 @@
 
 body {
     background-color: var(--dark-navy);
+
+    overflow-x: hidden;
 }
 
 .container {
@@ -10,7 +12,7 @@ body {
 }
 
 .container h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .container .title-div {
@@ -33,15 +35,18 @@ body {
 }
 
 .friends {
-    border: solid 1px red;
     width: 90%;
     margin: 20px auto;
+
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .friends .friend {
     display: flex;
     background-color: var(--midnight-blue);
-    width: 25%;
+    width: calc(25% - 8px);
     aspect-ratio: 16/4;
 
     justify-content: space-between;
@@ -71,8 +76,80 @@ body {
     background-color: var(--slate-gray);
     border: none;
     border-radius: 50px;
-    padding: 10px 20px;
+    padding: 2% 8%;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
+.slide-bar {
+    display: flex;
+    justify-content: space-between;
 
+    padding: 50px;
+}
 
+.slide-bar img {
+    cursor: pointer;
+}
+
+.slide-content {
+    width: 90%;
+
+    display: flex;
+    gap: 50px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--slate-gray) var(--dark-navy);
+}
+
+.slide-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.slide-content::-webkit-scrollbar-track {
+    background: var(--dark-navy);
+}
+
+.slide-content::-webkit-scrollbar-thumb {
+    background-color: var(--slate-gray);
+    border-radius: 20px;
+}
+
+.slide-element {
+    min-width: 300px;
+    padding: 10px;
+    
+    border-radius: 30px;
+
+    background-color: var(--midnight-blue);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.element-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.element-container .profile {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+.element-container h3 {
+    font-size: 1.5rem;
+}
+
+.element-container button {
+    background-color: var(--sky-blue);
+    border: none;
+    border-radius: 50px;
+    width: 200px;
+    padding: 7px;
+    margin-top: 20px;
+    cursor: pointer;
+}
