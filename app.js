@@ -7,28 +7,33 @@ var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 
 require("dotenv").config({ path: caminho_env });
 
-var express = require("express");
-var cors = require("cors");
-var path = require("path");
-var PORTA_APP = process.env.APP_PORT;
-var HOST_APP = process.env.APP_HOST;
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const path = require("path");
+const errorHandler = require("./src/errors/errorHandler.js");
 
-var app = express();
+const viewRoutes = require("./src/routes/views.routes.js")
+const userRoutes = require("./src/routes/user.routes.js");
+
+const PORTA_APP = process.env.APP_PORT;
+const HOST_APP = process.env.APP_HOST;
+
+const app = express();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(process.env.cookie_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "register.html"));
-});
+app.use(viewRoutes);
+app.use("/profile", userRoutes);
 
-app.get("/login", (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "login.html"));
-});
-
+app.use(errorHandler);
 
 app.listen(PORTA_APP, function () {
     console.log(`
