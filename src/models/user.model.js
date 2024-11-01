@@ -19,6 +19,24 @@ const create = async ({ name, email, username, password, bio }) => {
 }
 
 
+const getById = async (id) => {
+    try {
+        const [user] = await database.execute(
+            "SELECT * FROM User WHERE idUser = ?",
+            [id]
+        );
+
+        if (!user) {
+            throw appError("User not found", 404);
+        }
+
+        return user;
+    } catch (error) {
+        return error;
+    }
+};
+
+
 const getByEmail = async (email) => {
     try {
         const [user] = await database.execute(
@@ -34,5 +52,6 @@ const getByEmail = async (email) => {
 
 module.exports = {
     create,
+    getById,
     getByEmail
 }
