@@ -9,6 +9,8 @@
     <link href="scripts/cropperJS/cropper.css" rel="stylesheet">
     <script src="scripts/cropperJS/cropper.js"></script>
 
+    <script src="components/loader.js"></script>
+    <script src="components/messageModal.js"></script>
     <script src="scripts/register.js" defer></script>
 
     <title>Fishbook - Cadastro</title>
@@ -27,13 +29,13 @@
             <div id="page1" class="register-content">
                 <div class="label-input">
                     <label for="name">Nome</label>
-                    <input type="text" id="name" oninput="validateName()">
+                    <input type="text" id="name" oninput="validateName()" maxlength="80">
                     <span class="error" id="error-name"></span>
                 </div>
 
                 <div class="label-input">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" oninput="validateEmail()">
+                    <input type="email" id="email" oninput="validateEmail()" maxlength="100">
                     <span class="error" id="error-email"></span>
                 </div>
 
@@ -56,7 +58,7 @@
 
                 <div class="no-account">
                     <span>Já possuí uma conta?</span>
-                    <a href="./login.html">Clique aqui para logar</a>
+                    <a href="/login">Clique aqui para logar</a>
                 </div>
             </div>
 
@@ -64,28 +66,29 @@
             <div id="page2" class="register-content">
                 <div id="profile-photo">
                     <label for="upload"></label>
-                    <input type="file" id="upload" accept="image/*">
+                    <input type="file" id="upload" accept="image/png, image/jpeg">
                 </div>
 
                 <div class="label-input">
                     <label for="username">Usuário</label>
-                    <input type="text" placeholder="Digite seu nome de usuário" id="username">
+                    <input type="text" placeholder="Digite seu nome de usuário" id="username" oninput="validateUsername()" maxlength="30">
+                    <span class="error" id="error-username"></span>
                 </div>
 
                 <div class="label-input">
                     <label for="bio">Bio</label>
-                    <textarea id="bio" placeholder="Digite sua bio"></textarea>
+                    <textarea id="bio" placeholder="Digite sua bio" maxlength="200"></textarea>
                 </div>
 
                 <div class="label-input prev">
                     <button onclick="prevPage()"><img style="transform: scaleX(-1);"
                             src="../assets/icons/arrowRight.svg"><span>Voltar</span></button>
-                    <button id="next"><span>Finalizar Cadastro</span></button>
+                    <button id="registerButton"><span>Finalizar Cadastro</span></button>
                 </div>
 
                 <div class="no-account">
                     <span>Já possuí uma conta?</span>
-                    <a href="./login.html">Clique aqui para logar</a>
+                    <a href="/login">Clique aqui para logar</a>
                 </div>
             </div>
         </div>

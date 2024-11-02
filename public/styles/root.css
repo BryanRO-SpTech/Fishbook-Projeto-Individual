@@ -197,3 +197,100 @@ main::-webkit-scrollbar-thumb {
 .return-button img {
     height: 50px;
 }
+
+
+#message-modal {
+    border-radius: 15px;
+    width: 600px;
+    height: 100px;
+
+    position: absolute;
+    bottom: 20px;
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    padding: 10px;
+}
+
+#message-modal.error {
+    background-color: rgb(139, 2, 2);
+}
+
+#message-modal.message {
+    background-color: var(--taupe-brown);
+}
+
+#message-modal.success {
+    background-color: rgb(2, 73, 2);
+}
+
+#message-modal h3 {
+    font-size: 1.4rem;
+}
+
+#message-modal span {
+    font-size: 1rem;
+}
+
+#message-loader {
+    background-color: var(--sky-blue);
+    width: 0px;
+    height: 5px;
+
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    border-radius: 15px;
+
+    animation: linear messageLoader 5s ;
+}
+
+@keyframes messageLoader {
+    0% {
+        width: 580px;
+    }
+
+    100% {
+        width: 0px;
+    }
+}
+
+
+#loader {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 10;
+
+    background-color: #121f2bad;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loader div {
+    border: 8px double var(--sky-blue);
+    border-bottom-color: transparent;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+
+    animation: linear 1s loader infinite;
+}
+
+
+@keyframes loader {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

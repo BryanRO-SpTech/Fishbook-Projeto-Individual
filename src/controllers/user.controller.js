@@ -3,7 +3,6 @@ const userDto = require("../dtos/user.dto.js");
 const appError = require("../errors/appError.js");
 const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
-const { signedCookie } = require("cookie-parser");
 
 const createUser = async (req, res, next) => {
     const { name, email, username, password, bio } = req.body;
@@ -23,7 +22,40 @@ const createUser = async (req, res, next) => {
             throw result;
         }
 
-        return res.status(201).json({ message: "User created successfully", user: { name, email, username, bio } });
+        return res.status(201).cookie("userCreationConfirm", JSON.stringify({
+            userId: result.insertId
+        }), {
+            httpOnly: true,
+            signed: true,
+            maxAge: 1 * 1000 * 60 * 5, // 5 min
+            sameSite: "strict"
+        }).json({ message: "User created successfully", user: { name, email, username, bio } });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+const updateProfilePhotoOnUserCreate = async (req, res, next) => {
+    const profilePhoto = req.file;
+    const { userId } = req.userCreationConfirm;
+
+
+    try {
+        if (!profilePhoto) {
+            throw appError("Profile photo not found", 400);
+        }
+
+        await userModel.updateProfilePhoto(userId, profilePhoto.filename);
+
+        return res.status(201).cookie("userCreationConfirm", "", {
+            httpOnly: true,
+            signed: true,
+            maxAge: 0,
+            sameSite: "strict"
+        }).json({ message: "User profile photo updated successfully" });
+
     } catch (error) {
         next(error);
     }
@@ -52,10 +84,11 @@ const auth = async (req, res, next) => {
             username: user.username
         }), process.env.CRYPTO_SECRET).toString();
 
-        res.cookie("access_token", token, {
+        res.cookie("session", token, {
             httpOnly: true,
-            signedCookie: true,
-            maxAge: 1 * 1000 * 60 * 60 * 24
+            signed: true,
+            maxAge: 1 * 1000 * 60 * 60 * 24, // 1 dia
+            sameSite: "strict"
         }).json({ message: "User authenticated successfully", user: { userId: user.idUser, name: user.name, email: user.email, username: user.username } });
 
     } catch (error) {
@@ -65,5 +98,6 @@ const auth = async (req, res, next) => {
 
 module.exports = {
     createUser,
+    updateProfilePhotoOnUserCreate,
     auth
 };

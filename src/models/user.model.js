@@ -3,15 +3,32 @@ const appError = require("../errors/appError.js");
 
 const create = async ({ name, email, username, password, bio }) => {
     try {
-        const countUsers = await database.execute("SELECT COUNT(idUser) AS quantUser FROM User WHERE username = ? || email = ? ", [username, email]);
+        const [user] = await database.execute("SELECT username, email FROM User WHERE username = ? || email = ? ", [username, email]);
 
-        if (countUsers[0].quantUser > 0) {
-            throw appError("User already exists", 400);
+        if (user.email === email) {
+            throw appError("Email already in use", 400);
         }
 
-        await database.execute(
+        if (user.username === username) {
+            throw appError("Username already in use", 400);
+        }
+
+        const result = await database.execute(
             "INSERT INTO User (name, email, username, password, bio) VALUES (?, ?, ?, ?, ?)",
             [name, email, username, password, bio]
+        );
+
+        return result;
+    } catch (error) {
+        return error;
+    }
+}
+
+const updateProfilePhoto = async (idUser, photoPath) => {
+    try {
+        await database.execute(
+            "UPDATE User SET profilePhotoPath = ? WHERE idUser = ?",
+            [photoPath, idUser]
         );
     } catch (error) {
         return error;
@@ -52,6 +69,7 @@ const getByEmail = async (email) => {
 
 module.exports = {
     create,
+    updateProfilePhoto,
     getById,
-    getByEmail
+    getByEmail,
 }

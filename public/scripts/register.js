@@ -52,7 +52,11 @@ function previewImage() {
         });
 
         const croppedImageUrl = croppedImage.toDataURL('image/png');
-
+        fetch(croppedImageUrl)
+            .then(res => res.blob())
+            .then(blob => {
+                profilePhoto = new File([blob], "profile.png", { type: "image/png" });
+            });
         previewPhotoDiv.style.backgroundImage = `url(${croppedImageUrl})`;
 
         cropContainer.style.display = "none";
@@ -245,3 +249,68 @@ function nextPage() {
         message.innerHTML = `Vamos finalizar seu perfil...`;
     }
 }
+
+function validateUsername() {
+    const username = document.getElementById("username").value;
+    const error = document.getElementById("error-username");
+
+    error.innerHTML = "";
+
+    if (username[0] === "@") {
+        error.innerHTML = "O nome de usuário não pode começar com '@'.";
+
+        return false;
+    }
+
+    if (username.length < 5) {
+        error.innerHTML = "O nome de usuário deve conter pelo menos 5 caracteres.";
+
+        return false;
+    }
+
+
+    return true;
+}
+
+
+async function register() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("pass").value;
+    const username = (document.getElementById("username").value).toLowerCase().trim();
+    const bio = document.getElementById("bio").value;
+
+    if (!validateUsername()) return;
+
+    setLoader();
+
+    const createReq = await fetch("/profile/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            email,
+            password,
+            username,
+            bio: bio === "" ? null : bio
+        })
+    });
+
+    const createRes = await createReq.json();
+    removeLoader();
+
+    if (createReq.status === 400) {
+        if (createRes.message === "Username already in use") {
+            return setModal("Nome de usuário já em uso", "Por favor, escolha outro nome de usuário.", "error");
+        }
+
+        if (createRes.message === "Email already in use") {
+            return setModal("Email já cadastrado", "Por favor, insira outro email.", "error");
+        }
+    }
+
+}
+
+document.getElementById("registerButton").addEventListener("click", register);
