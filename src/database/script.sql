@@ -126,6 +126,3 @@ CREATE TABLE UserFishery (
     PRIMARY KEY (fkFishery, fkUser),
     CONSTRAINT fk_UserFishery_Fishery FOREIGN KEY (fkFishery) REFERENCES Fishery(idFishery)
 );
-
-
-

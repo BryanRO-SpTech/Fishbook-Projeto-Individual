@@ -5,11 +5,11 @@ const create = async ({ name, email, username, password, bio }) => {
     try {
         const [user] = await database.execute("SELECT username, email FROM User WHERE username = ? || email = ? ", [username, email]);
 
-        if (user.email === email) {
+        if (user && user.email === email) {
             throw appError("Email already in use", 400);
         }
 
-        if (user.username === username) {
+        if (user && user.username === username) {
             throw appError("Username already in use", 400);
         }
 
@@ -35,6 +35,31 @@ const updateProfilePhoto = async (idUser, photoPath) => {
     }
 }
 
+const updateProfile = async (idUser, { name, email, bio }) => {
+    const updateData = [];
+    const data = [];
+
+    if (name) {
+        updateData.push("name = ?");
+        data.push(name);
+    }
+
+    if (email) {
+        updateData.push("email = ?");
+        data.push(email);
+    }
+
+    if (bio) {
+        updateData.push("bio = ?");
+        data.push(bio);
+    }
+
+    try {
+        await database.execute(`UPDATE User SET ${updateData.join(", ")} WHERE idUser = ?`, data.concat(idUser));
+    } catch (error) {
+        return error;
+    }
+};
 
 const getById = async (id) => {
     try {
@@ -42,10 +67,6 @@ const getById = async (id) => {
             "SELECT * FROM User WHERE idUser = ?",
             [id]
         );
-
-        if (!user) {
-            throw appError("User not found", 404);
-        }
 
         return user;
     } catch (error) {
@@ -67,9 +88,24 @@ const getByEmail = async (email) => {
     }
 }
 
+const getByUsername = async (username) => {
+    try {
+        const [user] = await database.execute(
+            "SELECT * FROM User WHERE username = ?",
+            [username]
+        );
+
+        return user;
+    } catch (error) {
+        return error;
+    }
+}
+
 module.exports = {
     create,
     updateProfilePhoto,
+    updateProfile,
     getById,
     getByEmail,
+    getByUsername
 }

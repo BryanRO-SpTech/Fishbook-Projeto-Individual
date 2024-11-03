@@ -1,14 +1,18 @@
+(() => {
+    document.getElementById("profile-photo").style.backgroundImage = `url(${!sessionStorage.profilePhoto ? "/assets/icons/person.svg" : sessionStorage.profilePhoto})`;
+    document.getElementById("name").innerHTML = sessionStorage.name;
+    document.getElementById("username").innerHTML = `@${sessionStorage.username}`;
+
+    document.getElementById("ipt_name").value = sessionStorage.name;
+    document.getElementById("ipt_email").value = sessionStorage.email;
+    document.getElementById("ipt_bio").value = sessionStorage.bio;
+})();
+
+
 const previewPhotoDiv = document.getElementById("profile-photo");
 const uploadPhoto = document.getElementById("upload");
 
 let profilePhoto;
-
-function prevPage() {
-    page2.style.display = "none";
-    page1.style.display = "flex";
-
-    message.innerHTML = `Realize seu cadastro`;
-}
 
 function previewImage() {
     const file = uploadPhoto.files[0];
@@ -51,6 +55,11 @@ function previewImage() {
         const croppedImageUrl = croppedImage.toDataURL('image/png');
 
         previewPhotoDiv.style.backgroundImage = `url(${croppedImageUrl})`;
+        fetch(croppedImageUrl).then((file) => {
+            file.blob()
+        }).then((blob) => {
+            profilePhoto = new File([blob], "profile.png", { type: "image/png" });
+        })
 
         cropContainer.style.display = "none";
 
@@ -61,6 +70,11 @@ function previewImage() {
     }
 
     document.getElementById("save-profile").addEventListener("click", crop);
+}
+
+
+function updateProfile() {
+
 }
 
 

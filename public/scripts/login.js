@@ -24,9 +24,12 @@ async function login() {
         setModal("Usuário ou Senha incorretos", "Tente novamente", "error");
     } else if (req.ok) {
         sessionStorage.userId = res.user.userId;
-        sessionStorage.email = res.user.userId;
+        sessionStorage.email = res.user.email;
         sessionStorage.name = res.user.name;
         sessionStorage.username = res.user.username;
+        sessionStorage.bio = res.user.bio;
+        sessionStorage.profilePhoto = res.user.profilePhoto;
+
 
         return window.location.replace("/feed");
     } else {

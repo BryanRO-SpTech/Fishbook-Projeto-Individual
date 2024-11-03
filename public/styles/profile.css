@@ -1,4 +1,4 @@
-@import url(root.css);
+@import url(./root.css);
 
 body {
     background-color: var(--dark-navy);
@@ -35,7 +35,6 @@ body {
     width: 100%;
     aspect-ratio: 1;
 
-    background-image: url(../assets/8d3380e3d13f368c156df01ada661766.jpg);
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -162,4 +161,9 @@ body {
 }
 
 
+.teste {
+    border: 1px solid blue;
 
+    width: 100vw;
+    height: 100vh;
+}

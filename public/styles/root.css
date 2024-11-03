@@ -198,14 +198,27 @@ main::-webkit-scrollbar-thumb {
     height: 50px;
 }
 
+.modal-container {
+    width: 100vw;
+
+    justify-content: center;
+
+    position: absolute;
+
+    bottom: 20px;
+
+    z-index: 11;
+}
 
 #message-modal {
     border-radius: 15px;
     width: 600px;
     height: 100px;
 
-    position: absolute;
-    bottom: 20px;
+    position: relative;
+    
+
+    margin: auto;
 
     text-align: center;
 
@@ -272,6 +285,9 @@ main::-webkit-scrollbar-thumb {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    top: 0;
+    left: 0;
 }
 
 #loader div {

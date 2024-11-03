@@ -19,4 +19,16 @@ router.get("/feed", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "feed.html"));
 });
 
+router.get("/profile/:username", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "profile.html"));
+});
+
+router.get("/profile-config", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "profileConfig.html"));
+});
+
+router.get("/change-password", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "changePassword.html"));
+});
+
 module.exports = router

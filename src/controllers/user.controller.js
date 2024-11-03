@@ -27,7 +27,7 @@ const createUser = async (req, res, next) => {
         }), {
             httpOnly: true,
             signed: true,
-            maxAge: 1 * 1000 * 60 * 5, // 5 min
+            maxAge: 1 * 1000 * 15, // 15 seg
             sameSite: "strict"
         }).json({ message: "User created successfully", user: { name, email, username, bio } });
 
@@ -81,7 +81,7 @@ const auth = async (req, res, next) => {
         const token = CryptoJS.AES.encrypt(JSON.stringify({
             id: user.idUser,
             email: user.email,
-            username: user.username
+            username: user.username,
         }), process.env.CRYPTO_SECRET).toString();
 
         res.cookie("session", token, {
@@ -89,15 +89,45 @@ const auth = async (req, res, next) => {
             signed: true,
             maxAge: 1 * 1000 * 60 * 60 * 24, // 1 dia
             sameSite: "strict"
-        }).json({ message: "User authenticated successfully", user: { userId: user.idUser, name: user.name, email: user.email, username: user.username } });
+        }).json({ message: "User authenticated successfully", user: { userId: user.idUser, name: user.name, email: user.email, username: user.username, bio: user.bio, profilePhoto: user.profilePhotoPath } });
 
     } catch (error) {
         next(error);
     }
 }
 
+const profile = async (req, res, next) => {
+    let { username } = req.params;
+    const sessionUsername = req.session.username;
+
+    if (username === "my-profile") {
+        username = sessionUsername;
+    };
+
+    try {
+        const result = await userModel.getByUsername(username);
+
+        if (!result) {
+            throw appError("User not found", 404);
+        }
+
+        return res.status(200).json({
+            name: result.name,
+            username: result.username,
+            bio: result.bio,
+            profilePhoto: result.profilePhotoPath,
+            isMyProfile: username == sessionUsername,
+            isMyFriend: false
+        });
+
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     createUser,
     updateProfilePhotoOnUserCreate,
-    auth
+    auth,
+    profile
 };

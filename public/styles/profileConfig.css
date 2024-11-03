@@ -2,6 +2,7 @@
 
 body {
     background-color: var(--dark-navy);
+    overflow-x: hidden;
 }
 
 
@@ -130,7 +131,7 @@ body {
     flex-direction: column;
     gap: 2px;
     width: 45%;
-    gap: 40px;
+    gap: 30px;
 
     margin-top: 10px;
 }
@@ -151,6 +152,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button-container #save {
+    margin-bottom: 20px;
 }
 
 .button-container #change-password {

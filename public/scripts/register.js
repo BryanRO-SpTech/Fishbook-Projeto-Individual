@@ -309,6 +309,31 @@ async function register() {
         if (createRes.message === "Email already in use") {
             return setModal("Email já cadastrado", "Por favor, insira outro email.", "error");
         }
+    } else if (createReq.status === 201) {
+
+        if (profilePhoto) {
+            const formData = new FormData();
+            formData.append("profilePhoto", profilePhoto);
+
+            const uploadReq = await fetch(`/profile/create-profile-photo`, {
+                method: "POST",
+                body: formData
+            });
+
+            if (uploadReq.status !== 201) {
+                setModal("O perfil foi criado sem foto...", "Você será redirecionado para a tela de login, altere sua foto de perfil mais tarde.", "error");
+
+                setTimeout(() => {
+                    return window.location.replace("/login");
+                }, 5000);
+            }
+        }
+
+
+
+        return window.location.replace("/login");
+    } else {
+        return setModal("Erro ao criar perfil", "Tente novamente mais tarde.", "error");
     }
 
 }

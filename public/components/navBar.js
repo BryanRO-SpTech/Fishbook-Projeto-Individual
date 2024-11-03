@@ -1,17 +1,17 @@
 (function navBar() {
     const scriptParent = document.currentScript.parentElement;
     const page = document.currentScript.getAttribute("data-page");
-
+    const profilePhoto = sessionStorage.profilePhoto === "undefined" ? "assets/icons/person.svg" : sessionStorage.profilePhoto;
 
     scriptParent.insertAdjacentHTML("beforeend", `
         <header>
     <div class="logo">
-        <img src="assets/images/Fishbook.svg" alt="Logo Fishbook">
+        <img src="/assets/images/Fishbook.svg" alt="Logo Fishbook">
     </div>
 
     <a href="/post">
         <div class="create">
-            <img src="assets/icons/addBox.svg" alt="Criar Publicação">
+            <img src="/assets/icons/addBox.svg" alt="Criar Publicação">
             <span>Criar Post</span>
         </div>
     </a>
@@ -54,14 +54,14 @@
 
     <div class="search">
         <input type="text" placeholder="Pesquisar">
-        <img src="assets/icons/search.svg" alt="Lupa">
+        <img src="/assets/icons/search.svg" alt="Lupa">
     </div>
 
     <div class="notification">
         <div class="counter">99</div>
     </div>
 
-    <div class="profile" style="background-image: url(assets/images/loginRegisterBackground.png);"></div>
+    <div class="profile" style="background-image: url(/${profilePhoto});" onclick="window.location.href = '/profile/my-profile'"></div>
 </header>
     
     
