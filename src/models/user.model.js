@@ -55,7 +55,15 @@ const updateProfile = async (idUser, { name, email, bio }) => {
     }
 
     try {
+        const [user] = await database.execute("SELECT email FROM User WHERE email = ? AND idUser != ?", [email, idUser]);
+
+        if (user) {
+            throw appError("Email already in use", 400);
+        }
+
         await database.execute(`UPDATE User SET ${updateData.join(", ")} WHERE idUser = ?`, data.concat(idUser));
+
+        return true;
     } catch (error) {
         return error;
     }

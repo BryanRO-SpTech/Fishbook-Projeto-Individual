@@ -61,6 +61,29 @@ const updateProfilePhotoOnUserCreate = async (req, res, next) => {
     }
 }
 
+const updateProfile = async (req, res, next) => {
+    const { name, email, bio } = req.body;
+    const { id } = req.session;
+
+    try {
+        const validations = userDto.updateDto({ name, email, bio });
+
+        if (!validations.isValid) {
+            throw appError(validations.errors, 400);
+        }
+
+        const update = await userModel.updateProfile(id, { name, email, bio });
+
+        if (update && update.isAppError) {
+            throw update;
+        }
+
+        return res.status(200).json({ message: "User updated successfully" });
+
+    } catch (error) {
+        next(error);
+    }
+}
 
 const auth = async (req, res, next) => {
     const { email, password } = req.body;
@@ -128,6 +151,7 @@ const profile = async (req, res, next) => {
 module.exports = {
     createUser,
     updateProfilePhotoOnUserCreate,
+    updateProfile,
     auth,
     profile
 };

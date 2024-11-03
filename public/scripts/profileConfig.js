@@ -72,10 +72,138 @@ function previewImage() {
     document.getElementById("save-profile").addEventListener("click", crop);
 }
 
+uploadPhoto.addEventListener("change", previewImage);
 
-function updateProfile() {
 
+
+
+function containsNumber(text) {
+    for (let i = 0; i < text.length; i++) {
+        if ("1234567890".includes(text[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function containsSpecialCharacter(text) {
+    for (let i = 0; i < text.length; i++) {
+        if (`!@#$%^&*()_+-={}[]|\\:"';<>,./?`.includes(text[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function removeInvalidCharacters(input, validCharacters, trim = false) {
+    let text = "";
+    for (let i = 0; i < input.value.length; i++) {
+        if (validCharacters.includes(input.value[i])) {
+            text += input.value[i];
+        }
+    }
+
+    if (trim) {
+        text.trim();
+    }
+
+    input.value = text;
+}
+
+function validateName() {
+    const name = document.getElementById("ipt_name");
+    const error = document.getElementById("error-name");
+
+    error.innerHTML = "";
+
+    if (containsNumber(name.value) || containsSpecialCharacter(name.value)) {
+        error.innerHTML = "Nome não pode conter números ou caracteres especiais.";
+    }
+
+
+    removeInvalidCharacters(name, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ");
+
+    if (name.value.length < 5) {
+        error.innerHTML = "Nome deve conter pelo menos 5 caracteres."
+
+        return false;
+    }
+
+    return true;
+}
+
+function validateEmail() {
+    const email = document.getElementById("ipt_email");
+    const error = document.getElementById("error-email");
+
+    error.innerHTML = "";
+
+    email.value = (email.value).toLowerCase();
+
+    if (
+        (!email.value.includes("@") || !email.value.includes(".")) ||
+        (email.value.indexOf("@") > email.value.lastIndexOf(".")) ||
+        (!email.value[email.value.lastIndexOf(".") + 1])
+    ) {
+        error.innerHTML = "O formato do email é inválido.";
+        return false;
+    }
+
+    return true;
 }
 
 
-uploadPhoto.addEventListener("change", previewImage);
+
+
+
+
+async function updateProfile() {
+    if (!validateName() || !validateEmail()) {
+        return setModal("Campos inválidos.", "Verifique se digitou corretamente seu nome e e-mail.", "error")
+    }
+
+    const name = document.getElementById("ipt_name").value;
+    const email = document.getElementById("ipt_email").value;
+    const bio = document.getElementById("ipt_bio").value;
+
+    if (name === sessionStorage.name && email === sessionStorage.email && bio === sessionStorage.bio) {
+        return setModal("Nenhuma alteração para salvar.", "Realize alterações nos dados do seu perfil para salvar.", "message")
+    }
+
+    setLoader();
+
+    const reqUpdate = await fetch("/profile/update", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: name === sessionStorage.name ? null : name,
+            email: email === sessionStorage.email ? null : email,
+            bio: bio === sessionStorage.bio ? null : bio
+        })
+    });
+
+    const resUpdate = await reqUpdate.json();
+
+    if (!reqUpdate.ok) {
+        if (resUpdate.message === "Email already in use") {
+            removeLoader();
+
+            return setModal("Erro ao atualizar perfil", "Este e-mail está em uso por outro usuário", "error");
+        }
+    } else {
+        sessionStorage.name = name;
+        sessionStorage.email = email;
+        sessionStorage.bio = bio;
+
+        removeLoader();
+
+        return setModal("Sucesso ao atualizar o perfil", "", "success");
+    }
+}
+
+document.getElementById("save").addEventListener("click", updateProfile);
+

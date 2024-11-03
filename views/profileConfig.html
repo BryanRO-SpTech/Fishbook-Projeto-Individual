@@ -6,16 +6,18 @@
     <link rel="stylesheet" href="scripts/cropperJS/cropper.css">
     <link rel="stylesheet" href="styles/profileConfig.css">
 
-    <script src="scripts/cropperJS/cropper.js"></script>
-    <script src="scripts/profileConfig.js" defer></script>
+    <script src="/components/messageModal.js"></script>
+    <script src="/components/loader.js"></script>
+    <script src="/scripts/cropperJS/cropper.js"></script>
+    <script src="/scripts/profileConfig.js" defer></script>
 
     <title>Fishbook - Configuração de Perfil</title>
 </head>
 <body>
-    <script src="components/navBar.js"></script>
+    <script src="/components/navBar.js"></script>
     
     <div class="nav-buttons">
-        <script src="components/returnButton.js" data-path="/profile/my-profile"></script>
+        <script src="/components/returnButton.js" data-path="/profile/my-profile"></script>
         <a href="/estatisticas">Ver estatisticas</a>
     </div>
 
@@ -33,12 +35,14 @@
 
         <div class="label-input">
             <label for="ipt_name">Nome</label>
-            <input type="text" placeholder="Digite seu nome" id="ipt_name" maxlength="80">
+            <input type="text" placeholder="Digite seu nome" id="ipt_name" maxlength="80" oninput="validateName()">
+            <span class="error" id="error-name"></span>
         </div>
        
         <div class="label-input">
             <label for="ipt_email">E-mail</label>
-            <input type="text" placeholder="Digite seu email" id="ipt_email" max="100">
+            <input type="text" placeholder="Digite seu email" id="ipt_email" max="100" oninput="validateEmail()">
+            <span class="error" id="error-email"></span>
         </div>
 
         <div class="label-input">
