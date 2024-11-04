@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
 const fs = require("fs");
 const path = require("path");
+const multerMiddleware = require("../middlewares/multer.middlewares.js");
 
 const createUser = async (req, res, next) => {
     const { name, email, username, password, bio } = req.body;
@@ -98,7 +99,9 @@ const updateProfilePhoto = async (req, res, next) => {
 
         const user = await userModel.getById(id);
 
-        await fs.promises.rm(path.join(__dirname, "../../uploads/", user.profilePhotoPath));
+        if (user.profilePhotoPath) {
+            await fs.promises.rm(path.join(__dirname, "../../uploads/", user.profilePhotoPath));
+        }
 
         await userModel.updateProfilePhoto(id, profilePhoto.filename);
 
@@ -109,7 +112,43 @@ const updateProfilePhoto = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-}
+};
+
+
+const updatePassword = async (req, res, next) => {
+    const { id } = req.session;
+    const { oldPassword, newPassword } = req.body;
+
+    try {
+        if (!oldPassword || !newPassword) {
+            throw appError("Old password and new password are required", 400);
+        }
+
+        const validations = userDto.updatePasswordDto(newPassword);
+
+        if (!validations.isValid) {
+            throw appError(validations.errors, 400);
+        }
+
+        const user = await userModel.getById(id);
+
+        const isValidPassword = await bcrypt.compare(oldPassword, user.password);
+
+        if (!isValidPassword) {
+            throw appError("Incorrect password", 400);
+        }
+
+        const hash = await bcrypt.hash(newPassword, 10);
+
+        await userModel.updatePassword(id, hash);
+
+        return res.status(200).json({ message: "Password updated successfully" });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 const auth = async (req, res, next) => {
     const { email, password } = req.body;
@@ -174,11 +213,44 @@ const profile = async (req, res, next) => {
     }
 }
 
+
+const logout = (req, res) => {
+    return res.status(200).clearCookie("session").redirect("/register");
+}
+
+const deleteProfile = async (req, res, next) => {
+    const { id } = req.session;
+    const { password } = req.body;
+
+    try {
+        const user = await userModel.getById(id);
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+        if (!isValidPassword) {
+            throw appError("Incorrect password", 400);
+        }
+
+        if (user.profilePhotoPath) {
+            await fs.promises.rm(path.join(__dirname, "../../uploads/", user.profilePhotoPath));
+        }
+
+        await userModel.deleteProfile(id);
+
+        return res.status(200).clearCookie("session").json({ message: "Profile deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createUser,
     updateProfilePhotoOnUserCreate,
     updateProfile,
     updateProfilePhoto,
+    updatePassword,
     auth,
-    profile
+    profile,
+    logout,
+    deleteProfile
 };

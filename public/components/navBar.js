@@ -1,7 +1,7 @@
 (function navBar() {
     const scriptParent = document.currentScript.parentElement;
     const page = document.currentScript.getAttribute("data-page");
-    const profilePhoto = sessionStorage.profilePhoto === "undefined" ? "assets/icons/person.svg" : sessionStorage.profilePhoto;
+    const profilePhoto = sessionStorage.profilePhoto == "undefined" || sessionStorage.profilePhoto == "null" ? "assets/icons/person.svg" : sessionStorage.profilePhoto;
 
     scriptParent.insertAdjacentHTML("beforeend", `
         <header>

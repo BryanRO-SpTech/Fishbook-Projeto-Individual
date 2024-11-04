@@ -5,11 +5,18 @@ const authMiddleware = require("../middlewares/auth.middleware.js");
 const userCreationConfirm = require("../middlewares/userCreationConfirm.middleware.js");
 const router = Router();
 
+
+router.get("/get/:username", authMiddleware, userController.profile);
+
 router.post("/register", userController.createUser);
 router.post("/login", userController.auth);
-router.post("/create-profile-photo", userCreationConfirm, multerMiddleware.uploadProfile.single("profilePhoto"), userController.updateProfilePhotoOnUserCreate);
+router.post("/logout", authMiddleware, userController.logout);
+
+router.post("/create-profile-photo", userCreationConfirm, multerMiddleware.uploadProfileMiddleware, userController.updateProfilePhotoOnUserCreate);
 router.patch("/update", authMiddleware, userController.updateProfile);
-router.patch("/update-profile-photo", authMiddleware, multerMiddleware.uploadProfile.single("profilePhoto"), userController.updateProfilePhoto);
-router.get("/get/:username", authMiddleware, userController.profile);
+router.patch("/update-profile-photo", authMiddleware, multerMiddleware.uploadProfileMiddleware, userController.updateProfilePhoto);
+router.patch("/update-password", authMiddleware, userController.updatePassword);
+
+router.delete("/delete", authMiddleware, userController.deleteProfile);
 
 module.exports = router;

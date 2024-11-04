@@ -111,7 +111,6 @@ body {
 }
 
 
-
 #save-profile {
     width: 80%;
     display: flex;
@@ -170,7 +169,7 @@ body {
     background-color: var(--midnight-blue);
 }
 
-.button-container #delete-profile {
+.button-container #delete-profile, #logout {
     background-color: var(--midnight-blue);
     color: red;
 }

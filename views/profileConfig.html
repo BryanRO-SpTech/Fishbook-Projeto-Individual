@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
         <div class="profile-container">
             <div id="profile-photo">
                 <label for="upload"></label>
-                <input type="file" id="upload" accept="image/*">
+                <input type="file" id="upload" accept="image/png image/jpg">
             </div>
 
             <h3 id="name"></h3>
@@ -52,7 +52,8 @@
 
         <div class="button-container">
             <button id="change-password" onclick="window.location.href = '/change-password'">Alterar Senha</button>
-            <button id="delete-profile">Excluir Perfil</button>
+            <button id="delete-profile" onclick="window.location.href = '/delete'">Excluir Perfil</button>
+            <button id="logout">Log-out</button>
             <button id="save">Salvar Alterações</button>
         </div>
     </section>

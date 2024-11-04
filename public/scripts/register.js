@@ -299,7 +299,6 @@ async function register() {
     });
 
     const createRes = await createReq.json();
-    removeLoader();
 
     if (createReq.status === 400) {
         if (createRes.message === "Username already in use") {
@@ -323,19 +322,17 @@ async function register() {
             if (uploadReq.status !== 201) {
                 setModal("O perfil foi criado sem foto...", "Você será redirecionado para a tela de login, altere sua foto de perfil mais tarde.", "error");
 
-                setTimeout(() => {
-                    return window.location.replace("/login");
+                return setTimeout(() => {
+                    window.location.replace("/login");
                 }, 5000);
             }
         }
 
-
-
+        removeLoader();
         return window.location.replace("/login");
     } else {
         return setModal("Erro ao criar perfil", "Tente novamente mais tarde.", "error");
     }
-
 }
 
 document.getElementById("registerButton").addEventListener("click", register);

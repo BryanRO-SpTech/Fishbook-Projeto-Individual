@@ -1,5 +1,5 @@
 (() => {
-    document.getElementById("profile-photo").style.backgroundImage = `url(${!sessionStorage.profilePhoto ? "/assets/icons/person.svg" : sessionStorage.profilePhoto})`;
+    document.getElementById("profile-photo").style.backgroundImage = `url(${sessionStorage.profilePhoto == "undefined" || sessionStorage.profilePhoto == "null" ? "/assets/icons/person.svg" : sessionStorage.profilePhoto})`;
     document.getElementById("name").innerHTML = sessionStorage.name;
     document.getElementById("username").innerHTML = `@${sessionStorage.username}`;
 
@@ -211,6 +211,12 @@ async function updateProfile() {
 
             if (!reqPhoto.ok) {
                 removeLoader();
+                console.log(resPhoto);
+
+                if (resPhoto.message === "File size limit exceeded. Maximum allowed size is 5MB.") {
+                    return setModal("Erro ao atualizar perfil", "O tamanho máximo permitido para a foto é de 5MB.", "error");
+                }
+
                 return setModal("Perfil parcialmente atualizado, a foto de perfil não foi substituida.", "", "error");
             }
 
@@ -226,3 +232,20 @@ async function updateProfile() {
 
 document.getElementById("save").addEventListener("click", updateProfile);
 
+
+
+async function logout() {
+
+
+    const logout = await fetch("/profile/logout", {
+        method: "POST"
+    });
+
+    if (logout.ok) {
+        sessionStorage.clear();
+        return window.location.replace("/login");
+    }
+}
+
+
+document.getElementById("logout").addEventListener("click", logout);

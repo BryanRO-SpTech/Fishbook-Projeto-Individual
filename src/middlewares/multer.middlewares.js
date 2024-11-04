@@ -30,6 +30,18 @@ const uploadProfile = multer({
 });
 
 
+const uploadProfileMiddleware = (req, res, next) => {
+    const upload = uploadProfile.single("profilePhoto");
+
+    upload(req, res, (error) => {
+        if (error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE") {
+            next(appError("File size limit exceeded. Maximum allowed size is 5MB.", 400));
+        }
+
+        return next();
+    });
+};
+
 module.exports = {
-    uploadProfile
+    uploadProfileMiddleware
 };

@@ -31,4 +31,8 @@ router.get("/change-password", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "changePassword.html"));
 });
 
+router.get("/delete", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "deleteProfile.html"));
+});
+
 module.exports = router

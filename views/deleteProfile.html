@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/deleteProfile.css">
+
+    <script src="/components/messageModal.js"></script>
+    <script src="/components/loader.js"></script>
+    <script src="/scripts/deleteProfile.js" defer></script>
+    <title>Fishbook - Alterar minha senha</title>
+</head>
+<body>
+    <script src="/components/navBar.js"></script>
+    <script src="/components/returnButton.js" data-path="/profile-config"></script>
+
+    <section class="container">
+        <h1>Excluir Perfil</h1>
+
+        <div class="label-input first">
+            <label for="current-password">Senha atual</label>
+            <input type="password" placeholder="Digite sua senha atual" id="current-password">
+            <div><input type="checkbox" id="confirm"> <span style="color: #EFAF3E;">Eu confirmo que todos os dados do meu perfil serão excluídos permanentemente e não poderão ser recuperados.</span></div>
+        </div>
+
+        <button id="delete">Confirmar exclusão de perfil</button>
+    </section>
+</body>
+</html>

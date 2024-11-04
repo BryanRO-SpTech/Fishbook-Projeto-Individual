@@ -51,8 +51,8 @@ const createDto = ({ name, email, username, password, bio }) => {
             errors.push("The username cannot start with '@'");
         }
 
-        if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/.test(password)) {
-            errors.push("The password must be at least 6 characters long, contain a special character, a number, and an uppercase letter");
+        if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\-]{6,}$/.test(password)) {
+            errors.push("The password must be at least 6 characters long, contain a number, and an uppercase letter");
         }
 
         if (bio && bio.length > 200) {
@@ -116,7 +116,24 @@ const updateDto = ({ name, email, bio }) => {
     }
 }
 
+
+const updatePasswordDto = (newPassword) => {
+    const errors = [];
+
+    if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\-]{6,}$/.test(newPassword)) {
+        errors.push("The password must be at least 6 characters long, contain a number, and an uppercase letter");
+    }
+
+    return {
+        errors,
+        isValid: errors.length === 0
+    }
+}
+
+
 module.exports = {
     createDto,
-    updateDto
-};
+    updateDto,
+    updatePasswordDto
+}
+

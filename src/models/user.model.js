@@ -69,6 +69,16 @@ const updateProfile = async (idUser, { name, email, bio }) => {
     }
 };
 
+
+const updatePassword = async (idUser, password) => {
+    try {
+        await database.execute("UPDATE User SET password = ? WHERE idUser = ?", [password, idUser]);
+        return true;
+    } catch (error) {
+        return error;
+    }
+};
+
 const getById = async (id) => {
     try {
         const [user] = await database.execute(
@@ -109,11 +119,23 @@ const getByUsername = async (username) => {
     }
 }
 
+const deleteProfile = async (idUser) => {
+    try {
+        const result = await database.execute("DELETE FROM User WHERE idUser = ?", [idUser]);
+
+        return result;
+    } catch (error) {
+        return error;
+    }
+}
+
 module.exports = {
     create,
     updateProfilePhoto,
     updateProfile,
+    updatePassword,
     getById,
     getByEmail,
-    getByUsername
+    getByUsername,
+    deleteProfile
 }

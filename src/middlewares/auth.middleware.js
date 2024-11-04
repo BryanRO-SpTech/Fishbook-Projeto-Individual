@@ -15,12 +15,7 @@ const authMiddleware = async (req, res, next) => {
         const user = await userModel.getById(sessionDecrypt.id);
 
         if (!user) {
-            return res.status(401).cookie("session", "", {
-                httpOnly: true,
-                signed: true,
-                maxAge: 0,
-                sameSite: "strict"
-            }).json({ message: "User does not exist or has been deleted", statusCode: 401 });
+            return res.status(200).clearCookie("session").json({ message: "User does not exist or has been deleted" });
         }
 
         req.session = sessionDecrypt;
