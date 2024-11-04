@@ -53,13 +53,12 @@ function previewImage() {
         });
 
         const croppedImageUrl = croppedImage.toDataURL('image/png');
-
+        fetch(croppedImageUrl)
+            .then(res => res.blob())
+            .then(blob => {
+                profilePhoto = new File([blob], "profile.png", { type: "image/png" });
+            });
         previewPhotoDiv.style.backgroundImage = `url(${croppedImageUrl})`;
-        fetch(croppedImageUrl).then((file) => {
-            file.blob()
-        }).then((blob) => {
-            profilePhoto = new File([blob], "profile.png", { type: "image/png" });
-        })
 
         cropContainer.style.display = "none";
 
@@ -168,7 +167,7 @@ async function updateProfile() {
     const email = document.getElementById("ipt_email").value;
     const bio = document.getElementById("ipt_bio").value;
 
-    if (name === sessionStorage.name && email === sessionStorage.email && bio === sessionStorage.bio) {
+    if (name === sessionStorage.name && email === sessionStorage.email && bio === sessionStorage.bio && !profilePhoto) {
         return setModal("Nenhuma alteração para salvar.", "Realize alterações nos dados do seu perfil para salvar.", "message")
     }
 
@@ -199,8 +198,28 @@ async function updateProfile() {
         sessionStorage.email = email;
         sessionStorage.bio = bio;
 
-        removeLoader();
+        const formData = new FormData();
+        formData.append("profilePhoto", profilePhoto);
 
+        if (profilePhoto) {
+            const reqPhoto = await fetch("/profile/update-profile-photo", {
+                method: "PATCH",
+                body: formData
+            });
+
+            const resPhoto = await reqPhoto.json();
+
+            if (!reqPhoto.ok) {
+                removeLoader();
+                return setModal("Perfil parcialmente atualizado, a foto de perfil não foi substituida.", "", "error");
+            }
+
+            console.log(resPhoto);
+
+            sessionStorage.profilePhoto = resPhoto.imagePath;
+        }
+
+        removeLoader();
         return setModal("Sucesso ao atualizar o perfil", "", "success");
     }
 }

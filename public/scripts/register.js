@@ -294,7 +294,7 @@ async function register() {
             email,
             password,
             username,
-            bio: bio === "" ? null : bio
+            bio: bio === "" ? "" : bio
         })
     });
 

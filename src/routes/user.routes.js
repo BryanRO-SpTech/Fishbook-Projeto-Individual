@@ -9,6 +9,7 @@ router.post("/register", userController.createUser);
 router.post("/login", userController.auth);
 router.post("/create-profile-photo", userCreationConfirm, multerMiddleware.uploadProfile.single("profilePhoto"), userController.updateProfilePhotoOnUserCreate);
 router.patch("/update", authMiddleware, userController.updateProfile);
+router.patch("/update-profile-photo", authMiddleware, multerMiddleware.uploadProfile.single("profilePhoto"), userController.updateProfilePhoto);
 router.get("/get/:username", authMiddleware, userController.profile);
 
 module.exports = router;

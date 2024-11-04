@@ -3,6 +3,8 @@ const userDto = require("../dtos/user.dto.js");
 const appError = require("../errors/appError.js");
 const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
+const fs = require("fs");
+const path = require("path");
 
 const createUser = async (req, res, next) => {
     const { name, email, username, password, bio } = req.body;
@@ -85,6 +87,30 @@ const updateProfile = async (req, res, next) => {
     }
 }
 
+const updateProfilePhoto = async (req, res, next) => {
+    const { id } = req.session;
+    const profilePhoto = req.file;
+
+    try {
+        if (!profilePhoto) {
+            throw appError("Profile photo not found", 400);
+        }
+
+        const user = await userModel.getById(id);
+
+        await fs.promises.rm(path.join(__dirname, "../../uploads/", user.profilePhotoPath));
+
+        await userModel.updateProfilePhoto(id, profilePhoto.filename);
+
+        return res.status(200).json({
+            message: "Profile photo successfully updated",
+            imagePath: profilePhoto.filename
+        });
+    } catch (error) {
+        return next(error);
+    }
+}
+
 const auth = async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -152,6 +178,7 @@ module.exports = {
     createUser,
     updateProfilePhotoOnUserCreate,
     updateProfile,
+    updateProfilePhoto,
     auth,
     profile
 };
