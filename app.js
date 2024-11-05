@@ -15,6 +15,7 @@ const errorHandler = require("./src/errors/errorHandler.js");
 
 const viewRoutes = require("./src/routes/views.routes.js")
 const userRoutes = require("./src/routes/user.routes.js");
+const friendsRoutes = require("./src/routes/friends.routes.js");
 
 const PORTA_APP = process.env.APP_PORT;
 const HOST_APP = process.env.APP_HOST;
@@ -32,6 +33,7 @@ app.use(cors());
 
 app.use(viewRoutes);
 app.use("/profile", userRoutes);
+app.use("/friends", friendsRoutes);
 
 app.use(errorHandler);
 

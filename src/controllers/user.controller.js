@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
 const fs = require("fs");
 const path = require("path");
-const multerMiddleware = require("../middlewares/multer.middlewares.js");
 
 const createUser = async (req, res, next) => {
     const { name, email, username, password, bio } = req.body;
@@ -21,7 +20,7 @@ const createUser = async (req, res, next) => {
 
         const result = await userModel.create({ name, email, username, password: hash, bio });
 
-        if (result && result.isAppError || result instanceof Error) {
+        if (result && result.isAppError) {
             throw result;
         }
 

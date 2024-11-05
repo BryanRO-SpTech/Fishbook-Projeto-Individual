@@ -22,7 +22,6 @@ CREATE TABLE Friends (
 
 CREATE TABLE FriendRequest (
     idFriendRequest INT PRIMARY KEY AUTO_INCREMENT,
-    status VARCHAR(8) CHECK(status IN ('PENDING', 'ACCEPTED', 'REJECTED')) DEFAULT 'PENDING',
     fkSender INT NOT NULL,
     fkReceiver INT NOT NULL,
     CONSTRAINT fk_FriendRequest_Sender FOREIGN KEY (fkSender) REFERENCES User(idUser) ON DELETE CASCADE,
@@ -69,14 +68,14 @@ CREATE TABLE `Like` (
 CREATE TABLE Notification (
     idNotification INT PRIMARY KEY AUTO_INCREMENT,
     fkReceiver INT NOT NULL,
-    type CHAR(5) CHECK(type IN ('FRIEND', 'LIKE', 'COMMENT')) NOT NULL,
-    fkPost INT,
+    type CHAR(9) CHECK(type IN ('FRIEND', 'LIKE', 'COMMENT')) NOT NULL,
+    fkFriendRequest INT,
     fkComment INT,
     fkLike INT,
     viewed TINYINT(1) CHECK(viewed IN (0, 1)) DEFAULT 0,
     dateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_Notification_Receiver FOREIGN KEY (fkReceiver) REFERENCES User(idUser) ON DELETE CASCADE,
-    CONSTRAINT fk_Notification_Post FOREIGN KEY (fkPost) REFERENCES Post(idPost) ON DELETE CASCADE,
+    CONSTRAINT fk_Notification_Friend_Request FOREIGN KEY (fkFriendRequest) REFERENCES FriendRequest(idFriendRequest) ON DELETE CASCADE,
     CONSTRAINT fk_Notification_Comment FOREIGN KEY (fkComment) REFERENCES Comment(idComment) ON DELETE CASCADE,
     CONSTRAINT fk_Notification_Like FOREIGN KEY (fkLike) REFERENCES `Like`(idLike) ON DELETE CASCADE
 );
