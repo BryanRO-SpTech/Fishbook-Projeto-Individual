@@ -2,6 +2,39 @@ const friendsModel = require('../models/friends.model');
 const userModel = require('../models/user.model');
 const appError = require('../errors/appError');
 
+const listFriendRequests = async (req, res, next) => {
+    const { id } = req.session;
+
+    try {
+        const friendRequests = await friendsModel.listFriendRequests(id);
+
+        if (!friendRequest) {
+            throw appError("Error on friends Request List", 500);
+        }
+
+        return res.status(200).json(friendRequests);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const listFriends = async (req, res, next) => {
+    const { id } = req.session;
+
+    try {
+        const friends = await friendsModel.listFriends(id);
+
+        if (!friends) {
+            throw appError("Error on list friends", 500);
+        }
+
+        return res.status(200).json(friends);
+    } catch (error) {
+        return next(error);
+    }
+
+}
+
 const friendRequest = async (req, res, next) => {
     const { friendUsername } = req.params;
     const { id } = req.session;
@@ -82,6 +115,8 @@ const refuseFriendRequest = async (req, res, next) => {
 }
 
 module.exports = {
+    listFriendRequests,
+    listFriends,
     friendRequest,
     acceptFriendRequest,
     refuseFriendRequest

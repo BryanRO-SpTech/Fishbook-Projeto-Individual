@@ -1,5 +1,48 @@
 const database = require("../database/config.js");
 
+const listFriendRequests = async (userId) => {
+    const friendsRequests = await database.execute(
+        `SELECT sender.username, sender.name, sender.profilePhotoPath as photo  FROM FriendRequest
+        JOIN User as sender ON sender.idUser = FriendRequest.fkSender
+        WHERE FriendRequest.fkReceiver = ?`,
+        [userId]
+    );
+
+    if (!friendRequest) {
+        return false;
+    }
+
+    return friendsRequests;
+}
+
+const listFriends = async (userId) => {
+    const friends = await database.execute(
+        `SELECT 
+            CASE 
+                WHEN u1.idUser = ? THEN u2.name
+                ELSE u1.name
+            END AS name,
+            
+            CASE 
+                WHEN u1.idUser = ? THEN u2.username
+                ELSE u1.username
+            END AS username,
+            
+            CASE 
+                WHEN u1.idUser = ? THEN u2.profilePhotoPath
+                ELSE u1.profilePhotoPath
+            END AS photo
+        FROM Friends
+        JOIN User AS u1 ON Friends.fkUser1 = u1.idUser
+        JOIN User AS u2 ON Friends.fkUser2 = u2.idUser
+        WHERE u1.idUser = ? OR u2.idUser = ?;
+        `,
+        [userId, userId, userId, userId, userId]
+    );
+
+    return friends;
+}
+
 const friendRequest = async (idUser, idFriend) => {
     const [friendRequest] = await database.execute(
         "SELECT * FROM FriendRequest WHERE (fkSender = ? AND fkReceiver = ?) OR (fkSender = ? AND fkReceiver = ?)",
@@ -65,8 +108,19 @@ const refuseFriend = async (idUser, idFriend) => {
 }
 
 
+const removeFriend = async (userId, friendId) => {
+    await database.execute(
+        "DELETE FROM Friends WHERE (idUser1 = ? OR idUser2 = ?) AND (idUser1 = ? OR idUser2 = ?)",
+        [userId, friendId, userId, friendId]
+    );
+}
+
+
 module.exports = {
+    listFriendRequests,
+    listFriends,
     friendRequest,
     acceptFriendRequest,
-    refuseFriend
+    refuseFriend,
+    removeFriend
 };
