@@ -4,111 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/friends.css">
+    <link rel="stylesheet" href="/styles/friends.css">
 
+    <script src="/components/messageModal.js"></script>
+    <script src="/components/loader.js"></script>
+    <script src="/scripts/friends.js"></script>
     <title>Fishbook - Amigos</title>
 </head>
 
 <body>
-    <script src="components/navBar.js"></script>
-    <script src="components/returnButton.js"></script>
+    <script src="/components/navBar.js"></script>
+    <script src="/components/returnButton.js" data-path="/profile/my-profile"></script>
 
 
     <div class="container">
         <div class="title-div">
-            <h1>Amigos</h1>
-            <a href="#">Ver Solicitações de amizade</a>
+            <h1 id="title">Amigos</h1>
+            <a href="/friend-requests" id="view-requests-button">Ver Solicitações de amizade</a>
         </div>
 
-        <section class="friends">
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-
-            <div class="friend">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-                <button>Remover</button>
-            </div>
-        </section>
+        <section class="friends"></section>
 
 
         <section class="suggestions">
@@ -117,7 +32,7 @@
             </div>
 
             <div class="slide-bar">
-                <img id="left-arrow" src="assets/icons/arrowRight.svg" style="transform: rotate(180deg);"
+                <img id="left-arrow" src="/assets/icons/arrowRight.svg" style="transform: rotate(180deg);"
                     alt="Seta para Esquerda">
                 <div class="slide-content">
                     <div class="slide-element">
@@ -176,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <img id="rigth-arrow" src="assets/icons/arrowRight.svg" alt="Seta para Direita">
+                <img id="rigth-arrow" src="/assets/icons/arrowRight.svg" alt="Seta para Direita">
             </div>
 
         </section>

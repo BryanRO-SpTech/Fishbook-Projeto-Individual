@@ -1,6 +1,6 @@
-const friendsModel = require('../models/friends.model');
-const userModel = require('../models/user.model');
-const appError = require('../errors/appError');
+const friendsModel = require('../models/friends.model.js');
+const userModel = require('../models/user.model.js');
+const appError = require('../errors/appError.js');
 
 const listFriendRequests = async (req, res, next) => {
     const { id } = req.session;
@@ -19,20 +19,54 @@ const listFriendRequests = async (req, res, next) => {
 }
 
 const listFriends = async (req, res, next) => {
-    const { id } = req.session;
+    const id = req.session.id;
+    const myUsername = req.session.username
+    let username = req.params.username;
 
     try {
-        const friends = await friendsModel.listFriends(id);
+        if (username === "my-friends") {
+            username = myUsername;
+        }
+
+        const user = await userModel.getByUsername(username);
+
+        const friends = await friendsModel.listFriends(user.idUser);
 
         if (!friends) {
             throw appError("Error on list friends", 500);
         }
 
-        return res.status(200).json(friends);
+        return res.status(200).json({
+            friends,
+            isMyFriends: id == user.idUser
+        });
     } catch (error) {
         return next(error);
     }
 
+}
+
+const countFriends = async (req, res, next) => {
+    const myUsername = req.session.username;
+    let username = req.params.username;
+
+    try {
+        if (username === "my-profile") {
+            username = myUsername;
+        }
+
+        const user = await userModel.getByUsername(username);
+
+        if (!user) {
+            throw appError("User not found", 400)
+        }
+
+        const count = await friendsModel.countFriends(user.idUser);
+
+        return res.status(200).json(count);
+    } catch (error) {
+        return next(error);
+    }
 }
 
 const friendRequest = async (req, res, next) => {
@@ -114,10 +148,60 @@ const refuseFriendRequest = async (req, res, next) => {
     }
 }
 
+const cancelFriendRequest = async (req, res, next) => {
+    const { id } = req.session;
+    const friendUsername = req.params.friendUsername;
+
+    try {
+        const friend = await userModel.getByUsername(friendUsername);
+
+        if (!friend) {
+            throw appError("Friend not found", 400);
+        }
+
+        const friendRequest = await friendsModel.cancelFriendRequest(id, friend.idUser);
+
+        if (!friendRequest) {
+            throw appError("Friend request not found", 400);
+        }
+
+        return res.status(200).json({ message: "Friend Request cancelled" });
+    } catch (error) {
+        return next(error);
+    }
+
+}
+
+const removeFriend = async (req, res, next) => {
+    const { id, username } = req.session;
+    const friendUsername = req.params.friendUsername;
+
+    try {
+        if (username === friendUsername) {
+            throw appError("You can't remove yourself.", 400);
+        }
+
+        const friend = await friendsModel.getOneFriend(username, friendUsername);
+
+        if (!friend) {
+            throw appError("Friend not found", 400);
+        }
+
+        await friendsModel.removeFriend(id, friend.friendId);
+
+        return res.status(200).json({ message: "Friend removed" });
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     listFriendRequests,
     listFriends,
+    countFriends,
     friendRequest,
     acceptFriendRequest,
-    refuseFriendRequest
+    refuseFriendRequest,
+    cancelFriendRequest,
+    removeFriend
 };

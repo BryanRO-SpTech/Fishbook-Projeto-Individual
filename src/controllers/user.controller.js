@@ -1,4 +1,5 @@
 const userModel = require("../models/user.model.js");
+const friendModel = require("../models/friends.model.js");
 const userDto = require("../dtos/user.dto.js");
 const appError = require("../errors/appError.js");
 const bcrypt = require("bcrypt");
@@ -186,6 +187,7 @@ const auth = async (req, res, next) => {
 const profile = async (req, res, next) => {
     let { username } = req.params;
     const sessionUsername = req.session.username;
+    const userId = req.session.id;
 
     if (username === "my-profile") {
         username = sessionUsername;
@@ -193,10 +195,13 @@ const profile = async (req, res, next) => {
 
     try {
         const result = await userModel.getByUsername(username);
+        const friend = await friendModel.getOneFriend(sessionUsername, username);
 
         if (!result) {
             throw appError("User not found", 404);
         }
+
+        const friendRequest = await friendModel.getOneFriendRequest(userId, result.idUser);
 
         return res.status(200).json({
             name: result.name,
@@ -204,7 +209,9 @@ const profile = async (req, res, next) => {
             bio: result.bio,
             profilePhoto: result.profilePhotoPath,
             isMyProfile: username == sessionUsername,
-            isMyFriend: false
+            isMyFriend: friend ? true : false,
+            isFriendRequestSended: friendRequest ? friendRequest.fkSender === userId : false,
+            isFriendRequestReceived: friendRequest ? friendRequest.fkReceiver === userId : false
         });
 
     } catch (error) {

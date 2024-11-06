@@ -22,7 +22,7 @@ body {
     
     gap: 10px;
 
-    width: 55%;
+    width: 60%;
     text-align: center;
 
     margin-top: 20px;
@@ -47,7 +47,7 @@ body {
     font-size: 1.1rem;
 }
 
-#add-friend {
+#add-friend, #refuse {
     background-color: var(--sky-blue);
     border: none;
     border-radius: 50px;
@@ -57,8 +57,12 @@ body {
     height: 35px;
     width: 100%;
 
-    margin: 25px auto;
+    margin: 25px auto -15px auto;
     cursor: pointer;
+}
+
+#refuse {
+    background-color: var(--slate-gray);
 }
 
 .kpi-posts {
@@ -90,6 +94,10 @@ body {
     justify-content: space-evenly;
 
     font-size: 1.3rem;
+}
+
+#friends-kpi {
+    cursor: pointer;
 }
 
 
@@ -158,12 +166,4 @@ body {
 .posts-content .post .post-details img {
     width: 1.4rem;
     height: 1.4rem;
-}
-
-
-.teste {
-    border: 1px solid blue;
-
-    width: 100vw;
-    height: 100vh;
 }

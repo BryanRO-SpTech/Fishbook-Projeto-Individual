@@ -35,4 +35,12 @@ router.get("/delete", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "deleteProfile.html"));
 });
 
+router.get("/profile/:username/friends", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "friends.html"));
+})
+
+router.get("/friend-requests", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "friendRequest.html"));
+});
+
 module.exports = router

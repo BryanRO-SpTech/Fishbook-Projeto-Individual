@@ -46,9 +46,13 @@ body {
 }
 
 .profile-div .profile {
-    background-image: url(../assets/8d3380e3d13f368c156df01ada661766.jpg);
     width: 60px;
     height: 60px;
+    cursor: pointer;
+}
+
+.profile-div .name {
+    cursor: pointer;
 }
 
 .request-response {
@@ -79,11 +83,6 @@ body {
 
 .suggestions {
     width: 90%;
-}
-
-.profile {
-    background-image: url(../assets/8d3380e3d13f368c156df01ada661766.jpg);
-    height: 55%;
 }
 
 .title-div {

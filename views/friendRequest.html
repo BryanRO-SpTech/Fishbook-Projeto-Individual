@@ -3,65 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/friendRequest.css">
+    <link rel="stylesheet" href="/styles/friendRequest.css">
 
+    <script src="/components/messageModal.js"></script>
+    <script src="/components/loader.js"></script>
+    <script src="/scripts/friendRequests.js"></script>
+    
     <title>Fishbook - Solicitações de amizade</title>
 </head>
 <body>
-    <script src="components/navBar.js"></script>
-    <script src="components/returnButton.js"></script>
+    <script src="/components/navBar.js"></script>
+    <script src="/components/returnButton.js" data-path="/profile/my-friends/friends"></script>
 
     <h1 class="title">Pedidos de amizade</h1>
 
     <div class="container">
-        <section class="friend-requests">
-            <div class="request">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-
-                <div class="request-response">
-                    <div class="accept response-button"></div>
-                    <div class="refuse response-button"></div>
-                </div>
-            </div>
-            
-            <div class="request">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-
-                <div class="request-response">
-                    <div class="accept response-button"></div>
-                    <div class="refuse response-button"></div>
-                </div>
-            </div>
-            <div class="request">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-
-                <div class="request-response">
-                    <div class="accept response-button"></div>
-                    <div class="refuse response-button"></div>
-                </div>
-            </div>
-            <div class="request">
-                <div class="profile-div">
-                    <div class="profile"></div>
-                    <span class="name">Bryan Rocha</span>
-                </div>
-
-                <div class="request-response">
-                    <div class="accept response-button"></div>
-                    <div class="refuse response-button"></div>
-                </div>
-            </div>
-
-        </section>
+        <section class="friend-requests"></section>
         
         
         <section class="suggestions">
@@ -70,7 +27,7 @@
             </div>
 
             <div class="slide-bar">
-                <img id="left-arrow" src="assets/icons/arrowRight.svg" style="transform: rotate(180deg);"
+                <img id="left-arrow" src="/assets/icons/arrowRight.svg" style="transform: rotate(180deg);"
                     alt="Seta para Esquerda">
                 <div class="slide-content">
                     <div class="slide-element">
@@ -129,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <img id="rigth-arrow" src="assets/icons/arrowRight.svg" alt="Seta para Direita">
+                <img id="rigth-arrow" src="/assets/icons/arrowRight.svg" alt="Seta para Direita">
             </div>
 
         </section>

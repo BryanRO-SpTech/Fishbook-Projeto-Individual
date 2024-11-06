@@ -127,3 +127,28 @@ CREATE TABLE UserFishery (
     PRIMARY KEY (fkFishery, fkUser),
     CONSTRAINT fk_UserFishery_Fishery FOREIGN KEY (fkFishery) REFERENCES Fishery (idFishery) ON DELETE CASCADE
 );
+
+SELECT
+    CASE
+        WHEN u1.username = "bryan_ro" THEN u2.idUser
+        ELSE u1.idUser
+    END AS friendId,
+    CASE
+        WHEN u1.username = "bryan_ro" THEN u2.username
+        ELSE u1.username
+    END AS username,
+    CASE
+        WHEN u1.username = "bryan_ro" THEN u2.name
+        ELSE u1.name
+    END AS name,
+CASE
+    WHEN u1.username = "bryan_ro" THEN u2.profilePhotoPath
+    ELSE u1.profilePhotoPath
+END AS photo
+FROM
+    Friends
+    JOIN User AS u1 ON fkUser1 = u1.idUser
+    JOIN User AS u2 ON fkUser2 = u2.idUser
+WHERE
+    u1.username IN ("bryan_ro", "gu_vieira")
+    AND u1.username IN ("bryan_ro", "gu_vieira");

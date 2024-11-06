@@ -43,6 +43,70 @@ const listFriends = async (userId) => {
     return friends;
 }
 
+const getOneFriend = async (username, friendUsername) => {
+    const [friend] = await database.execute(
+        `SELECT
+            CASE
+                WHEN u1.username = ? THEN u2.idUser
+                ELSE u1.idUser
+            END AS friendId,
+            CASE
+                WHEN u1.username = ? THEN u2.username
+                ELSE u1.username
+            END AS username,
+            
+             CASE
+                WHEN u1.username = ? THEN u2.name
+                ELSE u1.name
+            END AS name,
+
+             CASE
+                WHEN u1.username = ? THEN u2.profilePhotoPath
+                ELSE u1.profilePhotoPath
+            END AS photo
+
+            FROM Friends
+            JOIN User AS u1 ON fkUser1 = u1.idUser
+            JOIN User AS u2 ON fkUser2 = u2.idUser
+            WHERE u1.username IN(?, ?) AND u1.username IN(?,?)`,
+        [
+            ...Array(5).fill(username),
+            friendUsername,
+            username,
+            friendUsername
+        ]
+    );
+
+    if (!friend) {
+        return false;
+    }
+
+    return friend;
+}
+
+
+const getOneFriendRequest = async (userId, friendId) => {
+    const [friendRequest] = await database.execute(
+        "SELECT * FROM FriendRequest WHERE fkReceiver IN(?, ?) AND fkSender IN(?, ?)",
+        [friendId, userId, friendId, userId]
+    );
+
+    if (!friendRequest) {
+        return false;
+    }
+
+    return friendRequest;
+}
+
+const countFriends = async (userId) => {
+    const [result] = await database.execute(
+        "SELECT COUNT(fkUser1) AS friendsCount FROM Friends WHERE fkUser1 = ? OR fkUser2 = ?",
+        [userId, userId]
+    );
+
+    return result;
+}
+
 const friendRequest = async (idUser, idFriend) => {
     const [friendRequest] = await database.execute(
         "SELECT * FROM FriendRequest WHERE (fkSender = ? AND fkReceiver = ?) OR (fkSender = ? AND fkReceiver = ?)",
@@ -107,10 +171,27 @@ const refuseFriend = async (idUser, idFriend) => {
     return true;
 }
 
+const cancelFriendRequest = async (userId, idFriend) => {
+    const [friendRequest] = await database.execute(
+        "SELECT * FROM FriendRequest WHERE fkReceiver = ? AND fkSender = ?",
+        [idFriend, userId]
+    );
+
+    if (!friendRequest) {
+        return false;
+    }
+
+    await database.execute(
+        "DELETE FROM FriendRequest WHERE idFriendRequest = ?",
+        [friendRequest.idFriendRequest]
+    );
+
+    return true;
+}
 
 const removeFriend = async (userId, friendId) => {
     await database.execute(
-        "DELETE FROM Friends WHERE (idUser1 = ? OR idUser2 = ?) AND (idUser1 = ? OR idUser2 = ?)",
+        "DELETE FROM Friends WHERE fkUser1 IN (?, ?) AND fkUser2 IN(?,?)",
         [userId, friendId, userId, friendId]
     );
 }
@@ -119,8 +200,12 @@ const removeFriend = async (userId, friendId) => {
 module.exports = {
     listFriendRequests,
     listFriends,
+    getOneFriend,
+    getOneFriendRequest,
+    countFriends,
     friendRequest,
     acceptFriendRequest,
     refuseFriend,
+    cancelFriendRequest,
     removeFriend
 };
