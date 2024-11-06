@@ -35,6 +35,18 @@ const listFriends = async (req, res, next) => {
 
 }
 
+const countFriends = async (req, res, next) => {
+    const { id } = req.session;
+
+    try {
+        const count = await friendsModel.countFriends(id);
+
+        return res.status(200).json(count);
+    } catch (error) {
+        return next(error);
+    }
+}
+
 const friendRequest = async (req, res, next) => {
     const { friendUsername } = req.params;
     const { id } = req.session;
@@ -114,10 +126,60 @@ const refuseFriendRequest = async (req, res, next) => {
     }
 }
 
+const cancelFriendRequest = async (req, res, next) => {
+    const { id } = req.session;
+    const friendUsername = req.params.friendUsername;
+
+    try {
+        const friend = await userModel.getByUsername(friendUsername);
+
+        if (!friend) {
+            throw appError("Friend not found", 400);
+        }
+
+        const friendRequest = await friendsModel.cancelFriendRequest(id, friend.idUser);
+
+        if (!friendRequest) {
+            throw appError("Friend request not found", 400);
+        }
+
+        return res.status(200).json({ message: "Friend Request cancelled" });
+    } catch (error) {
+        return next(error);
+    }
+
+}
+
+const removeFriend = async (req, res, next) => {
+    const { id, username } = req.session;
+    const friendUsername = req.params.friendUsername;
+
+    try {
+        if (username === friendUsername) {
+            throw appError("You can't remove yourself.", 400);
+        }
+
+        const friend = await friendsModel.getOneFriend(username, friendUsername);
+
+        if (!friend) {
+            throw appError("Friend not found", 400);
+        }
+
+        await friendsModel.removeFriend(id, friend.friendId);
+
+        return res.status(200).json({ message: "Friend removed" });
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     listFriendRequests,
     listFriends,
+    countFriends,
     friendRequest,
     acceptFriendRequest,
-    refuseFriendRequest
+    refuseFriendRequest,
+    cancelFriendRequest,
+    removeFriend
 };
