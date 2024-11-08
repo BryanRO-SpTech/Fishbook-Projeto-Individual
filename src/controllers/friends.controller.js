@@ -195,6 +195,14 @@ const removeFriend = async (req, res, next) => {
     }
 }
 
+const friendsSuggestions = async (req, res, next) => {
+    const userId = req.session.id;
+
+    const friendsOfFriends = await friendsModel.getFriendsOfFriends(userId);
+
+    res.json(friendsOfFriends);
+}
+
 module.exports = {
     listFriendRequests,
     listFriends,
@@ -203,5 +211,6 @@ module.exports = {
     acceptFriendRequest,
     refuseFriendRequest,
     cancelFriendRequest,
-    removeFriend
+    removeFriend,
+    friendsSuggestions
 };

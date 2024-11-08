@@ -46,13 +46,13 @@ function previewImage() {
     });
 
 
-    function crop() {
+    async function crop() {
         const croppedImage = cropper.getCroppedCanvas({
             with: 300,
             heigth: 300
         });
 
-        const croppedImageUrl = croppedImage.toDataURL('image/png');
+        const croppedImageUrl = await croppedImage.toDataURL('image/png');
         fetch(croppedImageUrl)
             .then(res => res.blob())
             .then(blob => {

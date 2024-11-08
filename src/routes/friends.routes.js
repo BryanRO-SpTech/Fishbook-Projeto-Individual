@@ -7,6 +7,7 @@ const router = Router();
 router.get("/list-requests", authMiddleware, friendsController.listFriendRequests);
 router.get("/list-friends/:username", authMiddleware, friendsController.listFriends);
 router.get("/count/:username", authMiddleware, friendsController.countFriends);
+router.get("/friends-suggestions", authMiddleware, friendsController.friendsSuggestions);
 router.post("/friend-request/:friendUsername", authMiddleware, friendsController.friendRequest);
 router.post("/accept-friend-request/:friendUsername", authMiddleware, friendsController.acceptFriendRequest);
 router.post("/refuse-friend-request/:friendUsername", authMiddleware, friendsController.refuseFriendRequest);

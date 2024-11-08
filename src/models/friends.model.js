@@ -68,9 +68,13 @@ const getOneFriend = async (username, friendUsername) => {
             FROM Friends
             JOIN User AS u1 ON fkUser1 = u1.idUser
             JOIN User AS u2 ON fkUser2 = u2.idUser
-            WHERE u1.username IN(?, ?) AND u1.username IN(?,?)`,
+            WHERE u1.username IN(?, ?) AND u2.username IN(?,?)`,
         [
-            ...Array(5).fill(username),
+            username,
+            username,
+            username,
+            username,
+            username,
             friendUsername,
             username,
             friendUsername
@@ -105,6 +109,70 @@ const countFriends = async (userId) => {
     );
 
     return result;
+}
+
+const getFriendsOfFriends = async (userId) => {
+    const myFriends = (await database.execute(
+        `
+        SELECT
+            DISTINCT
+            CASE
+                WHEN fkUser1 = ? THEN fkUser2
+                ELSE fkUser1
+            END AS idFriend
+        FROM Friends 
+        WHERE fkUser1  = ? OR fkUser2 = ?;
+        `,
+        [userId, userId, userId]
+    )).map((friend) => {
+        return friend.idFriend;
+    }).join();
+
+    const friendsOfFriends = await database.execute(
+        `
+            SELECT 
+                DISTINCT 
+                CASE 
+                    WHEN fkUser1 IN(${myFriends}) THEN fkUser2
+                    ELSE fkUser1
+                END AS idUser,
+                CASE 
+                    WHEN fkUser1 IN(${myFriends}) THEN u2.name
+                    ELSE u1.name
+                END AS name,
+                CASE 
+                    WHEN fkUser1 IN(${myFriends}) THEN u2.username
+                    ELSE u1.username
+                END AS username,
+                CASE 
+                    WHEN fkUser1 IN(${myFriends}) THEN u2.profilePhotoPath
+                    ELSE u1.profilePhotoPath
+                END AS photo
+                FROM Friends
+                JOIN User AS u1 ON u1.idUser = fkUser1
+                JOIN User AS u2 ON u2.idUser = fkUser2
+            WHERE fkUser1 IN(${myFriends}) OR fkUser2 IN(${myFriends}) ORDER BY RAND() LIMIT 15;
+        `
+    );
+
+    if (friendsOfFriends.length === 15) {
+        return friendsOfFriends;
+    }
+
+    const randomSuggestions = await database.execute(
+        `
+            SELECT idUser, name, username, profilePhotoPath AS photo FROM User 
+            WHERE idUser != ? AND 
+            idUser NOT IN(${friendsOfFriends.map((friendsOfFriends) => friendsOfFriends.idUser).join()}) AND 
+            idUser NOT IN(${myFriends})
+            ORDER BY RAND()
+            LIMIT ${15 - friendsOfFriends.length};
+        `,
+        [userId]
+    );
+
+    return friendsOfFriends.concat(randomSuggestions);
+
 }
 
 const friendRequest = async (idUser, idFriend) => {
@@ -207,5 +275,6 @@ module.exports = {
     acceptFriendRequest,
     refuseFriend,
     cancelFriendRequest,
-    removeFriend
+    removeFriend,
+    getFriendsOfFriends
 };

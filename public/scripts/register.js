@@ -151,7 +151,7 @@ function validateName() {
     }
 
 
-    removeInvalidCharacters(name, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ");
+    removeInvalidCharacters(name, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ");
 
     if (name.value.length < 5) {
         error.innerHTML = "Nome deve conter pelo menos 5 caracteres."

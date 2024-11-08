@@ -23,7 +23,7 @@ const loadPage = async () => {
         return `
         <div class="friend">
                 <div class="profile-div">
-                    <div class="profile" style="backgroundColor: url(/${!friend.photo ? "assets/icons/person.svg" : friend.photo})" onclick="window.location.href = '/profile/${friend.username}'"></div>
+                    <div class="profile" style="background-image: url(/${!friend.photo ? "assets/icons/person.svg" : friend.photo})" onclick="window.location.href = '/profile/${friend.username}'"></div>
                     <span class="name" onclick="window.location.href = '/profile/${friend.username}'">${friend.name}</span>
                 </div>
                 <button onclick="removeFriend('${friend.username}')">Remover</button>
