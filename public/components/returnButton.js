@@ -7,5 +7,5 @@
             <img src="/assets/icons/return.svg" alt="Voltar">
             <span>Voltar</span>
         </div>
-    `)
+    `);
 })();

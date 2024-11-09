@@ -31,6 +31,29 @@ const loadPage = async () => {
         `
     }).join("");
 
+
+
+
+
+    const reqSuggestions = await fetch("/friends/friends-suggestions");
+
+    if (!reqSuggestions.ok) {
+        setModal("Falha ao carregar sugestões de amizade.", "", "error");
+    }
+
+    const resSuggestions = await reqSuggestions.json();
+
+
+    console.log(resSuggestions)
+
+    // document.getElementById("slide-content").innerHTML
+
+
+
+
+
+
+
     removeLoader();
 }
 

@@ -151,8 +151,11 @@ const getFriendsOfFriends = async (userId) => {
                 FROM Friends
                 JOIN User AS u1 ON u1.idUser = fkUser1
                 JOIN User AS u2 ON u2.idUser = fkUser2
-            WHERE fkUser1 IN(${myFriends}) OR fkUser2 IN(${myFriends}) ORDER BY RAND() LIMIT 15;
-        `
+            WHERE (fkUser1 IN(${myFriends}) OR fkUser2 IN(${myFriends}))
+            AND fkUser1 <> 1 AND fkUser2 <> 1
+            ORDER BY RAND() LIMIT 15;
+        `,
+        [userId, userId]
     );
 
     if (friendsOfFriends.length === 15) {
@@ -162,8 +165,8 @@ const getFriendsOfFriends = async (userId) => {
     const randomSuggestions = await database.execute(
         `
             SELECT idUser, name, username, profilePhotoPath AS photo FROM User 
-            WHERE idUser != ? AND 
-            idUser NOT IN(${friendsOfFriends.map((friendsOfFriends) => friendsOfFriends.idUser).join()}) AND 
+            WHERE idUser <> ? AND 
+            ${friendsOfFriends != 0 ? `idUser NOT IN(${friendsOfFriends.map((friendsOfFriends) => friendsOfFriends.idUser).join()})` : ""} AND 
             idUser NOT IN(${myFriends})
             ORDER BY RAND()
             LIMIT ${15 - friendsOfFriends.length};
