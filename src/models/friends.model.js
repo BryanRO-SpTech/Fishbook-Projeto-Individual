@@ -164,18 +164,27 @@ const getFriendsOfFriends = async (userId) => {
 
     const randomSuggestions = await database.execute(
         `
-            SELECT idUser, name, username, profilePhotoPath AS photo FROM User 
-            WHERE idUser <> ? AND 
-            ${friendsOfFriends != 0 ? `idUser NOT IN(${friendsOfFriends.map((friendsOfFriends) => friendsOfFriends.idUser).join()})` : ""} AND 
-            idUser NOT IN(${myFriends})
+            SELECT idUser, name, username, profilePhotoPath AS photo 
+            FROM User 
+            WHERE idUser <> ? 
+            ${friendsOfFriends && friendsOfFriends.length > 0 ? `AND idUser NOT IN (${friendsOfFriends.map(friend => friend.idUser).join(',')})` : ""}  
+            ${myFriends && myFriends.length > 0 ? `AND idUser NOT IN (${myFriends})` : ""} 
+            AND idUser NOT IN (
+                SELECT CASE 
+                           WHEN fkSender = ? THEN fkReceiver 
+                           ELSE fkSender 
+                       END 
+                FROM FriendRequest 
+                WHERE ? IN (fkSender, fkReceiver)
+            )
             ORDER BY RAND()
-            LIMIT ${15 - friendsOfFriends.length};
+            LIMIT ${15 - (friendsOfFriends ? friendsOfFriends.length : 0)};
         `,
-        [userId]
+        [userId, userId, userId]
     );
 
-    return friendsOfFriends.concat(randomSuggestions);
 
+    return friendsOfFriends.concat(randomSuggestions);
 }
 
 const friendRequest = async (idUser, idFriend) => {

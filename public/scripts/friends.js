@@ -46,12 +46,17 @@ const loadPage = async () => {
 
     console.log(resSuggestions)
 
-    // document.getElementById("slide-content").innerHTML
-
-
-
-
-
+    document.querySelector(".slide-content").innerHTML = resSuggestions.map((suggestion) => {
+        return `
+            <div class="slide-element">
+                 <div class="element-container">
+                    <div class="profile" style="background-image: url(${suggestion.photo ? suggestion.photo : "/assets/icons/person.svg"})"></div>
+                    <h3>${suggestion.name}</h3>
+                    <button onclick="sendFriendRequest('${suggestion.username}')">Adicionar</button>
+                </div>
+            </div>
+        `;
+    }).join("");
 
 
     removeLoader();
@@ -69,6 +74,21 @@ async function removeFriend(username) {
 
     loadPage();
     return setModal("Amigo removido", "", "message");
+}
+
+
+async function sendFriendRequest(username) {
+    const req = await fetch(`/friends/friend-request/${username}`, {
+        method: "POST"
+    });
+
+    if (!req.ok) {
+        return setModal("Erro ao enviar solicitação de amizade.", "Tente novamente mais tarde.", "error");
+    }
+
+
+    loadPage();
+    return setModal("Solicitação de amizade enviada", "", "success");
 }
 
 

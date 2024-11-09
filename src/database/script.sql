@@ -175,3 +175,13 @@ INSERT INTO Friends (fkUser1, fkUser2) VALUES
 (9, 12), (9, 18), (9, 24), (9, 25),
 (10, 15), (10, 19), (10, 21), (10, 22), (10, 27),
 (11, 4), (11, 26), (11, 28);
+
+
+
+
+ SELECT idUser, name, username, profilePhotoPath AS photo FROM User 
+            WHERE idUser <> 1 AND 
+            idUser NOT IN(1, 2, 3, 4) AND 
+            idUser NOT IN(1, 2, 3, 4)
+            ORDER BY RAND()
+            LIMIT 15;
