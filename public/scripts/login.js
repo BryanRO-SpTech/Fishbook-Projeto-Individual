@@ -23,12 +23,12 @@ async function login() {
     if (req.status === 400) {
         setModal("Usuário ou Senha incorretos", "Tente novamente", "error");
     } else if (req.ok) {
-        sessionStorage.userId = res.user.userId;
-        sessionStorage.email = res.user.email;
-        sessionStorage.name = res.user.name;
-        sessionStorage.username = res.user.username;
-        sessionStorage.bio = res.user.bio;
-        sessionStorage.profilePhoto = res.user.profilePhoto;
+        localStorage.userId = res.user.userId;
+        localStorage.email = res.user.email;
+        localStorage.name = res.user.name;
+        localStorage.username = res.user.username;
+        localStorage.bio = res.user.bio;
+        localStorage.profilePhoto = res.user.profilePhoto;
 
 
         return window.location.replace("/feed");

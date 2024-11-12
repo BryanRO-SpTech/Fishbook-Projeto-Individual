@@ -121,7 +121,7 @@ const getFriendsOfFriends = async (userId) => {
                 ELSE fkUser1
             END AS idFriend
         FROM Friends 
-        WHERE fkUser1  = ? OR fkUser2 = ?;
+        WHERE fkUser1 = ? OR fkUser2 = ?;
         `,
         [userId, userId, userId]
     )).map((friend) => {
@@ -151,8 +151,10 @@ const getFriendsOfFriends = async (userId) => {
                 FROM Friends
                 JOIN User AS u1 ON u1.idUser = fkUser1
                 JOIN User AS u2 ON u2.idUser = fkUser2
-            WHERE (fkUser1 IN(${myFriends}) OR fkUser2 IN(${myFriends}))
-            AND fkUser1 <> 1 AND fkUser2 <> 1
+            WHERE 
+            (fkUser1 != ? AND fkUser2 != ?) AND
+            ((fkUser1 IN(${myFriends}) AND fkUser2 NOT IN(${myFriends})) OR
+            (fkUser1 NOT IN(${myFriends}) AND fkUser2 IN(${myFriends})))
             ORDER BY RAND() LIMIT 15;
         `,
         [userId, userId]
@@ -177,10 +179,18 @@ const getFriendsOfFriends = async (userId) => {
                 FROM FriendRequest 
                 WHERE ? IN (fkSender, fkReceiver)
             )
+            AND idUser NOT IN (
+                SELECT CASE 
+                           WHEN fkUser1 = ? THEN fkUser2 
+                           ELSE fkUser1 
+                       END 
+                FROM Friends
+                WHERE ? IN (fkUser1, fkUser2)
+            )
             ORDER BY RAND()
             LIMIT ${15 - (friendsOfFriends ? friendsOfFriends.length : 0)};
         `,
-        [userId, userId, userId]
+        [userId, userId, userId, userId, userId]
     );
 
 

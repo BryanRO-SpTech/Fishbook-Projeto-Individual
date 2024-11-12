@@ -97,7 +97,8 @@ body {
 
     display: flex;
     gap: 50px;
-    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--slate-gray) var(--dark-navy);
 }
@@ -142,6 +143,7 @@ body {
 
 .element-container h3 {
     font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .element-container button {

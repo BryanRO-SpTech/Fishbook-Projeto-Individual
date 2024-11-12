@@ -43,15 +43,12 @@ const loadPage = async () => {
 
     const resSuggestions = await reqSuggestions.json();
 
-
-    console.log(resSuggestions)
-
     document.querySelector(".slide-content").innerHTML = resSuggestions.map((suggestion) => {
         return `
             <div class="slide-element">
                  <div class="element-container">
-                    <div class="profile" style="background-image: url(${suggestion.photo ? suggestion.photo : "/assets/icons/person.svg"})"></div>
-                    <h3>${suggestion.name}</h3>
+                    <div onclick="window.location.href = '/profile/${suggestion.username}'" class="profile" style="background-image: url(${suggestion.photo ? suggestion.photo : "/assets/icons/person.svg"})"></div>
+                    <h3 onclick="window.location.href = '/profile/${suggestion.username}'">${suggestion.name}</h3>
                     <button onclick="sendFriendRequest('${suggestion.username}')">Adicionar</button>
                 </div>
             </div>
@@ -93,3 +90,13 @@ async function sendFriendRequest(username) {
 
 
 document.addEventListener("DOMContentLoaded", loadPage);
+
+const slideBar = document.querySelector(".slide-content");
+
+const scrollSlideBarToRigth = () => slideBar.scrollLeft += 700;
+const scrollSlideBarToLeft = () => slideBar.scrollLeft -= 700;
+
+
+
+document.getElementById("rigth-arrow").addEventListener("click", scrollSlideBarToRigth);
+document.getElementById("left-arrow").addEventListener("click", scrollSlideBarToLeft);

@@ -113,7 +113,8 @@ body {
 
     display: flex;
     gap: 50px;
-    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--slate-gray) var(--dark-navy);
 }
