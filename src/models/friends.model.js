@@ -128,7 +128,9 @@ const getFriendsOfFriends = async (userId) => {
         return friend.idFriend;
     }).join();
 
-    const friendsOfFriends = await database.execute(
+    console.log(myFriends)
+
+    const friendsOfFriends = myFriends.length > 0 ? await database.execute(
         `
             SELECT 
                 DISTINCT 
@@ -158,9 +160,9 @@ const getFriendsOfFriends = async (userId) => {
             ORDER BY RAND() LIMIT 15;
         `,
         [userId, userId]
-    );
+    ) : null;
 
-    if (friendsOfFriends.length === 15) {
+    if (friendsOfFriends && friendsOfFriends.length === 15) {
         return friendsOfFriends;
     }
 
@@ -193,8 +195,9 @@ const getFriendsOfFriends = async (userId) => {
         [userId, userId, userId, userId, userId]
     );
 
+    return friendsOfFriends ? friendsOfFriends.concat(randomSuggestions) : randomSuggestions;
 
-    return friendsOfFriends.concat(randomSuggestions);
+
 }
 
 const friendRequest = async (idUser, idFriend) => {
