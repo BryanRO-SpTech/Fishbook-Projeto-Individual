@@ -128,8 +128,6 @@ const getFriendsOfFriends = async (userId) => {
         return friend.idFriend;
     }).join();
 
-    console.log(myFriends)
-
     const friendsOfFriends = myFriends.length > 0 ? await database.execute(
         `
             SELECT 

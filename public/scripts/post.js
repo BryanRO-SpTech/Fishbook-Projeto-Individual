@@ -4,6 +4,9 @@ const inputLabel = document.querySelector(".upload-content label");
 const postDiv = document.querySelector(".post");
 const trimDiv = document.getElementById("video-trim");
 
+let fileUrl;
+
+
 function previewImage() {
     // Resetar divs, caso um novo upload seja realizado:
     const previewChild = previewDiv.querySelector("video");
@@ -11,6 +14,7 @@ function previewImage() {
         previewDiv.removeChild(previewChild);
     }
     document.querySelector(".trim-container").style.display = "none";
+    fileUrl = null;
 
     const trimChild = trimDiv.querySelector("img");
     if (trimChild) {
@@ -27,7 +31,7 @@ function previewImage() {
 
     const image = document.getElementById('crop-post');
 
-    const fileUrl = URL.createObjectURL(file);
+    fileUrl = URL.createObjectURL(file);
 
     image.src = fileUrl;
 
@@ -69,6 +73,9 @@ function previewImage() {
 }
 
 
+let timeStart = 0;
+let timeEnd;
+
 function previewVideo() {
     // Resetar divs, caso um novo upload seja realizado:
     previewDiv.style.background = "";
@@ -91,12 +98,13 @@ function previewVideo() {
 
     document.querySelector(".trim-container").style.display = "block";
 
-    const videoUrl = URL.createObjectURL(file);
+    fileUrl = URL.createObjectURL(file);
 
     const video = document.createElement("video");
-    video.src = videoUrl;
+    video.src = fileUrl;
 
-
+    timeStart = 0;
+    timeEnd = video.duration;
 
     let framesLoaded = false;
 
@@ -106,6 +114,8 @@ function previewVideo() {
 
         modifyReuploadButton();
 
+
+        setLoader();
         video.onseeked = () => {
             if (!framesLoaded) {
                 let canvas = document.createElement("canvas");
@@ -122,20 +132,25 @@ function previewVideo() {
                 trimDiv.appendChild(img);
 
                 if (video.currentTime < video.duration) {
-                    video.currentTime++;
+                    if (video.duration > 60) {
+                        video.currentTime += 3;
+                    } else {
+                        video.currentTime++;
+                    }
+
                 } else {
                     framesLoaded = true;
                     video.currentTime = 0;
+                    removeLoader();
                 }
 
                 Array.from(trimDiv.children).forEach(element => {
                     if (element.tagName == "IMG") {
-                        element.style.width = `${trimDiv.offsetWidth / (trimDiv.childElementCount - 2)}px`;
+                        element.style.width = `${trimDiv.clientWidth / (trimDiv.childElementCount - 2)}px`;
                     }
                 });
             }
         }
-
         inputFile.value = "";
     }
 
@@ -147,10 +162,6 @@ function previewVideo() {
     let mouseDownInCurrentSelector = false;
     let mouseDownInStartSelector = false;
     let mouseDownInEndSelector = false;
-
-    let timeStart = 0;
-    let timeEnd = video.duration;
-
 
     videoTrimDiv.onpointermove = (e) => {
         const percentX = getMousePositionPercentage(e, videoTrimDiv)
@@ -273,3 +284,52 @@ function getMousePositionPercentage(e, element) {
 
     return (mouseX / rect.width) * 100;
 }
+
+
+
+
+async function createPost() {
+    setLoader();
+
+    if (fileUrl) {
+        const formData = new FormData();
+
+        const file = await fetch(fileUrl)
+        const fileBlob = await file.blob();
+
+        console.log(fileBlob);
+
+        formData.append("postFile", fileBlob);
+        formData.append("caption", document.getElementById("caption").value);
+
+
+        //     if () {
+        //         const cutInterval = timeEnd - timeStart;
+
+        //         formData.append("start", timeStart);
+        //         formData.append("duration", cutInterval);
+        //     }
+
+        //     const reqCreate = await fetch("/post/create", {
+        //         method: "POST",
+        //         body: formData
+        //     });
+
+        //     if (!reqCreate.status === 201) {
+        //         setModal("Erro ao criar publicação", "A página será recarregada...", "error");
+
+        //         return setTimeout(() => {
+        //             window.location.reload();
+        //         }, 5000)
+        //     }
+
+
+        //     removeLoader();
+        //     return setModal("Publicação criada com sucesso.", "", "success");
+        // } else {
+        //     setModal("Adicione um arquivo para criar uma publicação.", "", "message");
+        // }
+    }
+}
+
+document.getElementById("publish").addEventListener("click", createPost);

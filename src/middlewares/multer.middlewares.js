@@ -4,7 +4,9 @@ const uuid = require("uuid");
 const appError = require("../errors/appError.js");
 
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
-const ffmpeg = require('fluent-ffmpeg')
+const ffmpeg = require('fluent-ffmpeg');
+const fs = require("fs");
+
 ffmpeg.setFfmpegPath(ffmpegPath)
 
 const storage = multer.diskStorage({
@@ -51,7 +53,11 @@ const uploadProfileMiddleware = (req, res, next) => {
 
 const storagePost = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, "../..", "temp_uploads"));
+        if (file.mimetype === "video/mp4") {
+            cb(null, path.join(__dirname, "../..", "temp_uploads"));
+        } else {
+            cb(null, path.join(__dirname, "../..", "uploads"));
+        }
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
@@ -62,7 +68,7 @@ const storagePost = multer.diskStorage({
 
 
 const uploadPost = multer({
-    storagePost,
+    storage: storagePost,
     limits: {
         fileSize: (1 * 1024 /* Converteu para 1Kb */ * 1024) /* Converteu para 1MB */ * 100 /* 100MB */
     },
@@ -79,21 +85,27 @@ const uploadPostMiddleware = (req, res, next) => {
     const upload = uploadPost.single("postFile");
 
     upload(req, res, (error) => {
+
         if (error) {
             if (error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE") {
-                next(appError("File size limit exceeded. Maximum allowed size is 100MB.", 400));
-            }
+                return next(appError("File size limit exceeded. Maximum allowed size is 100MB.", 400));
 
+            }
             return next(error);
         }
-    });
 
-    if (req.file) {
+        return next();
+    });
+};
+
+
+const trimVideoMiddleware = async (req, res, next) => {
+    if (req.file.mimetype === "video/mp4") {
         const filePath = path.join(__dirname, "../../temp_uploads/" + req.file.filename);
         const output = path.join(__dirname, "../..", "uploads");
 
-        const start = req.start;
-        const duration = req.duration;
+        const start = req.body.start;
+        const duration = req.body.duration;
 
         ffmpeg(filePath)
             .setStartTime(`${start}`)
@@ -101,14 +113,22 @@ const uploadPostMiddleware = (req, res, next) => {
             .output(`${output}/${req.file.filename}`)
             .on("end", (error) => {
                 if (error) {
-                    next(appError("Trimming video error", 500));
+                    return next(appError("Trimming video error", 500));
                 }
-            })
-            .run()
-    }
 
-};
+                fs.rmSync(filePath);
+
+                return next()
+
+            })
+            .run();
+    } else {
+        return next();
+    }
+}
 
 module.exports = {
-    uploadProfileMiddleware
+    uploadProfileMiddleware,
+    uploadPostMiddleware,
+    trimVideoMiddleware
 };
