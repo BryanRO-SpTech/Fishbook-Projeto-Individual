@@ -43,4 +43,8 @@ router.get("/friend-requests", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "friendRequest.html"));
 });
 
+router.get("/post", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "post.html"));
+});
+
 module.exports = router
