@@ -1,11 +1,11 @@
 (() => {
-    document.getElementById("profile-photo").style.backgroundImage = `url(${sessionStorage.profilePhoto == "undefined" || sessionStorage.profilePhoto == "null" ? "/assets/icons/person.svg" : sessionStorage.profilePhoto})`;
-    document.getElementById("name").innerHTML = sessionStorage.name;
-    document.getElementById("username").innerHTML = `@${sessionStorage.username}`;
+    document.getElementById("profile-photo").style.backgroundImage = `url(${localStorage.profilePhoto == "undefined" || localStorage.profilePhoto == "null" ? "/assets/icons/person.svg" : localStorage.profilePhoto})`;
+    document.getElementById("name").innerHTML = localStorage.name;
+    document.getElementById("username").innerHTML = `@${localStorage.username}`;
 
-    document.getElementById("ipt_name").value = sessionStorage.name;
-    document.getElementById("ipt_email").value = sessionStorage.email;
-    document.getElementById("ipt_bio").value = sessionStorage.bio;
+    document.getElementById("ipt_name").value = localStorage.name;
+    document.getElementById("ipt_email").value = localStorage.email;
+    document.getElementById("ipt_bio").value = localStorage.bio;
 })();
 
 
@@ -167,7 +167,7 @@ async function updateProfile() {
     const email = document.getElementById("ipt_email").value;
     const bio = document.getElementById("ipt_bio").value;
 
-    if (name === sessionStorage.name && email === sessionStorage.email && bio === sessionStorage.bio && !profilePhoto) {
+    if (name === localStorage.name && email === localStorage.email && bio === localStorage.bio && !profilePhoto) {
         return setModal("Nenhuma alteração para salvar.", "Realize alterações nos dados do seu perfil para salvar.", "message")
     }
 
@@ -179,9 +179,9 @@ async function updateProfile() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            name: name === sessionStorage.name ? null : name,
-            email: email === sessionStorage.email ? null : email,
-            bio: bio === sessionStorage.bio ? null : bio
+            name: name === localStorage.name ? null : name,
+            email: email === localStorage.email ? null : email,
+            bio: bio === localStorage.bio ? null : bio
         })
     });
 
@@ -194,9 +194,9 @@ async function updateProfile() {
             return setModal("Erro ao atualizar perfil", "Este e-mail está em uso por outro usuário", "error");
         }
     } else {
-        sessionStorage.name = name;
-        sessionStorage.email = email;
-        sessionStorage.bio = bio;
+        localStorage.name = name;
+        localStorage.email = email;
+        localStorage.bio = bio;
 
         const formData = new FormData();
         formData.append("profilePhoto", profilePhoto);
@@ -222,7 +222,7 @@ async function updateProfile() {
 
             console.log(resPhoto);
 
-            sessionStorage.profilePhoto = resPhoto.imagePath;
+            localStorage.profilePhoto = resPhoto.imagePath;
         }
 
         removeLoader();
@@ -242,7 +242,7 @@ async function logout() {
     });
 
     if (logout.ok) {
-        sessionStorage.clear();
+        localStorage.clear();
         return window.location.replace("/login");
     }
 }

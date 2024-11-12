@@ -12,7 +12,7 @@ const loadPage = async () => {
     if (profile.statusCode === 404) {
         setModal("Usuário inexistente", "Você será redirecionado ao seu perfil.", "error");
 
-        setTimeout(() => window.location.replace(`/profile/${sessionStorage.username}`), 5000);
+        setTimeout(() => window.location.replace(`/profile/${localStorage.username}`), 5000);
 
         setLoader();
     }

@@ -149,7 +149,7 @@ main {
     margin-top: 10px;
 }
 
-.friends .friends-content {
+.friends .suggestions-content {
     margin-top: 15px;
 
     display: flex;
@@ -157,7 +157,7 @@ main {
     gap: 5px;
 }
 
-.friends .friends-content .friend {
+.friends .suggestions-content .friend {
     height: 50px;
     display: flex;
     align-items: center;
@@ -169,7 +169,7 @@ main {
 }
 
 
-.friends .friends-content .friend .profile {
+.friends .suggestions-content .friend .profile {
     border: 2px solid var(--sky-blue);
     border-radius: 50%;
     aspect-ratio: 1/1;

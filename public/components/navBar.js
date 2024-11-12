@@ -1,7 +1,7 @@
 (function navBar() {
     const scriptParent = document.currentScript.parentElement;
     const page = document.currentScript.getAttribute("data-page");
-    const profilePhoto = sessionStorage.profilePhoto == "undefined" || sessionStorage.profilePhoto == "null" ? "assets/icons/person.svg" : sessionStorage.profilePhoto;
+    const profilePhoto = localStorage.profilePhoto == "undefined" || localStorage.profilePhoto == "null" ? "assets/icons/person.svg" : localStorage.profilePhoto;
 
     scriptParent.insertAdjacentHTML("beforeend", `
         <header>
@@ -18,20 +18,22 @@
 
     <nav>
         <ul>
-            <li class="${page == "feed" ? "selected" : ""}">
-                <svg viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="grid">
-                    <path d="M18.7619 5.5H5.92859V18.3333H18.7619V5.5Z" stroke="white" stroke-width="4"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M38.9286 5.5H26.0953V18.3333H38.9286V5.5Z" stroke="white" stroke-width="4"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M38.9286 25.6667H26.0953V38.5H38.9286V25.6667Z" stroke="white" stroke-width="4"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M18.7619 25.6667H5.92859V38.5H18.7619V25.6667Z" stroke="white" stroke-width="4"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <a href="/feed">
+                <li class="${page == "feed" ? "selected" : ""}">
+                    <svg viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="grid">
+                        <path d="M18.7619 5.5H5.92859V18.3333H18.7619V5.5Z" stroke="white" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M38.9286 5.5H26.0953V18.3333H38.9286V5.5Z" stroke="white" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M38.9286 25.6667H26.0953V38.5H38.9286V25.6667Z" stroke="white" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M18.7619 25.6667H5.92859V38.5H18.7619V25.6667Z" stroke="white" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
 
-                <span>Feed</span>
-            </li>
+                    <span>Feed</span>
+                </li>
+            </a>
             <li class="${page == "pescar" ? "selected" : ""}">
                 <svg viewBox="0 0 45 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
