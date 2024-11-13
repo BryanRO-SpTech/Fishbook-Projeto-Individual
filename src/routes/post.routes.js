@@ -5,6 +5,7 @@ const { uploadPostMiddleware, trimVideoMiddleware } = require("../middlewares/mu
 
 const router = Router();
 
+router.get("/feed", authMiddleware, postController.getFeed);
 router.post("/create", authMiddleware, uploadPostMiddleware, trimVideoMiddleware, postController.createPost);
 
 module.exports = router;

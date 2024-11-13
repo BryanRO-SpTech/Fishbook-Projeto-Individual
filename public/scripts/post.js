@@ -103,9 +103,6 @@ function previewVideo() {
     const video = document.createElement("video");
     video.src = fileUrl;
 
-    timeStart = 0;
-    timeEnd = video.duration;
-
     let framesLoaded = false;
 
     video.onloadedmetadata = () => {
@@ -133,7 +130,7 @@ function previewVideo() {
 
                 if (video.currentTime < video.duration) {
                     if (video.duration > 60) {
-                        video.currentTime += 3;
+                        video.currentTime += 10;
                     } else {
                         video.currentTime++;
                     }
@@ -141,12 +138,16 @@ function previewVideo() {
                 } else {
                     framesLoaded = true;
                     video.currentTime = 0;
+                    timeStart = 0;
+                    timeEnd = video.duration;
                     removeLoader();
                 }
 
                 Array.from(trimDiv.children).forEach(element => {
                     if (element.tagName == "IMG") {
-                        element.style.width = `${trimDiv.clientWidth / (trimDiv.childElementCount - 2)}px`;
+                        console.log(trimDiv.childElementCount)
+
+                        element.style.width = `${trimDiv.offsetWidth / (trimDiv.childElementCount - 3)}px`;
                     }
                 });
             }
@@ -294,41 +295,38 @@ async function createPost() {
     if (fileUrl) {
         const formData = new FormData();
 
-        const file = await fetch(fileUrl)
+        const file = await fetch(fileUrl);
         const fileBlob = await file.blob();
-
-        console.log(fileBlob);
 
         formData.append("postFile", fileBlob);
         formData.append("caption", document.getElementById("caption").value);
 
+        if (fileBlob) {
+            const cutInterval = timeEnd - timeStart;
 
-        //     if () {
-        //         const cutInterval = timeEnd - timeStart;
+            formData.append("start", timeStart);
+            formData.append("duration", cutInterval);
+        }
 
-        //         formData.append("start", timeStart);
-        //         formData.append("duration", cutInterval);
-        //     }
+        const reqCreate = await fetch("/post/create", {
+            method: "POST",
+            body: formData
+        });
 
-        //     const reqCreate = await fetch("/post/create", {
-        //         method: "POST",
-        //         body: formData
-        //     });
+        if (reqCreate.status != 201) {
+            setModal("Erro ao criar publicação", "A página será recarregada...", "error");
 
-        //     if (!reqCreate.status === 201) {
-        //         setModal("Erro ao criar publicação", "A página será recarregada...", "error");
-
-        //         return setTimeout(() => {
-        //             window.location.reload();
-        //         }, 5000)
-        //     }
+            return setTimeout(() => {
+                window.location.reload();
+            }, 5000);
+        }
 
 
-        //     removeLoader();
-        //     return setModal("Publicação criada com sucesso.", "", "success");
-        // } else {
-        //     setModal("Adicione um arquivo para criar uma publicação.", "", "message");
-        // }
+        removeLoader();
+
+        return setModal("Publicação criada com sucesso.", "", "success");
+    } else {
+        setModal("Adicione um arquivo para criar uma publicação.", "", "message");
     }
 }
 

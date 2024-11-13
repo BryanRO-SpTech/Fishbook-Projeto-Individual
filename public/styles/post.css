@@ -139,6 +139,7 @@ body {
 .trim-container {
     width: 35%;
     display: none;
+    overflow: hidden;
 }
 
 #video-trim {

@@ -19,6 +19,11 @@ const listFriends = async (userId) => {
     const friends = await database.execute(
         `SELECT 
             CASE 
+                WHEN u1.idUser = ? THEN u2.idUser
+                ELSE u1.idUser
+            END AS id,
+
+            CASE 
                 WHEN u1.idUser = ? THEN u2.name
                 ELSE u1.name
             END AS name,
@@ -37,7 +42,7 @@ const listFriends = async (userId) => {
         JOIN User AS u2 ON Friends.fkUser2 = u2.idUser
         WHERE u1.idUser = ? OR u2.idUser = ?;
         `,
-        [userId, userId, userId, userId, userId]
+        [userId, userId, userId, userId, userId, userId]
     );
 
     return friends;

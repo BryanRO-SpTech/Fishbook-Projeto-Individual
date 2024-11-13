@@ -60,9 +60,11 @@ const storagePost = multer.diskStorage({
         }
     },
     filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
+        // const ext = path.extname(file.originalname);
 
-        cb(null, uuid.v4() + ext);
+        const [type, ext] = file.mimetype.split("/");
+
+        cb(null, uuid.v4() + "." + ext);
     }
 });
 

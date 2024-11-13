@@ -27,6 +27,13 @@ const createPost = async (req, res, next) => {
     });
 }
 
+
+const getFeed = async (req, res, next) => {
+    const teste = await postModel.getFeed(req.session.id);
+    res.json(teste);
+}
+
 module.exports = {
-    createPost
+    createPost,
+    getFeed
 }
