@@ -29,8 +29,14 @@ const createPost = async (req, res, next) => {
 
 
 const getFeed = async (req, res, next) => {
-    const teste = await postModel.getFeed(req.session.id);
-    res.json(teste);
+    const { lastFriendPost, lastFriendOfFriendPost, lastRandomPost } = req.query;
+
+    try {
+        const feed = await postModel.getFeed(req.session.id, lastFriendPost, lastFriendOfFriendPost, lastRandomPost);
+        res.json(feed);
+    } catch (error) {
+        return next(error);
+    }
 }
 
 module.exports = {
