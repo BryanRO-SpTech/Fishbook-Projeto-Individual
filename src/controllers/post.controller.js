@@ -30,10 +30,16 @@ const createPost = async (req, res, next) => {
 
 const getFeed = async (req, res, next) => {
     const { lastFriendPost, lastFriendOfFriendPost, lastRandomPost } = req.query;
+    const userId = req.session.id;
 
     try {
-        const feed = await postModel.getFeed(req.session.id, lastFriendPost, lastFriendOfFriendPost, lastRandomPost);
-        res.json(feed);
+        const feed = await postModel.getFeed(userId, lastFriendPost, lastFriendOfFriendPost, lastRandomPost);
+
+        if (!feed) {
+            throw appError("Error on load feed", 500);
+        }
+
+        return res.status(200).json(feed);
     } catch (error) {
         return next(error);
     }

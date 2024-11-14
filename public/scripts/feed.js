@@ -21,13 +21,21 @@ const loadPage = async () => {
            </a>
         `;
     }).join("");
+
+
+
+
+    // Carregar feed
+
 }
 
 loadPage();
 
 
 
+const loadFeed = () => {
 
+}
 
 
 
