@@ -32,18 +32,25 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
 
 
     const friendsPosts = (await database.execute(
-        `SELECT * FROM Post WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 20`,
+        `SELECT * FROM Post
+        JOIN User ON fkPostOwner = idUser
+        WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10 `,
         [lastFriendPost]
     )).map((post) => {
         const date = formatDate(post.dateTime);
 
         return {
             idPost: post.idPost,
-            fkPostOwner: post.fkPostOwner,
             type: post.type,
             filePath: post.filePath,
             caption: post.caption,
-            dateTime: date
+            dateTime: date,
+            postOwner: {
+                fkPostOwner: post.fkPostOwner,
+                username: post.username,
+                name: post.name,
+                profilePhoto: post.profilePhotoPath
+            }
         }
     });
 
@@ -53,34 +60,48 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
     }).join();
 
     const friendsOfFriendsPosts = (await database.execute(
-        `SELECT * FROM Post WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 20`,
+        `SELECT * FROM Post
+        JOIN User ON fkPostOwner = idUser
+        WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
         [lastFriendOfFriendPost]
     )).map((post) => {
         const date = formatDate(post.dateTime);
 
         return {
             idPost: post.idPost,
-            fkPostOwner: post.fkPostOwner,
             type: post.type,
             filePath: post.filePath,
             caption: post.caption,
-            dateTime: date
+            dateTime: date,
+            postOwner: {
+                fkPostOwner: post.fkPostOwner,
+                username: post.username,
+                name: post.name,
+                profilePhoto: post.profilePhotoPath
+            }
         }
     });
 
     const randomPosts = (await database.execute(
-        `SELECT * FROM Post WHERE fkPostOwner NOT IN(${friendsOfFriendsIds}, ${friendsIds}, ?) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 20`,
+        `SELECT * FROM Post
+        JOIN User ON fkPostOwner = idUser
+        WHERE fkPostOwner NOT IN(${friendsOfFriendsIds}, ${friendsIds}, ?) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
         [userId, lastRandomPost]
     )).map((post) => {
         const date = formatDate(post.dateTime);
 
         return {
             idPost: post.idPost,
-            fkPostOwner: post.fkPostOwner,
             type: post.type,
             filePath: post.filePath,
             caption: post.caption,
-            dateTime: date
+            dateTime: date,
+            postOwner: {
+                fkPostOwner: post.fkPostOwner,
+                username: post.username,
+                name: post.name,
+                profilePhoto: post.profilePhotoPath
+            }
         }
     });;
 
