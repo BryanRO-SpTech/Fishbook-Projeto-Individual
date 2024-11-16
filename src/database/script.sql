@@ -56,7 +56,7 @@ CREATE TABLE Comment (
     CONSTRAINT fk_Comment_CommentAuthor FOREIGN KEY (fkCommentAuthor) REFERENCES User (idUser) ON DELETE CASCADE
 );
 
-CREATE TABLE `Like` (
+CREATE TABLE Likes (
     idLike INT PRIMARY KEY AUTO_INCREMENT,
     fkPost INT NOT NULL,
     fkLiker INT NOT NULL,
@@ -129,59 +129,328 @@ CREATE TABLE UserFishery (
 );
 
 -- Insere 30 usuários na tabela User, com senha em hash e foto de perfil nula
-INSERT INTO User (name, email, username, password, bio, profilePhotoPath) VALUES
-('Alice Silva', 'alice.silva@example.com', 'alice123', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Amante de leitura e natureza', NULL),
-('Bruno Costa', 'bruno.costa@example.com', 'brunoc', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Fotógrafo e viajante', NULL),
-('Carla Souza', 'carla.souza@example.com', 'carla.s', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Apaixonada por tecnologia', NULL),
-('Daniel Oliveira', 'daniel.oliveira@example.com', 'danioliveira', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Escritor em tempo livre', NULL),
-('Eduarda Santos', 'eduarda.santos@example.com', 'eduardinha', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Amante dos animais', NULL),
-('Felipe Lima', 'felipe.lima@example.com', 'felipelima', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Engenheiro de software', NULL),
-('Gabriela Almeida', 'gabriela.almeida@example.com', 'gabialmeida', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Desenvolvedora front-end', NULL),
-('Henrique Souza', 'henrique.souza@example.com', 'h.souza', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Analista de sistemas', NULL),
-('Isabela Rodrigues', 'isabela.rodrigues@example.com', 'belinha', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Bailarina e dançarina', NULL),
-('João Mendes', 'joao.mendes@example.com', 'joaom', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Estudante de medicina', NULL),
-('Laura Lima', 'laura.lima@example.com', 'lauralima', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Médica veterinária', NULL),
-('Lucas Rocha', 'lucas.rocha@example.com', 'lucasr', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Amante de esportes', NULL),
-('Mariana Silva', 'mariana.silva@example.com', 'marisilva', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Chef de cozinha', NULL),
-('Nicolas Carvalho', 'nicolas.carvalho@example.com', 'nickc', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Cineasta independente', NULL),
-('Olívia Ferreira', 'olivia.ferreira@example.com', 'olifer', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Arquiteta', NULL),
-('Pedro Costa', 'pedro.costa@example.com', 'pedro123', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Estudante de biologia', NULL),
-('Quésia Souza', 'quesia.souza@example.com', 'quesinha', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Professora de inglês', NULL),
-('Renato Rocha', 'renato.rocha@example.com', 'renatinho', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Jornalista esportivo', NULL),
-('Sara Lima', 'sara.lima@example.com', 'saralima', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Psicóloga', NULL),
-('Thiago Martins', 'thiago.martins@example.com', 'thiagom', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Analista financeiro', NULL),
-('Ursula Carvalho', 'ursula.carvalho@example.com', 'ursinha', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Designer gráfica', NULL),
-('Vitor Almeida', 'vitor.almeida@example.com', 'vitoral', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Cientista de dados', NULL),
-('Wesley Santos', 'wesley.santos@example.com', 'w.santos', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Treinador pessoal', NULL),
-('Ximena Ramos', 'ximena.ramos@example.com', 'ximeninha', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Estudante de artes', NULL),
-('Yasmin Teixeira', 'yasmin.teixeira@example.com', 'yasteixeira', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Fotógrafa', NULL),
-('Zoe Pereira', 'zoe.pereira@example.com', 'zoezoe', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Programadora', NULL),
-('André Rodrigues', 'andre.rodrigues@example.com', 'andre_rod', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Engenheiro civil', NULL),
-('Bárbara Fernandes', 'barbara.fernandes@example.com', 'babi', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Estudante de direito', NULL),
-('Caio Ribeiro', 'caio.ribeiro@example.com', 'caio', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Músico', NULL),
-('Debora Castro', 'debora.castro@example.com', 'deb', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Atriz', NULL),
-('Eduardo Faria', 'eduardo.faria@example.com', 'edufaria', '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q', 'Professor', NULL);
+INSERT INTO
+    User (
+        name,
+        email,
+        username,
+        password,
+        bio,
+        profilePhotoPath
+    )
+VALUES (
+        'Alice Silva',
+        'alice.silva@example.com',
+        'alice123',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Amante de leitura e natureza',
+        NULL
+    ),
+    (
+        'Bruno Costa',
+        'bruno.costa@example.com',
+        'brunoc',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Fotógrafo e viajante',
+        NULL
+    ),
+    (
+        'Carla Souza',
+        'carla.souza@example.com',
+        'carla.s',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Apaixonada por tecnologia',
+        NULL
+    ),
+    (
+        'Daniel Oliveira',
+        'daniel.oliveira@example.com',
+        'danioliveira',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Escritor em tempo livre',
+        NULL
+    ),
+    (
+        'Eduarda Santos',
+        'eduarda.santos@example.com',
+        'eduardinha',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Amante dos animais',
+        NULL
+    ),
+    (
+        'Felipe Lima',
+        'felipe.lima@example.com',
+        'felipelima',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Engenheiro de software',
+        NULL
+    ),
+    (
+        'Gabriela Almeida',
+        'gabriela.almeida@example.com',
+        'gabialmeida',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Desenvolvedora front-end',
+        NULL
+    ),
+    (
+        'Henrique Souza',
+        'henrique.souza@example.com',
+        'h.souza',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Analista de sistemas',
+        NULL
+    ),
+    (
+        'Isabela Rodrigues',
+        'isabela.rodrigues@example.com',
+        'belinha',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Bailarina e dançarina',
+        NULL
+    ),
+    (
+        'João Mendes',
+        'joao.mendes@example.com',
+        'joaom',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Estudante de medicina',
+        NULL
+    ),
+    (
+        'Laura Lima',
+        'laura.lima@example.com',
+        'lauralima',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Médica veterinária',
+        NULL
+    ),
+    (
+        'Lucas Rocha',
+        'lucas.rocha@example.com',
+        'lucasr',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Amante de esportes',
+        NULL
+    ),
+    (
+        'Mariana Silva',
+        'mariana.silva@example.com',
+        'marisilva',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Chef de cozinha',
+        NULL
+    ),
+    (
+        'Nicolas Carvalho',
+        'nicolas.carvalho@example.com',
+        'nickc',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Cineasta independente',
+        NULL
+    ),
+    (
+        'Olívia Ferreira',
+        'olivia.ferreira@example.com',
+        'olifer',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Arquiteta',
+        NULL
+    ),
+    (
+        'Pedro Costa',
+        'pedro.costa@example.com',
+        'pedro123',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Estudante de biologia',
+        NULL
+    ),
+    (
+        'Quésia Souza',
+        'quesia.souza@example.com',
+        'quesinha',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Professora de inglês',
+        NULL
+    ),
+    (
+        'Renato Rocha',
+        'renato.rocha@example.com',
+        'renatinho',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Jornalista esportivo',
+        NULL
+    ),
+    (
+        'Sara Lima',
+        'sara.lima@example.com',
+        'saralima',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Psicóloga',
+        NULL
+    ),
+    (
+        'Thiago Martins',
+        'thiago.martins@example.com',
+        'thiagom',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Analista financeiro',
+        NULL
+    ),
+    (
+        'Ursula Carvalho',
+        'ursula.carvalho@example.com',
+        'ursinha',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Designer gráfica',
+        NULL
+    ),
+    (
+        'Vitor Almeida',
+        'vitor.almeida@example.com',
+        'vitoral',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Cientista de dados',
+        NULL
+    ),
+    (
+        'Wesley Santos',
+        'wesley.santos@example.com',
+        'w.santos',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Treinador pessoal',
+        NULL
+    ),
+    (
+        'Ximena Ramos',
+        'ximena.ramos@example.com',
+        'ximeninha',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Estudante de artes',
+        NULL
+    ),
+    (
+        'Yasmin Teixeira',
+        'yasmin.teixeira@example.com',
+        'yasteixeira',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Fotógrafa',
+        NULL
+    ),
+    (
+        'Zoe Pereira',
+        'zoe.pereira@example.com',
+        'zoezoe',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Programadora',
+        NULL
+    ),
+    (
+        'André Rodrigues',
+        'andre.rodrigues@example.com',
+        'andre_rod',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Engenheiro civil',
+        NULL
+    ),
+    (
+        'Bárbara Fernandes',
+        'barbara.fernandes@example.com',
+        'babi',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Estudante de direito',
+        NULL
+    ),
+    (
+        'Caio Ribeiro',
+        'caio.ribeiro@example.com',
+        'caio',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Músico',
+        NULL
+    ),
+    (
+        'Debora Castro',
+        'debora.castro@example.com',
+        'deb',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Atriz',
+        NULL
+    ),
+    (
+        'Eduardo Faria',
+        'eduardo.faria@example.com',
+        'edufaria',
+        '$2b$10$IfBsvj.5NRBUrHcycrHsd.QPh9TI5A7xWlMBYRsNL3zwTI0bT5k4q',
+        'Professor',
+        NULL
+    );
 
 -- Relacionamentos de amizade entre os usuários
-INSERT INTO Friends (fkUser1, fkUser2) VALUES
-(1, 2), (1, 3), (1, 4), (1, 5),
-(2, 7), (2, 8), (2, 9), (2, 10), (2, 11),
-(3, 12), (3, 13), (3, 14), (3, 15), (3, 16),
-(4, 17), (4, 18), (4, 19), (4, 20), (4, 21),
-(5, 22), (5, 23), (5, 24), (5, 25), (5, 26),
-(6, 27), (6, 28), (6, 29), (6, 30),
-(7, 8), (7, 20), (7, 19),
-(8, 11), (8, 13), (8, 15), (8, 16), (8, 29),
-(9, 12), (9, 18), (9, 24), (9, 25),
-(10, 15), (10, 19), (10, 21), (10, 22), (10, 27),
-(11, 4), (11, 26), (11, 28);
+INSERT INTO
+    Friends (fkUser1, fkUser2)
+VALUES (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (2, 7),
+    (2, 8),
+    (2, 9),
+    (2, 10),
+    (2, 11),
+    (3, 12),
+    (3, 13),
+    (3, 14),
+    (3, 15),
+    (3, 16),
+    (4, 17),
+    (4, 18),
+    (4, 19),
+    (4, 20),
+    (4, 21),
+    (5, 22),
+    (5, 23),
+    (5, 24),
+    (5, 25),
+    (5, 26),
+    (6, 27),
+    (6, 28),
+    (6, 29),
+    (6, 30),
+    (7, 8),
+    (7, 20),
+    (7, 19),
+    (8, 11),
+    (8, 13),
+    (8, 15),
+    (8, 16),
+    (8, 29),
+    (9, 12),
+    (9, 18),
+    (9, 24),
+    (9, 25),
+    (10, 15),
+    (10, 19),
+    (10, 21),
+    (10, 22),
+    (10, 27),
+    (11, 4),
+    (11, 26),
+    (11, 28);
+
+SELECT
+    idUser,
+    name,
+    username,
+    profilePhotoPath AS photo
+FROM User
+WHERE
+    idUser <> 1
+    AND idUser NOT IN(1, 2, 3, 4)
+    AND idUser NOT IN(1, 2, 3, 4)
+ORDER BY RAND()
+LIMIT 15;
 
 
-
-
- SELECT idUser, name, username, profilePhotoPath AS photo FROM User 
-            WHERE idUser <> 1 AND 
-            idUser NOT IN(1, 2, 3, 4) AND 
-            idUser NOT IN(1, 2, 3, 4)
-            ORDER BY RAND()
-            LIMIT 15;
+SELECT COUNT(idLike) AS likes FROM Likes WHERE fkPost = 1

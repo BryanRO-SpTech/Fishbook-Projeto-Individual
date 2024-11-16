@@ -45,7 +45,58 @@ const getFeed = async (req, res, next) => {
     }
 }
 
+const giveLike = async (req, res, next) => {
+    const userId = req.session.id;
+    const postId = req.params.postId;
+
+    try {
+        const like = await postModel.toggleLike(userId, postId);
+
+        if (!like) {
+            throw appError("Error on like");
+        }
+
+        if (like.liked) {
+            return res.status(200).json({ message: "Post liked" });
+        }
+
+        return res.status(200).json({ message: "Post unliked" });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+
+const getComments = async (req, res, next) => {
+    const postId = req.params.postId;
+    const userId = req.session.id;
+
+    try {
+        const comments = await postModel.getComments(postId);
+
+        return res.status(200).json(comments);
+    } catch (error) {
+        return next(error);
+    }
+}
+
+const createComment = async (req, res, next) => {
+    const userId = req.session.id;
+    const postId = req.params.postId;
+    const comment = req.body.comment;
+
+    try {
+        await postModel.createComment(postId, userId, comment);
+
+        return res.status(201).json({ message: "Comment successfully created" });
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     createPost,
-    getFeed
+    getFeed,
+    giveLike,
+    getComments
 }

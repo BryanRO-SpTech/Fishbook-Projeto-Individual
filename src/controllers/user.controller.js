@@ -180,7 +180,7 @@ const auth = async (req, res, next) => {
         }).json({ message: "User authenticated successfully", user: { userId: user.idUser, name: user.name, email: user.email, username: user.username, bio: user.bio, profilePhoto: user.profilePhotoPath } });
 
     } catch (error) {
-        next(error);
+        return next(error);
     }
 }
 

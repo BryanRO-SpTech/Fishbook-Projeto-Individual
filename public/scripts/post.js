@@ -36,7 +36,7 @@ function previewImage() {
     image.src = fileUrl;
 
     const cropper = new Cropper(image, {
-        aspectRatio: 13 / 9,
+        aspectRatio: 16 / 10,
         viewMode: 0,
         dragMode: 'move',
         movable: true,
@@ -55,6 +55,7 @@ function previewImage() {
         });
 
         const croppedImageUrl = croppedImage.toDataURL('image/png');
+        fileUrl = croppedImageUrl;
 
         previewDiv.style.backgroundImage = `url(${croppedImageUrl})`;
 

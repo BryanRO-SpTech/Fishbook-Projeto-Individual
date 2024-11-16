@@ -16,6 +16,19 @@
     color: white;
 }
 
+*::-webkit-scrollbar {
+    width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--midnight-blue);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--slate-gray);
+    border-radius: 20px;
+}
+
 :root {
     --dark-navy: #202C36;
     --sky-blue: #5EBEF2;

@@ -39,8 +39,7 @@ main {
 
 .feed .post-content {
     width: 100%;
-    height: 80%;
-    aspect-ratio: 13/9;
+    aspect-ratio: 16/10;
 
     background-color: black;
     background-repeat: no-repeat;
@@ -58,7 +57,10 @@ main {
     max-height: 100%;
     max-width: 100%;
 
-    /* border-radius: 10px 10px 0 0; */
+    min-height: 100%;
+
+
+    border-radius: 10px 10px 0 0;
 }
 
 .feed .post-bar {
@@ -90,12 +92,24 @@ main {
     gap: 10px;
 
     width: fit-content;
+    user-select: none;
 }
 
 .feed .post-bar .likes-comments .likes .heart {
     height: 60%;
     cursor: pointer;
 }
+
+.heart.liked path {
+    stroke: red;
+}
+
+.heart.liked {
+    fill: red;
+}
+
+
+
 
 .feed .post-bar .likes-comments .comments {
     height: 100%;
@@ -142,6 +156,9 @@ main {
 .friends {
     width: calc(100vw - var(--main-width));
     background-color: var(--midnight-blue);
+
+    height: calc(100vh - 65px);
+    overflow: auto;
 }
 
 .friends h1 {
@@ -156,6 +173,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    
 }
 
 .friends .suggestions-content .friend {
@@ -180,18 +199,18 @@ main {
 }
 
 #comments {
-    height: 50vh;
+    height: 500px;
     width: var(--main-width);
     background-color: #121f2bf6;
 
-    transform: translateY(0vh);
+    /* transform: translateY(0px); */
 
     transition: all .5s;
     position: relative;
 }
 
 #comments.open {
-    transform: translateY(-50vh);
+    transform: translateY(-500px);
 }
 
 #comments .caption-container {
@@ -212,7 +231,7 @@ main {
     padding: 20px;
 }
 
-#comments .comments-content {
+#comments .comments-caption-content {
     height: 85%;
     padding: 0 20px;
 
@@ -224,34 +243,41 @@ main {
 }
 
 
-#comments .comments-content::-webkit-scrollbar {
-    width: 5px;
-}
-
-#comments .comments-content::-webkit-scrollbar-track {
-    background: var(--midnight-blue);
-}
-
-#comments .comments-content::-webkit-scrollbar-thumb {
-    background-color: var(--slate-gray);
-    border-radius: 20px;
-}
-
-
-#comments .comments-content .comment .profile {
+#comments .comments-caption-content .comment .profile {
     height: 40px;
 }
 
-#comments .comments-content .comment {
+#comments .comments-caption-content .comment {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 5px;
+    align-items: start;
+
+    min-height: fit-content;
+
+    margin-bottom: 30px;
 }
 
-#comments .comments-content .comment .comment-owner {
+#comments .comments-caption-content .comment .comment-profile {
+    display: flex;
+    gap: 10px;
+    min-width: fit-content;
+    align-items: center;
+}
+
+#comments .comments-caption-content .comment .comment-owner {
     color: var(--sky-blue);
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
 }
+
+#comments .comments-caption-content .comment #comment {
+    height: fit-content;
+    padding: 0 30px;
+}
+
 
 .comment-input {
     display: flex;
