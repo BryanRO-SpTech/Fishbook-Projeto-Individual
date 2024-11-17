@@ -1,4 +1,4 @@
-const createDto = ({ name, email, username, password, bio }) => {
+const createValidation = ({ name, email, username, password, bio }) => {
     const errors = [];
 
     if (!name || !email || !username || !password) {
@@ -66,7 +66,7 @@ const createDto = ({ name, email, username, password, bio }) => {
     }
 }
 
-const updateDto = ({ name, email, bio }) => {
+const updateValidation = ({ name, email, bio }) => {
     const errors = [];
 
     if (name && typeof name !== "string") {
@@ -117,7 +117,7 @@ const updateDto = ({ name, email, bio }) => {
 }
 
 
-const updatePasswordDto = (newPassword) => {
+const updatePasswordValidation = (newPassword) => {
     const errors = [];
 
     if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\-]{6,}$/.test(newPassword)) {
@@ -132,8 +132,8 @@ const updatePasswordDto = (newPassword) => {
 
 
 module.exports = {
-    createDto,
-    updateDto,
-    updatePasswordDto
+    createValidation,
+    updateValidation,
+    updatePasswordValidation
 }
 

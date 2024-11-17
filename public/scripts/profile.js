@@ -1,11 +1,10 @@
-const [empty, path, username] = window.location.pathname.split("/");
+let [empty, path, username] = window.location.pathname.split("/");
 
 
-const loadPage = async () => {
+const loadProfile = async () => {
     setLoader();
 
     const profile = await (await fetch(`/profile/get/${username}`)).json();
-    const quantFriends = await ((await fetch("/friends/count/" + username)).json());
 
     removeLoader();
 
@@ -21,12 +20,6 @@ const loadPage = async () => {
     document.getElementById("name").innerHTML = profile.name;
     document.getElementById("username").innerHTML = `@${profile.username}`;
     document.getElementById("bio").innerHTML = profile.bio;
-
-
-    document.getElementById("friends-kpi").onclick = () => window.location.href = `/profile/${profile.username}/friends`;
-    document.getElementById("quant-friends").innerHTML = quantFriends.friendsCount;
-
-
 
     const btn = document.getElementById("add-friend");
     const btnRefuse = document.getElementById("refuse");
@@ -87,7 +80,7 @@ const loadPage = async () => {
         }
 
 
-        loadPage();
+        loadProfile();
         return setModal("Solicitação de amizade enviada", "", "success");
     }
 
@@ -101,7 +94,7 @@ const loadPage = async () => {
         }
 
 
-        loadPage();
+        loadProfile();
         return setModal("Solicitação de amizade cancelada", "", "message");
     }
 
@@ -115,7 +108,7 @@ const loadPage = async () => {
         }
 
 
-        loadPage();
+        loadProfile();
         return setModal("Solicitação de amizade aceita", "", "success");
     }
 
@@ -129,7 +122,7 @@ const loadPage = async () => {
         }
 
 
-        loadPage();
+        loadProfile();
         return setModal("Solicitação de amizade recusada", "", "message");
     }
 
@@ -143,16 +136,80 @@ const loadPage = async () => {
         }
 
 
-        loadPage();
+        loadProfile();
         return setModal("Amigo removido", "", "message");
     }
 };
 
 
-window.addEventListener("DOMContentLoaded", loadPage);
+
+
+const loadPosts = async () => {
+    const postsDiv = document.querySelector(".posts-content");
+
+    const reqPosts = await fetch(`/post/${username}`);
+
+    if (!reqPosts.ok) {
+        return setModal("Erro ao carregar publicações do usuário", "", "error");
+    }
+
+    const resPosts = await reqPosts.json();
+
+    let likes = 0;
+
+    postsDiv.innerHTML = resPosts.posts.map((post) => {
+        likes += post.likes;
+        return `
+            <div class="post" onclick="expandPost(this)">
+                ${post.type === "IMAGE" ? `<img src="/${post.filePath}">` : `<video autoplay muted loop src="/${post.filePath}"></video>`}
+
+                <div class="post-details">
+                <svg width="30" height="30" viewBox="0 0 42 41" fill="${post.isLiked ? "red" : "none"}" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke="${post.isLiked ? "red" : "white"}" d="M36.1016 7.87542C35.2291 7.00247 34.1931 6.30998 33.0529 5.83752C31.9126 5.36506 30.6905 5.12189 29.4562 5.12189C28.222 5.12189 26.9998 5.36506 25.8596 5.83752C24.7193 6.30998 23.6834 7.00247 22.8108 7.87542L21 9.68626L19.1891 7.87542C17.4267 6.11295 15.0362 5.1228 12.5437 5.1228C10.0512 5.1228 7.66079 6.11295 5.89831 7.87542C4.13584 9.6379 3.14569 12.0283 3.14569 14.5208C3.14569 17.0134 4.13584 19.4038 5.89831 21.1663L21 36.2679L36.1016 21.1663C36.9746 20.2937 37.6671 19.2577 38.1395 18.1175C38.612 16.9772 38.8552 15.7551 38.8552 14.5208C38.8552 13.2866 38.612 12.0644 38.1395 10.9242C37.6671 9.78395 36.9746 8.74796 36.1016 7.87542Z" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+                <span class="likes">${post.likes}</span>
+            </div>
+        </div>
+        `;
+    }).join("");
+
+
+    return {
+        quantPosts: resPosts.posts.length,
+        quantLikes: likes
+    };
+}
+
+const loadKpis = async (quantPosts, quantLikes) => {
+    // Amizade
+    document.getElementById("friends-kpi").onclick = () => window.location.href = `/profile/${username}/friends`;
+
+    const quantFriends = await ((await fetch("/friends/count/" + username)).json());
+    document.getElementById("quant-friends").innerHTML = quantFriends.friendsCount;
+
+    // Publicações
+    document.getElementById("quant-posts").innerHTML = quantPosts;
+
+    // Likes
+    document.getElementById("quant-likes").innerHTML = quantLikes;
+}
+
+window.onload = async () => {
+    loadProfile();
+    const { quantPosts, quantLikes } = await loadPosts();
+
+    loadKpis(quantPosts, quantLikes);
+}
 
 
 
+const expandPost = (post) => {
+    const postExtendedDiv = document.getElementById("post-extended-div");
+
+    // postExtendedDiv.style.display = "flex";
+    post.classList.add("extended")
 
 
-
+    console.log(post.innerHTML)
+}

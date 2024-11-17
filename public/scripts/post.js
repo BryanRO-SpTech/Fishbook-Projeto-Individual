@@ -315,6 +315,11 @@ async function createPost() {
         });
 
         if (reqCreate.status != 201) {
+            if (reqCreate.status === 413) {
+                removeLoader();
+                return setModal("O servidor não pode cortar seu vídeo pois é grande demais", "Tente novamente com um arquivo menor.", "error");
+            }
+
             setModal("Erro ao criar publicação", "A página será recarregada...", "error");
 
             return setTimeout(() => {

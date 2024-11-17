@@ -10,7 +10,7 @@ const loadPage = async () => {
 
     const friendRequestsdiv = document.querySelector(".friend-requests");
 
-    if (resFriendRequests.lenght > 1) {
+    if (resFriendRequests.length > 0) {
         friendRequestsdiv.innerHTML = resFriendRequests.map((request) => {
             return `
                 <div class="request">

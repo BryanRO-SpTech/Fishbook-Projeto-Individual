@@ -1,5 +1,7 @@
 const appError = require("../errors/appError.js");
 const postModel = require("../models/post.model.js");
+const userModel = require("../models/user.model.js");
+const commentValidations = require("../validations/comment.validation.js");
 
 const createPost = async (req, res, next) => {
     const postOwner = req.session.id;
@@ -8,16 +10,12 @@ const createPost = async (req, res, next) => {
 
     const type = file.mimetype === "video/mp4" ? "VIDEO" : "IMAGE"
 
-    const create = await postModel.createPost({
+    await postModel.createPost({
         caption: caption,
         postOwnerId: postOwner,
         filePath: file.filename,
         type
     });
-
-    if (!create) {
-        throw appError("Error on post creation", 400);
-    }
 
     res.status(201).json({
         message: "Post successfully created",
@@ -35,11 +33,38 @@ const getFeed = async (req, res, next) => {
     try {
         const feed = await postModel.getFeed(userId, lastFriendPost, lastFriendOfFriendPost, lastRandomPost);
 
-        if (!feed) {
-            throw appError("Error on load feed", 500);
+        return res.status(200).json(feed);
+    } catch (error) {
+        return next(error);
+    }
+}
+
+const getPostsByUsername = async (req, res, next) => {
+    let username = req.params.username;
+    const myUsername = req.session.username;
+    const myUserId = req.session.id;
+
+    try {
+        if (username === "my-profile") {
+            username = myUsername;
         }
 
-        return res.status(200).json(feed);
+        const user = await userModel.getByUsername(username);
+
+        if (!user) {
+            throw appError("User not found", 404);
+        }
+
+        const posts = await postModel.getPostsByUsername(username, myUserId);
+
+        return res.status(200).json({
+            posts,
+            postOwner: {
+                username: user.username,
+                name: user.name,
+                profilePhoto: user.profilePhotoPath
+            }
+        });
     } catch (error) {
         return next(error);
     }
@@ -86,6 +111,12 @@ const createComment = async (req, res, next) => {
     const comment = req.body.comment;
 
     try {
+        const commentValidation = commentValidations.commentsValidation(comment);
+
+        if (!commentValidation.isValid) {
+            throw appError(commentValidation.errors, 400);
+        }
+
         await postModel.createComment(postId, userId, comment);
 
         return res.status(201).json({ message: "Comment successfully created" });
@@ -97,6 +128,8 @@ const createComment = async (req, res, next) => {
 module.exports = {
     createPost,
     getFeed,
+    getPostsByUsername,
     giveLike,
-    getComments
+    getComments,
+    createComment
 }

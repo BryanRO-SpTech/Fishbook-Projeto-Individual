@@ -24,7 +24,7 @@ const listFriends = async (req, res, next) => {
     let username = req.params.username;
 
     try {
-        if (username === "my-friends") {
+        if (username === "my-friends" || username === "my-profile") {
             username = myUsername;
         }
 

@@ -126,6 +126,8 @@ const comments = document.getElementById("comments");
 const closeComments = document.getElementById("close-comments");
 const captionSpan = document.getElementById("caption");
 
+const sendCommentButton = document.getElementById("send");
+
 async function toggleComments(caption, postId) {
     if (!postId) {
         return comments.classList.remove("open");
@@ -142,12 +144,14 @@ async function toggleComments(caption, postId) {
     const resComments = await reqComments.json();
 
     const commentsHTML = resComments.map((comment) => {
+        const formatDateTime = new Date(comment.dateTime).toLocaleDateString("pt-br", { hour: "numeric", minute: "numeric" });
+
         return `
             <div class="comment">
                 <div class="container">
                     <a href="/profile/${comment.username}" class="comment-profile">
                         <div class="profile" style="background-image: url(${comment.profilePhotoPath ? comment.profilePhotoPath : "/assets/icons/person.svg"});">
-                        </div><span class="comment-owner">${comment.name}: </span>
+                        </div><span class="comment-owner">${comment.name} <span style="color: gray; font-size: 13px; text-indent: 10px">${formatDateTime}</span> </span>
                     </a>
                 </div>
 
@@ -159,7 +163,48 @@ async function toggleComments(caption, postId) {
     document.getElementById("comment-content").innerHTML = commentsHTML;
 
 
+    // Fazer comentário:
+
+    sendCommentButton.onclick = () => createComment(postId);
+
+
     return comments.classList.toggle("open");
+}
+
+
+async function createComment(postId) {
+    const commentInput = document.getElementById("commentInput").value;
+
+    if (commentInput.length > 0) {
+        const reqComment = await fetch(`/post/comment/${postId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                comment: commentInput
+            })
+        });
+
+        if (reqComment.status !== 201) {
+            return setModal("Erro ao enviar comentário", "Tente novamente mais tarde.", "error");
+        }
+
+        const formatDateTime = new Date().toLocaleDateString("pt-br", { hour: "numeric", minute: "numeric" });
+
+        document.getElementById("comment-content").insertAdjacentHTML("afterbegin", `
+            <div class="comment">
+                <div class="container">
+                    <a href="/profile/${localStorage.username}" class="comment-profile">
+                        <div class="profile" style="background-image: url(${localStorage.profilePhoto == "null" ? "/assets/icons/person.svg" : localStorage.profilePhoto});">
+                        </div><span class="comment-owner">${localStorage.name} <span style="color: gray; font-size: 13px; text-indent: 10px">${formatDateTime}</span></span>
+                    </a>
+                </div>
+
+                <span id="comment">${commentInput}</span>
+            </div>
+        `);
+    }
 }
 
 closeComments.addEventListener("click", toggleComments);

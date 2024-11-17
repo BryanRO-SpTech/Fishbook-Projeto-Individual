@@ -1,5 +1,6 @@
 const database = require("../database/config.js");
-const friendsModel = require("./friends.model.js")
+const friendsModel = require("./friends.model.js");
+
 
 const createPost = async ({ postOwnerId, type, filePath, caption }) => {
     await database.execute(
@@ -42,12 +43,11 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
         return friend.id;
     }).join();
 
-
-    const friendsPosts = await Promise.all(
+    const friendsPosts = friends.length === 0 ? [] : await Promise.all(
         (await database.execute(
             `SELECT * FROM Post
-            JOIN User ON fkPostOwner = idUser
-            WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10 `,
+                JOIN User ON fkPostOwner = idUser
+                WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10 `,
             [lastFriendPost]
         )).map(async (post) => {
             const date = formatDate(post.dateTime);
@@ -68,14 +68,15 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
                 }
             }
         })
-    )
+    );
+
 
     const friendsOfFriends = await friendsModel.getFriendsOfFriends(userId);
     const friendsOfFriendsIds = friendsOfFriends.map((friend) => {
         return friend.idUser
     }).join();
 
-    const friendsOfFriendsPosts = await Promise.all(
+    const friendsOfFriendsPosts = friendsOfFriends.length === 0 ? [] : await Promise.all(
         (await database.execute(
             `SELECT * FROM Post
             JOIN User ON fkPostOwner = idUser
@@ -106,7 +107,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
         (await database.execute(
             `SELECT * FROM Post
             JOIN User ON fkPostOwner = idUser
-            WHERE fkPostOwner NOT IN(${friendsOfFriendsIds}, ${friendsIds}, ?) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
+            WHERE fkPostOwner NOT IN(${friendsOfFriendsIds ? friendsOfFriendsIds : 0}, ${friendsIds ? friendsIds : 0}, ?) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
             [userId, lastRandomPost]
         )).map(async (post) => {
             const date = formatDate(post.dateTime);
@@ -141,6 +142,28 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
     };
 }
 
+const getPostsByUsername = async (username, myUserId) => {
+    const posts = await Promise.all(
+        (await database.execute(
+            `SELECT * FROM Post 
+            JOIN User ON fkPostOwner = idUser
+            WHERE username = ?`,
+            [username]
+        )).map(async (post) => {
+
+            return {
+                idPost: post.idPost,
+                type: post.type,
+                filePath: post.filePath,
+                caption: post.caption,
+                isLiked: (await countLikesInPostByUser(myUserId, post.idPost)) > 0,
+                likes: (await countLikes(post.idPost)).likes,
+            }
+        })
+    );
+
+    return posts;
+}
 
 const toggleLike = async (userId, postId) => {
     const [isLiked] = await database.execute(
@@ -179,6 +202,7 @@ const toggleLike = async (userId, postId) => {
     return like;
 }
 
+
 const countLikes = async (idPost) => {
     const [count] = await database.execute(
         "SELECT COUNT(idLike) AS likes FROM Likes WHERE fkPost = ?",
@@ -201,7 +225,7 @@ const getComments = async (postId) => {
     const comments = await database.execute(
         `SELECT Comment.*, User.name, User.username, User.profilePhotoPath FROM Comment 
         JOIN User ON idUser = fkCommentAuthor
-        WHERE fkPost = ?`,
+        WHERE fkPost = ? ORDER BY dateTime DESC`,
         [postId]
     );
 
@@ -210,7 +234,7 @@ const getComments = async (postId) => {
 
 const createComment = async (postId, userId, comment) => {
     const createComment = await database.execute(
-        `INSERT INTO Comment (fkPost, commentAuthor, comment) VALUE (?, ?, ?)`,
+        `INSERT INTO Comment (fkPost, fkCommentAuthor, comment) VALUE (?, ?, ?)`,
         [postId, userId, comment]
     );
 
@@ -220,6 +244,7 @@ const createComment = async (postId, userId, comment) => {
 module.exports = {
     createPost,
     getFeed,
+    getPostsByUsername,
     toggleLike,
     getComments,
     createComment

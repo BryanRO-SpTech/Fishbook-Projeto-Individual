@@ -23,7 +23,6 @@ const HOST_APP = process.env.APP_HOST;
 
 const app = express();
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.cookie_SECRET));

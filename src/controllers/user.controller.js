@@ -1,6 +1,6 @@
 const userModel = require("../models/user.model.js");
 const friendModel = require("../models/friends.model.js");
-const userDto = require("../dtos/user.dto.js");
+const userValidations = require("../validations/user.validation.js");
 const appError = require("../errors/appError.js");
 const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
@@ -11,7 +11,7 @@ const createUser = async (req, res, next) => {
     const { name, email, username, password, bio } = req.body;
 
     try {
-        const validations = userDto.createDto({ name, email, username, password, bio });
+        const validations = userValidations.createValidation({ name, email, username, password, bio });
 
         if (!validations.isValid) {
             throw appError(validations.errors, 400);
@@ -69,7 +69,7 @@ const updateProfile = async (req, res, next) => {
     const { id } = req.session;
 
     try {
-        const validations = userDto.updateDto({ name, email, bio });
+        const validations = userValidations.updateValidation({ name, email, bio });
 
         if (!validations.isValid) {
             throw appError(validations.errors, 400);
@@ -124,7 +124,7 @@ const updatePassword = async (req, res, next) => {
             throw appError("Old password and new password are required", 400);
         }
 
-        const validations = userDto.updatePasswordDto(newPassword);
+        const validations = userValidations.updatePasswordValidation(newPassword);
 
         if (!validations.isValid) {
             throw appError(validations.errors, 400);
