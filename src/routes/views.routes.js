@@ -47,4 +47,12 @@ router.get("/post", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "post.html"));
 });
 
+router.get("/profile-dashboard", (req, res) => {
+    return res.sendFile(path.join(viewsPath, "profileDashboard.html"));
+});
+
+router.get("/fish", (req, res) => {
+    return res.sendFile(path.join(viewsPath, "fish.html"));
+});
+
 module.exports = router

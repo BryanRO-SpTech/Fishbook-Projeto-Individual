@@ -129,6 +129,19 @@ const deleteProfile = async (idUser) => {
     }
 }
 
+const registerProfileVisit = async (visitedId, visitorId) => {
+    try {
+        const insert = await database.execute(
+            `INSERT INTO ProfileVisit (fkUser, fkVisitor) VALUE (?, ?)`,
+            [visitedId, visitorId]
+        );
+    } catch (error) {
+        return error.code;
+    }
+
+
+}
+
 module.exports = {
     create,
     updateProfilePhoto,
@@ -137,5 +150,6 @@ module.exports = {
     getById,
     getByEmail,
     getByUsername,
-    deleteProfile
+    deleteProfile,
+    registerProfileVisit
 }

@@ -158,7 +158,7 @@ const loadPosts = async () => {
     postsDiv.innerHTML = resPosts.posts.map((post) => {
         likes += post.likes;
         return `
-            <div class="post" onclick="expandPost(this, ${post.idPost})">
+            <div class="post" onclick="expandPost(this, ${post.idPost}, '${post.caption}')">
                 ${post.type === "IMAGE" ? `<img src="/${post.filePath}">` : `<video autoplay muted loop src="/${post.filePath}"></video>`}
 
                 <div class="post-details">
@@ -206,8 +206,9 @@ window.onload = async () => {
 
 let postId;
 let postHTMLelement;
+let postCaption;
 
-const expandPost = (post, idPost) => {
+const expandPost = (post, idPost, caption) => {
     const postExtendedDiv = document.getElementById("post-extended-div");
 
     post.classList.add("extended");
@@ -215,6 +216,7 @@ const expandPost = (post, idPost) => {
 
     postId = idPost;
     postHTMLelement = post;
+    postCaption = caption;
 
     const liked = post.querySelector(".like-icon").classList.contains("liked");
 
@@ -231,7 +233,13 @@ const closePost = () => {
     const postExtendedDiv = document.getElementById("post-extended-div");
 
     postExtendedDiv.style.display = "none";
-    document.querySelector(".post.extended").classList.remove("extended");
+
+    const postExtended = document.querySelector(".post.extended");
+
+    if (postExtended) {
+        postExtended.classList.remove("extended");
+    }
+
 }
 
 const closePostOnEsc = (e) => {
@@ -274,3 +282,108 @@ document.getElementById("like").onclick = toggleLike;
 document.onkeydown = closePostOnEsc;
 document.getElementById("close-post").onclick = closePost;
 
+
+
+
+
+
+
+
+// Comentários 
+
+const comments = document.getElementById("comments");
+const openComments = document.getElementById("comment-button");
+const closeComments = document.getElementById("close-comments");
+const captionSpan = document.getElementById("caption");
+
+const sendCommentButton = document.getElementById("send");
+
+async function toggleComments(caption, postId) {
+    if (!postId) {
+        return comments.classList.remove("open");
+    }
+
+    captionSpan.innerHTML = caption;
+
+    const reqComments = await fetch(`/post/comments/${postId}`);
+
+    if (!reqComments.ok) {
+        return setModal("Erro ao carregar comentários...", "Tente novamente mais tarde.", "error");
+    }
+
+    const resComments = await reqComments.json();
+
+    const commentsHTML = resComments.map((comment) => {
+        const formatDateTime = new Date(comment.dateTime).toLocaleDateString("pt-br", { hour: "numeric", minute: "numeric" });
+
+        return `
+            <div class="comment">
+                <div class="container">
+                    <a href="/profile/${comment.username}" class="comment-profile">
+                        <div class="profile" style="background-image: url(${comment.profilePhotoPath ? comment.profilePhotoPath : "/assets/icons/person.svg"});">
+                        </div><span class="comment-owner">${comment.name} <span style="color: gray; font-size: 13px; text-indent: 10px">${formatDateTime}</span> </span>
+                    </a>
+                </div>
+
+                <span id="comment">${comment.comment}</span>
+            </div>
+        `;
+    }).join("");
+
+    document.getElementById("comment-content").innerHTML = commentsHTML;
+
+
+    // Fazer comentário:
+
+    sendCommentButton.onclick = () => createComment(postId);
+
+
+    return comments.classList.toggle("open");
+}
+
+
+async function createComment(postId) {
+    const commentInput = document.getElementById("commentInput").value;
+
+    if (commentInput.length > 0) {
+        const reqComment = await fetch(`/post/comment/${postId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                comment: commentInput
+            })
+        });
+
+        if (reqComment.status !== 201) {
+            return setModal("Erro ao enviar comentário", "Tente novamente mais tarde.", "error");
+        }
+
+        const formatDateTime = new Date().toLocaleDateString("pt-br", { hour: "numeric", minute: "numeric" });
+
+        document.getElementById("comment-content").insertAdjacentHTML("afterbegin", `
+            <div class="comment">
+                <div class="container">
+                    <a href="/profile/${localStorage.username}" class="comment-profile">
+                        <div class="profile" style="background-image: url(${localStorage.profilePhoto == "null" ? "/assets/icons/person.svg" : localStorage.profilePhoto});">
+                        </div><span class="comment-owner">${localStorage.name} <span style="color: gray; font-size: 13px; text-indent: 10px">${formatDateTime}</span></span>
+                    </a>
+                </div>
+
+                <span id="comment">${commentInput}</span>
+            </div>
+        `);
+    }
+}
+
+openComments.addEventListener("click", () => {
+    toggleComments(postCaption, postId);
+});
+
+closeComments.addEventListener("click", toggleComments);
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        toggleComments();
+    }
+})

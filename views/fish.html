@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/fish.css">
+
+    
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
+
+
+    <title>Fishbook - Fish</title>
+</head>
+<body>
+    <script src="/components/navBar.js" data-page="fish"></script>
+
+    <main>
+        <div class="map-div">
+            <div id="map"></div
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiYnJ5YW4tcm8iLCJhIjoiY2x3ZTl5ZHZ4MWhiazJpa2h0NXFucTZ2diJ9.KygeJsIPYhDkEUZiow7P5Q';
+const map = new mapboxgl.Map({
+	container: 'map', // container ID
+	center: [2.294481, 48.858398], // starting position [lng, lat]
+	zoom: 15, // starting zoom,
+    pitch: 60,
+    bearing: 60,
+});
+
+map.on('style.load', () => {
+  map.setConfigProperty('basemap', 'lightPreset', 'dusk');
+});
+
+
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl, // Integração com o mapa
+  placeholder: "Pesquise um local...", // Texto de placeholder na barra de pesquisa
+});
+
+// Adicionar a barra de pesquisa no topo do mapa
+map.addControl(geocoder);
+
+</script>

@@ -201,6 +201,12 @@ const profile = async (req, res, next) => {
             throw appError("User not found", 404);
         }
 
+        // Registrar uma visita no perfil
+
+        if (username !== userId) {
+            await userModel.registerProfileVisit(result.idUser, userId);
+        }
+
         const friendRequest = await friendModel.getOneFriendRequest(userId, result.idUser);
 
         return res.status(200).json({

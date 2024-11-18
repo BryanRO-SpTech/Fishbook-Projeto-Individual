@@ -36,6 +36,15 @@ CREATE TABLE UsageTime (
     CONSTRAINT fk_UsageTime_User FOREIGN KEY (fkUser) REFERENCES User (idUser) ON DELETE CASCADE
 );
 
+CREATE TABLE ProfileVisit (
+    fkUser INT,
+    fkVisitor INT,
+    dateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(fkUser, fkVisitor),
+    CONSTRAINT fk_ProfileVisit_User FOREIGN KEY (fkUser) REFERENCES User (idUser) ON DELETE CASCADE,
+    CONSTRAINT fk_ProfileVisit_Visitor FOREIGN KEY (fkVisitor) REFERENCES User (idUser) ON DELETE CASCADE
+);
+
 CREATE TABLE Post (
     idPost INT PRIMARY KEY AUTO_INCREMENT,
     fkPostOwner INT,
