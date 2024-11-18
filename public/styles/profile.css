@@ -177,24 +177,15 @@ body {
 
 #post-extended-div {
     position: fixed;
-    z-index: 999;
+    z-index: 998;
     width: 100vw;
     height: 100vh;
     background-color: #121f2bb6;
     top: 0;
     left: 0;
     display: none;
-}
-
-#post-extended-div img {
-    position: fixed;
-    z-index: 999;
-    width: 100vw;
-    height: 100vh;
-    background-color: #121f2bb6;
-    top: 0;
-    left: 0;
-    display: none;
+    justify-content: end;
+    align-items: start;
 }
 
 
@@ -206,6 +197,39 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
 
-    transition: all .5s;
+.post.extended .post-details {
+    display: none;
+}
+
+#like {
+    position: absolute;
+    top: 42%;
+    right: 21%;
+    cursor: pointer;
+}
+
+#like.liked path {
+    stroke: red;
+}
+
+#like.liked {
+    fill: red;
+}
+
+.like-icon.liked path {
+    stroke: red;
+}
+
+.like-icon.liked {
+    fill: red;
+}
+
+
+#comment {
+    position: absolute;
+    top: 50%;
+    right: 21%;
+    cursor: pointer;
 }
