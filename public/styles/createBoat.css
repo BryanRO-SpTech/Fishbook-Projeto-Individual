@@ -1,16 +1,11 @@
-@import url(./root.css);
+@import url(root.css);
 
 body {
     background-color: var(--dark-navy);
 }
 
-.post {
+h1 {
     text-align: center;
-    font-size: 1.4rem;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 
@@ -58,15 +53,54 @@ body {
 
 }
 
-
 .upload-content input {
     display: none;
 }
 
-.upload-content video {
-    max-width: 100%;
-    max-height: 100%;
+
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
+
+.label-input {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 60%;
+}
+
+.label-input label {
+    color: white;
+    font-size: 1.2rem;
+    text-indent: 10px;
+}
+
+.label-input input, textarea {
+    background-color: var(--slate-gray);
+    color: white;
+    font-size: 1.1rem;
+
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+
+.radio {
+    display: flex;
+    gap: 40px;
+}
+
+.radio div input {
+    background-color: transparent !important;
+    outline: none;
+}
+
+
+
 
 
 
@@ -126,120 +160,4 @@ body {
 
 #save-post:hover {
     background-color: var(--sky-blue-hover);
-}
-
-
-
-
-/*
-    Video trimmer 
-*/
-
-.trim-container {
-    width: 35%;
-    display: none;
-    overflow: hidden;
-}
-
-#video-trim {
-    border: solid 2px var(--slate-gray);
-    height: 50px;
-    width: 100%;
-    position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    user-select: none;
-    
-}
-
-#video-trim img {
-    height: 100%;
-    width: auto;
-    pointer-events: none;
-}
-
-#start-selector, #end-selector {
-    position: absolute;
-    background-color: rgba(255, 0, 0, 0.445);
-    width: 7px;
-    height: 100%;
-
-    
-    cursor: pointer;
-}
-
-
-#current-selector {
-    background-color: white;
-    width: 7px;
-    position: absolute;
-    height: 100%;
-    cursor: pointer;
-
-    border-radius: 50px;
-}
-
-#start-selector {
-    border-right: solid 7px var(--golden-yellow);
-}   
-
-#end-selector {
-    right: 0;
-    border-left: solid 7px var(--golden-yellow);
-}
-
-#play, #pause {
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-#play svg, #pause svg {
-    width: 35px;
-    height: 35px;
-}
-
-#pause {
-    display: none;
-}
-
-
-
-
-
-/* Captions */
-
-.caption-div {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-
-    margin: 0 auto;
-}
-
-.caption-div span {
-    padding: 5px;
-    text-indent: 3px;
-}
-
-.caption-div textarea {
-    height: 100px;
-    padding: 10px;
-    resize: none;
-    font-size: 1.1rem;
-
-    outline: none;
-    background-color: var(--slate-gray);
-    border-radius: 10px;
-}
-
-.caption-div button {
-    background-color: var(--sky-blue);
-    border: none;
-    border-radius: 50px;
-
-    height: 35px;
-    width: 80%;
-
-    margin: 25px auto;
-    cursor: pointer;
 }

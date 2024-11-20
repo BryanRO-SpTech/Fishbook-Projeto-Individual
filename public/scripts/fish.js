@@ -24,9 +24,13 @@ map.onload(async () => {
         return marker.getElement();
     });
 
+    const fishInfosDiv = document.getElementById("fisheries-infos");
+
+
 
     harborsMarkers.forEach(marker => {
         marker.onclick = async () => {
+            fishInfosDiv.classList.add("open");
             harborsMarkers.forEach(marker => marker.style.opacity = 1);
 
             marker.style.opacity = 0.5;
@@ -45,7 +49,7 @@ map.onload(async () => {
 
             let cards;
 
-            document.getElementById("fisheries-infos").innerHTML = resFisheries.map((fishery, index) => {
+            fishInfosDiv.innerHTML = resFisheries.map((fishery, index) => {
 
                 const marker = map.setDefaultMarker([fishery.fisheryPointLon, fishery.fisheryPointLat]);
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/scripts/cropperJS/cropper.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles/createBoat.css">
+    <script src="/scripts/cropperJS/cropper.js"></script>
+
+
+
+    <script src="/components/loader.js"></script>
+    <script src="/components/messageModal.js"></script>
+
+    <script src="/scripts/createBoat.js" defer></script>
+
+    <title>Fishbook - Cadastrar Embarcação</title>
+</head>
+
+<body>
+    <script src="/components/navBar.js"></script>
+    <script src="/components/returnButton.js"></script>
+
+    <h1>Cadastre seu barco</h1>
+
+    <div class="upload-container">
+        <div class="upload-content">
+            <label for="upload">Realizar upload</label>
+            <input type="file" id="upload">
+        </div>
+    </div>
+
+    <form onsubmit="event.preventDefault()">
+        <div class="label-input">
+            <label for="name">Nome do barco</label>
+            <input type="text" id="name" maxlength="50">
+            <span class="error" id="error-name"></span>
+        </div>
+
+        <div class="radio">
+            <label>Dormitório:</label>
+
+            <div> <input type="radio" id="yes" name="restroom" value="yes"> Sim </div>
+            <div><input type="radio" id="no" name="restroom" value="no"> Não</div>
+        </div>
+    </form>
+
+
+    <div class="crop-container">
+        <div class="crop-div">
+            <img src="" id="crop-post">
+
+            <button id="save-post">Salvar</button>
+        </div>
+    </div>
+</body>
+
+</html>

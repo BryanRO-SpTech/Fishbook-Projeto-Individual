@@ -129,7 +129,7 @@ CREATE TABLE Fishery (
     dateTimeArrival TIMESTAMP NOT NULL,
     lunchIncludes TINYINT(1) CHECK (lunchIncludes IN (0, 1)) DEFAULT 0 NOT NULL,
     price DECIMAL(6, 2) NOT NULL,
-    CONSTRAINT fk_Fishery_Harbor FOREIGN KEY (fkHarbor) REFERENCES Harbor (idHarbor) ON DELETE CASCADE,
+    CONSTRAINT fk_Fishery_Harbor FOREIGN KEY (fkHarbor) REFERENCES Harbor(idHarbor) ON DELETE CASCADE,
     CONSTRAINT fk_Fishery_Boat FOREIGN KEY (fkBoat) REFERENCES Boat (idBoat) ON DELETE CASCADE
 );
 
@@ -485,6 +485,8 @@ INSERT INTO Harbor (name, street, number, postalCode, longitude, latitude) VALUE
             (3, 3, 'Fishing Point 3', -24.263868, -46.830890, '2023-10-03 09:00:00', '2023-10-03 19:00:00', 1, 180.00),
             (4, 4, 'Fishing Point 4', -24.294168, -46.667520, '2023-10-04 06:00:00', '2023-10-04 16:00:00', 0, 100.00),
             (5, 5, 'Fishing Point 5', -24.538345, -46.672811, '2023-10-05 10:00:00', '2023-10-05 20:00:00', 1, 200.00);
+
+
             
             INSERT INTO Fishery (fkHarbor, fkBoat, fisheryPointName, fisheryPointLat, fisheryPointLon, dateTimeDeparture, dateTimeArrival, lunchIncludes, price) VALUES
                 (1, 6, 'Fishing Point 6', -24.319956, -46.748029, '2023-10-06 08:00:00', '2023-10-06 18:00:00', 1, 150.00),

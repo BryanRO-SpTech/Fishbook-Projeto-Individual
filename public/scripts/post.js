@@ -1,7 +1,6 @@
 const previewDiv = document.querySelector(".upload-content");
 const inputFile = document.getElementById("upload");
 const inputLabel = document.querySelector(".upload-content label");
-const postDiv = document.querySelector(".post");
 const trimDiv = document.getElementById("video-trim");
 
 let fileUrl;

@@ -147,7 +147,7 @@ const getPostsByUsername = async (username, myUserId) => {
         (await database.execute(
             `SELECT * FROM Post 
             JOIN User ON fkPostOwner = idUser
-            WHERE username = ?`,
+            WHERE username = ? ORDER BY idPost DESC`,
             [username]
         )).map(async (post) => {
 
