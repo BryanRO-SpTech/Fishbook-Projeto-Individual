@@ -1,88 +1,81 @@
 const map = new MapBox();
 
-map
+map.onload(async () => {
+    map.setProhibitedArea([-46.806655, -24.375334], 1.5, 'queimadinha');
+
+    map.setGoodArea([-46.792585, -24.194505], .3, 'ilha-das-cabras');
+    map.setGoodArea([-46.675694, -24.485472], 3, 'queimada-grande');
+    map.setGoodArea([-46.690620, -24.237077], 1, 'lage-conceicao');
+    map.setGoodArea([-46.690819, -24.136990], 0.3, 'pier-mongagua');
 
 
 
+    const reqHarbors = await fetch("/harbor");
+
+    if (!reqHarbors.ok) {
+        return setModal("Erro ao carregar portos", "Tente novamente mais tarde...", "error");
+    }
+
+    const resHarbors = await reqHarbors.json();
+
+    const harborsMarkers = resHarbors.map((harbor) => {
+        const marker = map.setHarborMarker([harbor.longitude, harbor.latitude], harbor.idHarbor);
+
+        return marker.getElement();
+    });
 
 
+    harborsMarkers.forEach(marker => {
+        marker.onclick = async () => {
+            harborsMarkers.forEach(marker => marker.style.opacity = 1);
 
-// const loadMap = () => {
-//     mapboxgl.accessToken = 'pk.eyJ1IjoiYnJ5YW4tcm8iLCJhIjoiY2x3ZTl5ZHZ4MWhiazJpa2h0NXFucTZ2diJ9.KygeJsIPYhDkEUZiow7P5Q';
-//     const map = new mapboxgl.Map({
-//         container: 'map', // container ID
-//         center: [-46.564532, -24.342311], // starting position [lng, lat]
-//         zoom: 10, // starting zoom,
-//         pitch: 60,
-//         bearing: -30,
-//         style: "mapbox://styles/mapbox/outdoors-v12",
-//         antialias: true
-//     });
-// }
+            marker.style.opacity = 0.5;
 
-// map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+            const harborId = marker.id;
 
+            const reqFisheries = await fetch(`/fishery/by-harbor/${harborId}`);
 
-// const personalizedMarker = document.createElement('div');
-// // personalizedMarker.style.backgroundImage = 'url(https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png)';
-// personalizedMarker.style.backgroundImage = 'url(/assets/icons/ancor.svg)';
-// personalizedMarker.style.width = '50px'; // Largura do marcador
-// personalizedMarker.style.height = '50px'; // Altura do marcador
-// personalizedMarker.style.backgroundSize = '100% 100%'; // Ajustar a imagem ao tamanho do elemento
-// personalizedMarker.style.backgroundPosition = 'center';
-// personalizedMarker.style.cursor = 'pointer';
+            if (!reqFisheries.ok) {
+                return setModal("Erro ao carregar pescarias", "Tente novamente mais tarde...", "error");
+            }
 
-// const marker = new mapboxgl.Marker(personalizedMarker)
-//     .setLngLat([-46.814123, -24.173242])
-//     .addTo(map);
+            const resFisheries = await reqFisheries.json();
 
+            map.removeDefaultMarkers();
 
-// personalizedMarker.onclick = () => console.log('teste');
+            let cards;
 
+            document.getElementById("fisheries-infos").innerHTML = resFisheries.map((fishery, index) => {
 
-// // https://turfjs.org/docs/api/circle
-// const circleGeoJSON = turf.circle([-46.806655, -24.375334], 1.5, {
-//     steps: 64, // Número de pontos (quanto mais, mais suave o círculo)
-//     units: 'kilometers', // Unidade de medida
-// });
+                const marker = map.setDefaultMarker([fishery.fisheryPointLon, fishery.fisheryPointLat]);
 
-// const circleGeoJSON2 = turf.circle([-46.792585, -24.194505], .3, {
-//     steps: 64, // Número de pontos (quanto mais, mais suave o círculo)
-//     units: 'kilometers', // Unidade de medida
-// });
+                marker.getElement().onmouseover = () => {
+                    cards[index].style.backgroundColor = "#121F2B";
+                }
 
-// // Adicionar o círculo ao mapa
-// map.on('load', () => {
-//     map.addSource('circle', {
-//         type: 'geojson',
-//         data: circleGeoJSON,
-//     });
-
-//     map.addLayer({
-//         id: 'circle-layer',
-//         type: 'fill',
-//         source: 'circle',
-//         paint: {
-//             'fill-color': 'red',
-//             'fill-opacity': 0.3,
-//         },
-//     });
-
-//     map.addSource('circle2', {
-//         type: 'geojson',
-//         data: circleGeoJSON2,
-//     });
-
-//     map.addLayer({
-//         id: 'circle-layer2',
-//         type: 'fill',
-//         source: 'circle2',
-//         paint: {
-//             'fill-color': 'red',
-//             'fill-opacity': 0.3,
-//         },
-//     });
+                marker.getElement().onmouseout = () => {
+                    cards[index].style.backgroundColor = "#202C36";
+                }
 
 
-//     console.log(circleGeoJSON)
-// });
+                const formatDepartureDate = new Date(fishery.dateTimeDeparture).toLocaleDateString();
+
+                return `
+                    <div class="card">
+                        <div class="infos">
+                            <span class="info"><span class="title">Destino: </span>${fishery.fisheryPointName}</span>
+                            <span class="info"><span class="title">Embarcação: </span>${fishery.boatName}</span>
+                            <span class="info"><span class="title">Data: </span>${formatDepartureDate}</span>
+                        </div>
+
+                        <a href="/fishery/${fishery.idFishery}" class="see-more">Ver mais</a>
+                    </div>
+                `;
+
+            }).join("");
+
+
+            cards = document.querySelectorAll(".card");
+        };
+    });
+});

@@ -51,7 +51,7 @@ router.get("/profile-dashboard", (req, res) => {
     return res.sendFile(path.join(viewsPath, "profileDashboard.html"));
 });
 
-router.get("/fish", (req, res) => {
+router.get("/fish", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "fish.html"));
 });
 

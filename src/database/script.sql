@@ -93,6 +93,7 @@ CREATE TABLE Notification (
 
 CREATE TABLE Boat (
     idBoat INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
     fkBoatOwner INT NOT NULL,
     dormitory TINYINT(1) CHECK (dormitory IN (0, 1)) DEFAULT 0 NOT NULL,
     restroom TINYINT(1) CHECK (restroom IN (0, 1)) DEFAULT 0 NOT NULL,
@@ -112,7 +113,9 @@ CREATE TABLE Harbor (
     name VARCHAR(45) NOT NULL,
     street VARCHAR(80) NOT NULL,
     number VARCHAR(6) NOT NULL,
-    postalCode CHAR(8) NOT NULL
+    postalCode CHAR(8) NOT NULL,
+    longitude DECIMAL(9, 6) NOT NULL,
+    latitude DECIMAL(9, 6) NOT NULL
 );
 
 CREATE TABLE Fishery (
@@ -447,6 +450,51 @@ VALUES (1, 2),
     (11, 4),
     (11, 26),
     (11, 28);
+
+
+INSERT INTO Harbor (name, street, number, postalCode, longitude, latitude) VALUES 
+    ('Marina Estrela de Davi', 'Rua Curitiba', '56', '11740000', -46.814123, -24.176204),
+    ('Maita-Marina Itanhaém', 'Rua Urcezino Ferreira', '646', '11740000', -46.796185, -24.187067),
+    ('Marina Rio Curitiba', 'Rua Augusto de Lima', '779', '11740000', -46.818944, -24.172982),
+    ('Marina Morena Itanhaém', 'Rua Urcezino Ferreira', '755', '11740000', -46.797029, -24.187667),
+    ('Serenautica', 'Rua João Bechir', '628', '11740000', -46.817398, -24.174275),
+    ('Arrais Amador Marina São Pedro', 'Rua São Pedro e São Paulo', '910', '11740000', -46.817722, -24.173242);
+
+
+    INSERT INTO Boat (name, fkBoatOwner, dormitory, restroom, maxCapacity) VALUES
+        ('Boat 1', 1, 1, 1, 10),
+        ('Boat 2', 2, 0, 1, 8),
+        ('Boat 3', 3, 1, 0, 12),
+        ('Boat 4', 4, 1, 1, 15),
+        ('Boat 5', 5, 0, 0, 6),
+        ('Boat 6', 6, 1, 1, 20),
+        ('Boat 7', 7, 0, 1, 5),
+        ('Boat 8', 8, 1, 0, 7),
+        ('Boat 9', 9, 1, 1, 9),
+        ('Boat 10', 10, 0, 0, 4),
+        ('Boat 11', 11, 1, 1, 11),
+        ('Boat 12', 12, 0, 1, 13),
+        ('Boat 13', 13, 1, 0, 14),
+        ('Boat 14', 14, 1, 1, 16),
+        ('Boat 15', 15, 0, 0, 3);
+
+
+        INSERT INTO Fishery (fkHarbor, fkBoat, fisheryPointName, fisheryPointLat, fisheryPointLon, dateTimeDeparture, dateTimeArrival, lunchIncludes, price) VALUES
+            (1, 1, 'Fishing Point 1', -24.483939, -46.683160, '2023-10-01 08:00:00', '2023-10-01 18:00:00', 1, 150.00),
+            (2, 2, 'Fishing Point 2', -24.238377, -46.692341, '2023-10-02 07:00:00', '2023-10-02 17:00:00', 0, 120.00),
+            (3, 3, 'Fishing Point 3', -24.263868, -46.830890, '2023-10-03 09:00:00', '2023-10-03 19:00:00', 1, 180.00),
+            (4, 4, 'Fishing Point 4', -24.294168, -46.667520, '2023-10-04 06:00:00', '2023-10-04 16:00:00', 0, 100.00),
+            (5, 5, 'Fishing Point 5', -24.538345, -46.672811, '2023-10-05 10:00:00', '2023-10-05 20:00:00', 1, 200.00);
+            
+            INSERT INTO Fishery (fkHarbor, fkBoat, fisheryPointName, fisheryPointLat, fisheryPointLon, dateTimeDeparture, dateTimeArrival, lunchIncludes, price) VALUES
+                (1, 6, 'Fishing Point 6', -24.319956, -46.748029, '2023-10-06 08:00:00', '2023-10-06 18:00:00', 1, 150.00),
+                (2, 7, 'Fishing Point 7', -24.486817, -46.661146, '2023-10-07 07:00:00', '2023-10-07 17:00:00', 0, 120.00),
+                (3, 8, 'Fishing Point 8', -24.268223, -46.608450, '2023-10-08 09:00:00', '2023-10-08 19:00:00', 1, 180.00),
+                (4, 9, 'Fishing Point 9', -24.404041, -46.784406, '2023-10-09 06:00:00', '2023-10-09 16:00:00', 0, 100.00),
+                (5, 10, 'Fishing Point 10', -24.573632, -46.683655, '2023-10-10 10:00:00', '2023-10-10 20:00:00', 1, 200.00);
+            
+
+            
 
 SELECT
     idUser,
