@@ -98,15 +98,11 @@ CREATE TABLE Boat (
     dormitory TINYINT(1) CHECK (dormitory IN (0, 1)) DEFAULT 0 NOT NULL,
     restroom TINYINT(1) CHECK (restroom IN (0, 1)) DEFAULT 0 NOT NULL,
     maxCapacity INT NOT NULL,
+    boatPhotoPath VARCHAR(100) NOT NULL,
     CONSTRAINT fk_Boat_BoatOwner FOREIGN KEY (fkBoatOwner) REFERENCES User (idUser) ON DELETE CASCADE
 );
 
-CREATE TABLE BoatImages (
-    idBoatImage INT PRIMARY KEY AUTO_INCREMENT,
-    fkBoat INT NOT NULL,
-    path VARCHAR(100) NOT NULL UNIQUE,
-    CONSTRAINT BoatImages_fkBoat FOREIGN KEY (fkBoat) REFERENCES Boat (idBoat) ON DELETE CASCADE
-);
+ALTER TABLE Boat ADD COLUMN boatPhotoPath VARCHAR(100) NOT NULL;
 
 CREATE TABLE Harbor (
     idHarbor INT PRIMARY KEY AUTO_INCREMENT,

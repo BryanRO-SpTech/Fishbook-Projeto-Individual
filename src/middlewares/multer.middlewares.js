@@ -129,8 +129,56 @@ const trimVideoMiddleware = async (req, res, next) => {
     }
 }
 
+
+
+
+
+
+const storageBoat = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "../..", "uploads"));
+    },
+    filename: (req, file, cb) => {
+        // const ext = path.extname(file.originalname);
+
+        const [type, ext] = file.mimetype.split("/");
+
+        cb(null, uuid.v4() + "." + ext);
+    }
+});
+
+
+const uploadBoat = multer({
+    storage: storageBoat,
+    limits: {
+        fileSize: (1 * 1024 /* Converteu para 1Kb */ * 1024) /* Converteu para 1MB */ * 10 /* 100MB */
+    },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+            return cb(null, true);
+        }
+
+        return cb(appError("Invalid file type. Supported types: image/png, image/jpg", 400));
+    }
+});
+
+
+
+const uploadBoatMiddleware = (req, res, next) => {
+    const upload = uploadBoat.single("boatPhoto");
+
+    upload(req, res, (error) => {
+        if (error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE") {
+            return next(appError("File size limit exceeded. Maximum allowed size is 10MB.", 400));
+        }
+
+        return next();
+    });
+}
+
 module.exports = {
     uploadProfileMiddleware,
     uploadPostMiddleware,
-    trimVideoMiddleware
+    trimVideoMiddleware,
+    uploadBoatMiddleware
 };

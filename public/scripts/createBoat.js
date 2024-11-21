@@ -70,8 +70,20 @@ function modifyReuploadButton() {
     inputLabel.innerHTML = "Refazer Upload";
 }
 
-
-
-
-
 inputFile.addEventListener("change", previewImage);
+
+
+
+// Input radio labels
+
+function isChecked(event, id) {
+    const inputRadio = document.getElementById(event.target.htmlFor);
+
+    document.querySelectorAll(`#${id} label`).forEach(label => {
+        label.classList.remove("checked");
+    })
+
+    if (!inputRadio.checked) {
+        event.target.classList.add("checked");
+    }
+}

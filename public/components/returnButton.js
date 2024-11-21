@@ -1,6 +1,5 @@
 (function navBar() {
     const scriptParent = document.currentScript.parentElement;
-    const redirectPath = document.currentScript.getAttribute("data-path");
 
     scriptParent.insertAdjacentHTML("beforeend", `
         <div class="return-button" onclick="window.history.back()">
