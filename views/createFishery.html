@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/scripts/cropperJS/cropper.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles/createFishery.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf/turf.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    
+    <script src="/components/loader.js"></script>
+    <script src="/components/messageModal.js"></script>
+    <script src="/components/MapBox.js"></script>
+    
+    <script src="/scripts/createFishery.js" defer></script>
+
+    <title>Fishbook - Cadastrar Embarcação</title>
+</head>
+
+<body>
+    <script src="/components/navBar.js"></script>
+    <script src="/components/returnButton.js"></script>
+
+    <h1>Agendamento de Pescaria</h1>
+
+    <div class="map-div">
+        <div id="map"></div>
+    </div>
+
+    <form onsubmit="event.preventDefault()">
+        <div class="label-input">
+            <label for="name">Nome do barco</label>
+            <input type="text" id="name" maxlength="50">
+            <span class="error" id="error-name"></span>
+        </div>
+
+        <div class="radio" id="dormitory">
+            <label>Dormitório:</label>
+            
+            <input type="radio" id="dormitory-yes" name="dormitory" value="yes">
+            <input type="radio" id="dormitory-no" name="dormitory" value="no" checked>
+
+            <div><label for="dormitory-yes" onclick="isChecked(event, 'dormitory')"></label> Sim</div>
+
+            <div><label for="dormitory-no" onclick="isChecked(event, 'dormitory')" class="checked"></label> Não</div>
+        </div>
+        
+        <div class="radio" id="restroom">
+            <label>Sanitário:</label>
+            
+            <input type="radio" id="restroom-yes" name="restroom" value="yes">
+            <input type="radio" id="restroom-no" name="restroom" value="no" checked>
+
+            <div><label for="restroom-yes" onclick="isChecked(event, 'restroom')"></label> Sim</div>
+
+            <div><label for="restroom-no" onclick="isChecked(event, 'restroom')" class="checked"></label> Não</div>
+        </div>
+
+        <div class="label-input">
+            <label for="maxCapacity">Vagas</label>
+            <input type="number" id="maxCapacity">
+        </div>
+
+
+        <div class="button-container">
+            <button id="save">Salvar Embarcação</button>
+        </div>
+    </form>
+</body>
+
+</html>

@@ -9,7 +9,6 @@ map.onload(async () => {
     map.setGoodArea([-46.690819, -24.136990], 0.3, 'pier-mongagua');
 
 
-
     const reqHarbors = await fetch("/harbor");
 
     if (!reqHarbors.ok) {

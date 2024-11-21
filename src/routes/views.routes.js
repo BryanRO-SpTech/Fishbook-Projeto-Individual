@@ -55,8 +55,12 @@ router.get("/fish", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "fish.html"));
 });
 
-router.get("/boat", authMiddleware, (req, res) => {
+router.get("/boat/create", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "createBoat.html"));
+});
+
+router.get("/boat", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "boats.html"));
 });
 
 module.exports = router

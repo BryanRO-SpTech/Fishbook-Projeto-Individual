@@ -151,7 +151,7 @@ const storageBoat = multer.diskStorage({
 const uploadBoat = multer({
     storage: storageBoat,
     limits: {
-        fileSize: (1 * 1024 /* Converteu para 1Kb */ * 1024) /* Converteu para 1MB */ * 10 /* 100MB */
+        fileSize: (1 * 1024 /* Converteu para 1Kb */ * 1024) /* Converteu para 1MB */ * 50 /* 100MB */
     },
     fileFilter: (req, file, cb) => {
         if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
@@ -165,11 +165,11 @@ const uploadBoat = multer({
 
 
 const uploadBoatMiddleware = (req, res, next) => {
-    const upload = uploadBoat.single("boatPhoto");
+    const upload = uploadBoat.single("boatPhotoPath");
 
     upload(req, res, (error) => {
         if (error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE") {
-            return next(appError("File size limit exceeded. Maximum allowed size is 10MB.", 400));
+            return next(appError("File size limit exceeded. Maximum allowed size is 50MB.", 400));
         }
 
         return next();

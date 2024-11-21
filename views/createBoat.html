@@ -44,27 +44,27 @@
             <label>Dormitório:</label>
             
             <input type="radio" id="dormitory-yes" name="dormitory" value="yes">
-            <input type="radio" id="dormitory-no" name="dormitory" value="no">
+            <input type="radio" id="dormitory-no" name="dormitory" value="no" checked>
 
             <div><label for="dormitory-yes" onclick="isChecked(event, 'dormitory')"></label> Sim</div>
 
-            <div><label for="dormitory-no" onclick="isChecked(event, 'dormitory')"></label> Não</div>
+            <div><label for="dormitory-no" onclick="isChecked(event, 'dormitory')" class="checked"></label> Não</div>
         </div>
         
         <div class="radio" id="restroom">
             <label>Sanitário:</label>
             
             <input type="radio" id="restroom-yes" name="restroom" value="yes">
-            <input type="radio" id="restroom-no" name="restroom" value="no">
+            <input type="radio" id="restroom-no" name="restroom" value="no" checked>
 
             <div><label for="restroom-yes" onclick="isChecked(event, 'restroom')"></label> Sim</div>
 
-            <div><label for="restroom-no" onclick="isChecked(event, 'restroom')"></label> Não</div>
+            <div><label for="restroom-no" onclick="isChecked(event, 'restroom')" class="checked"></label> Não</div>
         </div>
 
         <div class="label-input">
-            <label for="name">Vagas</label>
-            <input type="number" id="name">
+            <label for="maxCapacity">Vagas</label>
+            <input type="number" id="maxCapacity">
         </div>
 
 

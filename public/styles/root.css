@@ -24,7 +24,7 @@
     background: var(--midnight-blue);
 }
 
-*::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb { 
     background-color: var(--slate-gray);
     border-radius: 20px;
 }
