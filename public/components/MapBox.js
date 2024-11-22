@@ -2,12 +2,13 @@
 // Documentação para turfJS (Lib para colocar formas geométricas no mapa): https://turfjs.org/docs/api/circle
 
 class MapBox {
-    map;
+    #map;
     defaultMarkers = [];
+    harborMarkers = [];
 
     constructor() {
         mapboxgl.accessToken = "pk.eyJ1IjoiYnJ5YW4tcm8iLCJhIjoiY2x3ZTl5ZHZ4MWhiazJpa2h0NXFucTZ2diJ9.KygeJsIPYhDkEUZiow7P5Q";
-        this.map = new mapboxgl.Map({
+        this.#map = new mapboxgl.Map({
             container: "map",
             center: [-46.564532, -24.342311],
             zoom: 10,
@@ -16,6 +17,18 @@ class MapBox {
             style: "mapbox://styles/mapbox/outdoors-v12",
             antialias: true
         });
+
+
+        this.#map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+        this.onload(() => {
+            this.setProhibitedArea([-46.806655, -24.375334], 1.5, 'queimadinha');
+
+            this.setGoodArea([-46.792585, -24.194505], .3, 'ilha-das-cabras');
+            this.setGoodArea([-46.675694, -24.485472], 3, 'queimada-grande');
+            this.setGoodArea([-46.690620, -24.237077], 1, 'lage-conceicao');
+            this.setGoodArea([-46.690819, -24.136990], 0.3, 'pier-mongagua');
+        })
     }
 
     setHarborMarker(cordinates, harborId) {
@@ -32,18 +45,17 @@ class MapBox {
 
         const marker = new mapboxgl.Marker(personalizedMarker)
             .setLngLat(cordinates)
-            .addTo(this.map);
+            .addTo(this.#map);
 
+        this.harborMarkers.push(marker);
 
         return marker;
     }
 
-
-
     setDefaultMarker(cordinates) {
         const marker = new mapboxgl.Marker()
             .setLngLat(cordinates)
-            .addTo(this.map);
+            .addTo(this.#map);
 
         this.defaultMarkers.push(marker);
         marker.getElement().style.cursor = "pointer";
@@ -61,18 +73,28 @@ class MapBox {
         this.defaultMarkers.pop().getElement().remove();
     }
 
+    removeHarborMarkers() {
+        this.harborMarkers.forEach(marker => {
+            marker.getElement().remove();
+        });
+    }
+
+    removeLastHarborMarker() {
+        this.harborMarkers.pop().getElement().remove();
+    }
+
     setProhibitedArea(centerCoordinates, radius, id) {
         const circleGeoJSON = turf.circle(centerCoordinates, radius, {
             steps: 64,
             units: "kilometers",
         });
 
-        this.map.addSource(id, {
+        this.#map.addSource(id, {
             type: "geojson",
             data: circleGeoJSON,
         });
 
-        this.map.addLayer({
+        this.#map.addLayer({
             id,
             type: "fill",
             source: id,
@@ -89,12 +111,12 @@ class MapBox {
             units: "kilometers",
         });
 
-        this.map.addSource(id, {
+        this.#map.addSource(id, {
             type: "geojson",
             data: circleGeoJSON,
         });
 
-        this.map.addLayer({
+        this.#map.addLayer({
             id,
             type: "fill",
             source: id,
@@ -106,6 +128,10 @@ class MapBox {
     }
 
     onload(loadFuncion) {
-        this.map.on("load", loadFuncion);
+        this.#map.on("load", loadFuncion);
+    }
+
+    onclick(clickFunction) {
+        this.#map.on("click", clickFunction);
     }
 }

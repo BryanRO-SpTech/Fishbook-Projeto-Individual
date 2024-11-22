@@ -118,7 +118,7 @@ CREATE TABLE Fishery (
     idFishery INT PRIMARY KEY AUTO_INCREMENT,
     fkHarbor INT NOT NULL,
     fkBoat INT NOT NULL,
-    fisheryPointName VARCHAR(60) NOT NULL,
+    fisheryPointName VARCHAR(20) NOT NULL,
     fisheryPointLat DECIMAL(9, 6) NOT NULL,
     fisheryPointLon DECIMAL(9, 6) NOT NULL,
     dateTimeDeparture TIMESTAMP NOT NULL,
@@ -128,6 +128,8 @@ CREATE TABLE Fishery (
     CONSTRAINT fk_Fishery_Harbor FOREIGN KEY (fkHarbor) REFERENCES Harbor(idHarbor) ON DELETE CASCADE,
     CONSTRAINT fk_Fishery_Boat FOREIGN KEY (fkBoat) REFERENCES Boat (idBoat) ON DELETE CASCADE
 );
+
+ALTER TABLE Fishery MODIFY COLUMN fisheryPointName VARCHAR(20) NOT NULL;
 
 CREATE TABLE UserFishery (
     fkFishery INT,

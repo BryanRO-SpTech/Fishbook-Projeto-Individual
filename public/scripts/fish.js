@@ -1,14 +1,6 @@
 const map = new MapBox();
 
 map.onload(async () => {
-    map.setProhibitedArea([-46.806655, -24.375334], 1.5, 'queimadinha');
-
-    map.setGoodArea([-46.792585, -24.194505], .3, 'ilha-das-cabras');
-    map.setGoodArea([-46.675694, -24.485472], 3, 'queimada-grande');
-    map.setGoodArea([-46.690620, -24.237077], 1, 'lage-conceicao');
-    map.setGoodArea([-46.690819, -24.136990], 0.3, 'pier-mongagua');
-
-
     const reqHarbors = await fetch("/harbor");
 
     if (!reqHarbors.ok) {

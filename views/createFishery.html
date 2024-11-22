@@ -29,46 +29,75 @@
     <h1>Agendamento de Pescaria</h1>
 
     <div class="map-div">
+        <span>Clique no mapa para selecionar as coordenadas do destino:</span>
         <div id="map"></div>
     </div>
 
     <form onsubmit="event.preventDefault()">
         <div class="label-input">
-            <label for="name">Nome do barco</label>
-            <input type="text" id="name" maxlength="50">
-            <span class="error" id="error-name"></span>
-        </div>
-
-        <div class="radio" id="dormitory">
-            <label>Dormitório:</label>
-            
-            <input type="radio" id="dormitory-yes" name="dormitory" value="yes">
-            <input type="radio" id="dormitory-no" name="dormitory" value="no" checked>
-
-            <div><label for="dormitory-yes" onclick="isChecked(event, 'dormitory')"></label> Sim</div>
-
-            <div><label for="dormitory-no" onclick="isChecked(event, 'dormitory')" class="checked"></label> Não</div>
+            <label for="description">Descrição do destino (Ex: Queimada Grande):</label>
+            <input type="text" id="description" maxlength="20">
         </div>
         
-        <div class="radio" id="restroom">
-            <label>Sanitário:</label>
+        <div class="radio" id="lunch">
+            <label>Almoço incluso:</label>
             
-            <input type="radio" id="restroom-yes" name="restroom" value="yes">
-            <input type="radio" id="restroom-no" name="restroom" value="no" checked>
+            <input type="radio" id="lunch-yes" name="lunch" value="yes">
+            <input type="radio" id="lunch-no" name="lunch" value="no" checked>
 
-            <div><label for="restroom-yes" onclick="isChecked(event, 'restroom')"></label> Sim</div>
+            <div><label for="lunch-yes" onclick="isChecked(event, 'lunch')"></label> Sim</div>
 
-            <div><label for="restroom-no" onclick="isChecked(event, 'restroom')" class="checked"></label> Não</div>
+            <div><label for="lunch-no" onclick="isChecked(event, 'lunch')" class="checked"></label> Não</div>
         </div>
 
+        <div class="input-container">
+            <div class="label-input">
+                <label for="harbor">Selecione o ponto de partida (Porto ou píer):</label>
+                <select id="harbor">
+                    <option value="0" disabled selected>Selecione um porto de partida</option>
+                </select>
+            </div>
+           
+            <div class="label-input">
+                <label for="boat">Selecione um barco:</label>
+                <select id="boat">
+                    <option value="0" disabled selected>Selecione um barco</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <div class="label-input">
+                <label for="departure-date">Data de partida:</label>
+                <input type="date" id="departure-date">
+            </div>
+            
+            <div class="label-input">
+                <label for="departure-time">Horário de partida:</label>
+                <input type="time" id="departure-time">
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <div class="label-input">
+                <label for="return-date">Data de retorno:</label>
+                <input type="date" id="return-date">
+            </div>
+            
+            <div class="label-input">
+                <label for="return-time">Horário de retorno:</label>
+                <input type="time" id="return-time">
+            </div>
+        </div>
+       
         <div class="label-input">
-            <label for="maxCapacity">Vagas</label>
-            <input type="number" id="maxCapacity">
+            <label for="price">Preço por pessoa:</label>
+            <input type="text" id="price">
         </div>
 
 
         <div class="button-container">
-            <button id="save">Salvar Embarcação</button>
+            <button id="save">Criar Pescaria</button>
         </div>
     </form>
 </body>

@@ -76,7 +76,6 @@ inputFile.addEventListener("change", previewImage);
 
 
 
-// Input radio labels
 
 function isChecked(event, id) {
     const inputRadio = document.getElementById(event.target.htmlFor);
