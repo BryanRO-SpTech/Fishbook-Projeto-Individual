@@ -1,6 +1,6 @@
 const database = require("../database/config.js");
 const friendsModel = require("./friends.model.js");
-
+const formatDateTime = require("../utils/formatDateTime.js");
 
 const createPost = async ({ postOwnerId, type, filePath, caption }) => {
     await database.execute(
@@ -24,19 +24,6 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
         lastRandomPost = "";
     }
 
-    const formatDate = (timeStamp) => {
-        const date = new Date(timeStamp);
-        const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");;
-        const year = date.getFullYear();
-        const hour = date.getHours().toString().padStart(2, "0");;
-        const minute = date.getMinutes().toString().padStart(2, "0");;
-        const second = date.getSeconds().toString().padStart(2, "0");;
-
-        return `${year}-${month}-${day} ${hour}:${minute}:${second}`
-    }
-
-
     const friends = await friendsModel.listFriends(userId);
 
     const friendsIds = friends.map((friend) => {
@@ -50,7 +37,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
                 WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10 `,
             [lastFriendPost]
         )).map(async (post) => {
-            const date = formatDate(post.dateTime);
+            const date = formatDateTime(post.dateTime);
 
             return {
                 idPost: post.idPost,
@@ -83,7 +70,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
             WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
             [lastFriendOfFriendPost]
         )).map(async (post) => {
-            const date = formatDate(post.dateTime);
+            const date = formatDateTime(post.dateTime);
 
             return {
                 idPost: post.idPost,
@@ -110,7 +97,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
             WHERE fkPostOwner NOT IN(${friendsOfFriendsIds ? friendsOfFriendsIds : 0}, ${friendsIds ? friendsIds : 0}, ?) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
             [userId, lastRandomPost]
         )).map(async (post) => {
-            const date = formatDate(post.dateTime);
+            const date = formatDateTime(post.dateTime);
 
             return {
                 idPost: post.idPost,

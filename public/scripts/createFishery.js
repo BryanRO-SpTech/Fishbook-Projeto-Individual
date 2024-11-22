@@ -20,10 +20,21 @@ async function loadSelects() {
 
     const resHarbors = await reqHarbors.json();
 
-
-
     selectHarbor.innerHTML += resHarbors.map(harbor => {
         return `<option longitude="${harbor.longitude}" latitude="${harbor.latitude}" value="${harbor.idHarbor}">${harbor.name}</option>`;
+    }).join("");
+
+
+    const reqBoats = await fetch("/boat/get");
+
+    if (!reqBoats.ok) {
+        return setModal("Erro ao carregar barcos", "Tente novamente mais tarde...", "error");
+    }
+
+    const resBoats = await reqBoats.json();
+
+    selectBoat.innerHTML += resBoats.map(boat => {
+        return `<option value="${boat.idBoat}">${boat.name}</option>`;
     }).join("");
 }
 
@@ -44,7 +55,21 @@ harborSelect.onchange = (event) => {
     showSelectedHarborInMap(event);
 };
 
-async function validateData() {
+
+function isChecked(event, id) {
+    const inputRadio = document.getElementById(event.target.htmlFor);
+
+    document.querySelectorAll(`#${id} label`).forEach(label => {
+        label.classList.remove("checked");
+    })
+
+    if (!inputRadio.checked) {
+        event.target.classList.add("checked");
+    }
+}
+
+
+function validateData() {
     const description = document.getElementById("description").value;
     const harbor = document.getElementById("harbor").value;
     const boat = document.getElementById("boat").value;
@@ -99,9 +124,6 @@ async function validateData() {
     return true;
 }
 
-document.getElementById("save").onclick = validateData
-
-
 function priceMask() {
     const price = document.getElementById("price");
 
@@ -118,15 +140,18 @@ function priceMask() {
 const price = document.getElementById("price");
 price.oninput = priceMask;
 
+async function createFishery() {
+    // if (!validateData()) return;
 
-function isChecked(event, id) {
-    const inputRadio = document.getElementById(event.target.htmlFor);
+    const description = document.getElementById("description").value;
+    const lunch = Array.from(document.getElementsByName("lunch")).filter(radio => radio.checked)[0].value;
+    const harbor = document.getElementById("harbor").value;
+    const boat = document.getElementById("boat").value;
+    const departureDate = document.getElementById("departure-date").value;
+    const departureTime = document.getElementById("departure-time").value;
 
-    document.querySelectorAll(`#${id} label`).forEach(label => {
-        label.classList.remove("checked");
-    })
+    console.log(`${departureDate}: ${departureTime}`);
 
-    if (!inputRadio.checked) {
-        event.target.classList.add("checked");
-    }
 }
+
+document.getElementById("save").onclick = createFishery;

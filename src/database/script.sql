@@ -15,6 +15,7 @@ CREATE TABLE User (
 CREATE TABLE Friends (
     fkUser1 INT,
     fkUser2 INT,
+    dateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (fkUser1, fkUser2),
     CONSTRAINT fk_Friends_User1 FOREIGN KEY (fkUser1) REFERENCES User (idUser) ON DELETE CASCADE,
     CONSTRAINT fk_Friends_User2 FOREIGN KEY (fkUser2) REFERENCES User (idUser) ON DELETE CASCADE
@@ -122,7 +123,7 @@ CREATE TABLE Fishery (
     fisheryPointLat DECIMAL(9, 6) NOT NULL,
     fisheryPointLon DECIMAL(9, 6) NOT NULL,
     dateTimeDeparture TIMESTAMP NOT NULL,
-    dateTimeArrival TIMESTAMP NOT NULL,
+    dateTimeReturn TIMESTAMP NOT NULL,
     lunchIncludes TINYINT(1) CHECK (lunchIncludes IN (0, 1)) DEFAULT 0 NOT NULL,
     price DECIMAL(6, 2) NOT NULL,
     CONSTRAINT fk_Fishery_Harbor FOREIGN KEY (fkHarbor) REFERENCES Harbor(idHarbor) ON DELETE CASCADE,
@@ -130,6 +131,8 @@ CREATE TABLE Fishery (
 );
 
 ALTER TABLE Fishery MODIFY COLUMN fisheryPointName VARCHAR(20) NOT NULL;
+ALTER TABLE Fishery RENAME COLUMN dateTimeArrival TO dateTimeReturn;
+
 
 CREATE TABLE UserFishery (
     fkFishery INT,

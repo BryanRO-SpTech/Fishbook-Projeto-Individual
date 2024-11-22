@@ -14,7 +14,7 @@ const createBoatValidation = ({ name, dormitory, restroom, maxCapacity }) => {
         }
     }
 
-    if (name.length > 50) {
+    if (name && name.length > 50) {
         errors.push("Name cannot be longer than 50 characters.");
     }
 
