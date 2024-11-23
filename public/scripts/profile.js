@@ -153,6 +153,7 @@ const loadPosts = async () => {
 
     const resPosts = await reqPosts.json();
 
+    // Variavel que será utilizada para carregar KPI de likes
     let likes = 0;
 
     postsDiv.innerHTML = resPosts.posts.map((post) => {

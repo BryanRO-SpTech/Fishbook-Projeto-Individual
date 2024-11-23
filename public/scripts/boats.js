@@ -28,6 +28,8 @@ const deleteBoat = async (id, event) => {
         method: "DELETE"
     });
 
+    removeLoader();
+
     if (!deleteBoat.ok) {
         if (deleteBoat.status === 404) {
             return setModal("Barco não encontrado", "Atualize a página e tente novamente", "error");
@@ -40,7 +42,7 @@ const deleteBoat = async (id, event) => {
         return setModal("Erro ao excluir barco", "Erro ao excluir barco, tente novamente mais tarde", "error");
     }
 
-    removeLoader();
+
 
 
     event.target.parentNode.remove();

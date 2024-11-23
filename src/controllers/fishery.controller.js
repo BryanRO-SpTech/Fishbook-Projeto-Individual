@@ -53,7 +53,34 @@ const getFisheriesByHarborId = async (req, res, next) => {
     }
 }
 
+const getFishiriesCreatedByUser = async (req, res, next) => {
+    const userId = req.session.id;
+
+    try {
+        const fishiries = await fisheryModel.getFisheriesCreatedByUser(userId);
+
+        return res.status(200).json(fishiries);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteFishery = async (req, res, next) => {
+    const userId = req.session.id;
+    const fisheryId = req.params.fisheryId;
+
+    try {
+        await fisheryModel.deleteFishery(userId, fisheryId);
+
+        return res.status(200).json({ message: "Fishery successfully deleted" })
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     createFishery,
-    getFisheriesByHarborId
+    getFisheriesByHarborId,
+    getFishiriesCreatedByUser,
+    deleteFishery
 }

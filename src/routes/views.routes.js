@@ -67,4 +67,14 @@ router.get("/fishery/create", authMiddleware, (req, res) => {
     return res.sendFile(path.join(viewsPath, "createFishery.html"));
 });
 
+router.get("/fishery/:organizerOrParticipant/list", authMiddleware, (req, res) => {
+    const { organizerOrParticipant } = req.params;
+
+    if (organizerOrParticipant !== "organizer" && organizerOrParticipant !== "participant") {
+        return res.status(404).json("Page not found");
+    }
+
+    return res.sendFile(path.join(viewsPath, "fisheryList.html"));
+});
+
 module.exports = router

@@ -38,7 +38,7 @@ const createFishery = async (userId, {
     );
 
     if (fisheryInSamePeriod) {
-        return appError(`The boat ${boat.name} already has a fishery in this period`, 400);
+        return appError("This boat already has a fishery in this period", 400);
     }
 
     await database.execute(
@@ -61,7 +61,41 @@ const getFisheriesByHarborId = async (harborId) => {
     return fisheries;
 }
 
+const getFisheriesCreatedByUser = (userId) => {
+    const fishiries = database.execute(
+        `
+        SELECT Fishery.*, Harbor.name AS harborName FROM Fishery
+        JOIN Harbor ON fkHarbor = idHarbor
+        JOIN Boat ON fkBoat = idBoat
+        WHERE Boat.fkBoatOwner = ?
+        `,
+        [userId]
+    );
+
+    return fishiries;
+}
+
+const deleteFishery = async (userId, fisheryId) => {
+    const [fishery] = await database.execute(
+        `SELECT * FROM Fishery 
+        JOIN Boat ON fkBoat = idBoat
+        WHERE Fishery.idFishery = ? AND Boat.fkBoatOwner = ?`,
+        [fisheryId, userId]
+    );
+
+    if (!fishery) {
+        return appError("This fishing was not created by you", 400);
+    }
+
+    await database.execute(
+        `DELETE FROM Fishery WHERE idFishery = ?`,
+        [fisheryId]
+    );
+};
+
 module.exports = {
     createFishery,
-    getFisheriesByHarborId
+    getFisheriesByHarborId,
+    getFisheriesCreatedByUser,
+    deleteFishery
 }

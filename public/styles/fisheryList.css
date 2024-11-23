@@ -1,0 +1,107 @@
+@import url(root.css);
+
+body {
+    background-color: var(--dark-navy);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+.title-div {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    text-align: center;
+}
+
+.title-div a {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--sky-blue);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.container {
+    height: fit-content;
+    width: 80%;
+
+    margin: 40px auto;
+}
+
+.fishery {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    border-bottom: var(--midnight-blue) solid 3px;
+}
+
+.fishery-data {
+    display: flex;
+    justify-content: space-between;
+
+    height: 100%;
+    width: 78%;
+
+    margin: auto;
+}
+
+
+.data-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+
+    font-size: 1.1rem;
+}
+
+.data-name {
+    color: var(--golden-yellow);
+}
+
+.fishery .buttons {
+    height: 100%;
+    width: 20%;
+
+    display: flex;
+}
+
+
+
+.fishery .buttons button, .fishery .buttons a {
+    font-size: 1.1rem;
+    height: 100%;
+    width: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all .5s;
+}
+
+.fishery .buttons .cancel-button {
+    background-color: var(--midnight-blue);
+    color: red;
+}
+
+.fishery .cancel-button:hover {
+    background-color: rgb(88, 1, 1);
+    color: white;
+}
+
+.fishery .buttons .view-more-button {
+    background-color: var(--sky-blue);
+    color: white;
+}
+
+.fishery .view-more-button:hover {
+    background-color: var(--sky-blue-hover);
+    color: white;
+}
+
+

@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/Boats.css">
+    <link rel="stylesheet" href="/styles/fisheryList.css">
 
     <script src="/components/loader.js"></script>
     <script src="/components/messageModal.js"></script>
 
-    <script src="/scripts/boats.js"></script>
+    <script src="/scripts/fisheryList.js" defer></script>
 
-    <title>Fishbook - Boats</title>
+    <title>Fishbook - Fishery List</title>
 </head>
 <body>
     <script src="/components/navBar.js"></script>
     <script src="/components/returnButton.js"></script>
 
-    
     <div class="title-div">
-        <h1>Suas embarcações</h1>
-            <a href="/boat/create">Cadastrar Embarcação</a>
-            <a href="/fishery/organizer/list" class="fishery-button">Ver suas pescarias</a>
+        <h1 id="title"></h1>
+        <a href="/fishery/create">Criar Pescaria</a>
     </div>
 
-    <div class="container" id="boat-list">
+    <div class="container" id="fishery-list">
 
     </div>
 </body>

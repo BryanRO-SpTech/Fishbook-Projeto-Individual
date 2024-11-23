@@ -1,10 +1,24 @@
 // Documentação para marcadores: https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker#getelement
 // Documentação para turfJS (Lib para colocar formas geométricas no mapa): https://turfjs.org/docs/api/circle
 
+// Latitude: -24,3436000 
+// Longitude: -46,6056333
+
+// Latitude: -24,3739667
+// Longitude: -46,8024500
+
+// Latitude: -24,4902500 
+// Longitude: -46,6688333
+
+// Latitude: -24,2352833, 
+// Longitude: -46,6906500
+
+
 class MapBox {
     #map;
     defaultMarkers = [];
     harborMarkers = [];
+    #prohibitedLayerIds = [];
 
     constructor() {
         mapboxgl.accessToken = "pk.eyJ1IjoiYnJ5YW4tcm8iLCJhIjoiY2x3ZTl5ZHZ4MWhiazJpa2h0NXFucTZ2diJ9.KygeJsIPYhDkEUZiow7P5Q";
@@ -28,6 +42,7 @@ class MapBox {
             this.setGoodArea([-46.675694, -24.485472], 3, 'queimada-grande');
             this.setGoodArea([-46.690620, -24.237077], 1, 'lage-conceicao');
             this.setGoodArea([-46.690819, -24.136990], 0.3, 'pier-mongagua');
+            this.setGoodArea([-46.6056333, -24.3436000], 4, 'parcel-reis');
         })
     }
 
@@ -103,6 +118,8 @@ class MapBox {
                 "fill-opacity": 0.5,
             },
         });
+
+        this.#prohibitedLayerIds.push(id);
     }
 
     setGoodArea(centerCoordinates, radius, id) {
@@ -133,5 +150,19 @@ class MapBox {
 
     onclick(clickFunction) {
         this.#map.on("click", clickFunction);
+    }
+
+
+    clickInProhibitedArea(event) {
+        // https://ovrdc.github.io/gis-tutorials/mapbox/03-query-features/#4/39.94/-95.52
+        const features = this.#map.queryRenderedFeatures(event.point, {
+            layers: this.#prohibitedLayerIds
+        });
+
+        if (features.length > 0) {
+            return true;
+        }
+
+        return false
     }
 }

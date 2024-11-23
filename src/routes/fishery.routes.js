@@ -6,5 +6,7 @@ const router = Router();
 
 router.post('/create', authMiddleware, fisheryController.createFishery);
 router.get('/by-harbor/:harborId', authMiddleware, fisheryController.getFisheriesByHarborId);
+router.get("/get/organizer", authMiddleware, fisheryController.getFishiriesCreatedByUser);
+router.delete("/delete/:fisheryId", authMiddleware, fisheryController.deleteFishery);
 
 module.exports = router;

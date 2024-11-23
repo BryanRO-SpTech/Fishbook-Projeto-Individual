@@ -513,4 +513,12 @@ ORDER BY RAND()
 LIMIT 15;
 
 
-SELECT COUNT(idLike) AS likes FROM Likes WHERE fkPost = 1
+SELECT COUNT(idLike) AS likes FROM Likes WHERE fkPost = 1;
+
+
+
+
+SELECT Fishery.*, Harbor.name AS harborName FROM Fishery
+        JOIN Harbor ON fkHarbor = idHarbor
+        JOIN Boat ON fkBoat = idBoat
+        WHERE Boat.fkBoatOwner = 33;
