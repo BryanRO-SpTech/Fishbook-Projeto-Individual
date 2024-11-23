@@ -53,15 +53,27 @@ const getFisheriesByHarborId = async (req, res, next) => {
     }
 }
 
-const getFishiriesCreatedByUser = async (req, res, next) => {
+const getFisheriesCreatedByUser = async (req, res, next) => {
     const userId = req.session.id;
 
     try {
-        const fishiries = await fisheryModel.getFisheriesCreatedByUser(userId);
+        const fisheries = await fisheryModel.getFisheriesCreatedByUser(userId);
 
-        return res.status(200).json(fishiries);
+        return res.status(200).json(fisheries);
     } catch (error) {
         next(error);
+    }
+}
+
+const getFisheriesReservedByUser = async (req, res, next) => {
+    const userId = req.session.id;
+
+    try {
+        const fisheries = await fisheryModel.getFisheriesReservedByUser(userId);
+
+        return res.status(200).json(fisheries);
+    } catch (error) {
+        return next(error)
     }
 }
 
@@ -70,7 +82,11 @@ const deleteFishery = async (req, res, next) => {
     const fisheryId = req.params.fisheryId;
 
     try {
-        await fisheryModel.deleteFishery(userId, fisheryId);
+        const deleteFishery = await fisheryModel.deleteFishery(userId, fisheryId);
+
+        if (deleteFishery && deleteFishery.isAppError) {
+            throw deleteFishery;
+        }
 
         return res.status(200).json({ message: "Fishery successfully deleted" })
     } catch (error) {
@@ -81,6 +97,7 @@ const deleteFishery = async (req, res, next) => {
 module.exports = {
     createFishery,
     getFisheriesByHarborId,
-    getFishiriesCreatedByUser,
+    getFisheriesCreatedByUser,
+    getFisheriesReservedByUser,
     deleteFishery
 }

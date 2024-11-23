@@ -9,6 +9,8 @@ const loadPage = async () => {
         loadOrganizerFisheries();
     } else {
         pageTitle.innerHTML = "Suas Reservas";
+
+        loadParticipantFisheries();
     }
 };
 
@@ -19,19 +21,9 @@ const loadOrganizerFisheries = async () => {
         return setModal("Erro ao carregar pescarias", "Tente novamente mais tarde...", "error");
     }
 
-    const resFishiries = await reqFisheries.json();
+    const resFisheries = await reqFisheries.json();
 
-    document.getElementById("fishery-list").innerHTML = resFishiries.map((fishery) => {
-        const formatDateTime = (unformattedDate) => {
-            const date = new Date(unformattedDate)
-            const time = date.getHours().toString().padStart(2, "0");
-            const minutes = date.getMinutes().toString().padStart(2, "0");
-
-            const formattedDateTime = date.toLocaleDateString("pt-br", { dateStyle: "short" }) + ` - ${time}:${minutes}`;
-
-            return formattedDateTime;
-        }
-
+    document.getElementById("fishery-list").innerHTML = resFisheries.map((fishery) => {
         const departureDateTime = formatDateTime(fishery.dateTimeDeparture);
         const returnDateTime = formatDateTime(fishery.dateTimeReturn);
 
@@ -39,7 +31,7 @@ const loadOrganizerFisheries = async () => {
             <div class="fishery">
             <div class="fishery-data">
                 <div class="data-content">
-                    <span class="data-name">Barco: <span class="data">${fishery.fisheryPointName}</span></span>
+                    <span class="data-name">Barco: <span class="data">${fishery.boatName}</span></span>
                     <span class="data-name">Almoço: <span class="data">${fishery.lunchIncludes ? "Sim" : "Não"}</span></span>
                     <span class="data-name">Preço: <span class="data">${(fishery.price).toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</span></span>
                 </div>
@@ -54,7 +46,7 @@ const loadOrganizerFisheries = async () => {
             </div>
             <div class="buttons">
                 <button onclick="window.location.href = '#'" class="view-more-button">Ver mais</button>
-                <button class="cancel-button" onclick="cancelFishery(this, '${fishery.idFishery}')">Cancelar</button>
+                <button class="cancel-button" onclick="cancelFisheryCreatedByUser(this, '${fishery.idFishery}')">Cancelar</button>
             </div>
         </div>
         `;
@@ -62,7 +54,40 @@ const loadOrganizerFisheries = async () => {
 }
 
 
-async function cancelFishery(buttonElement, fisheriId) {
+
+const loadParticipantFisheries = async () => {
+    const reqFisheries = await fetch("/fishery/get/participant");
+
+    if (!reqFisheries.ok) {
+        return setModal("Erro ao carregar pescarias", "Tente novamente mais tarde...", "error");
+    }
+
+    const resFisheries = await reqFisheries.json();
+
+    document.getElementById("fishery-list").innerHTML = resFisheries.map((fishery) => {
+        const departureDateTime = formatDateTime(fishery.dateTimeDeparture);
+
+        return `
+            <div class="fishery">
+            <div class="fishery-data">
+                <div class="data-content">
+                    <span class="data-name">Destino: <span class="data">${fishery.fisheryPointName}</span></span>
+                    <span class="data-name">Embarcação: <span class="data">${fishery.boatName}</span></span>
+                    <span class="data-name">Data: <span class="data">${departureDateTime}</span></span>
+                </div>
+            </div>
+            <div class="buttons">
+                <button onclick="window.location.href = '#'" class="view-more-button">Ver mais</button>
+                <button class="cancel-button" onclick="cancelFisheryCreatedByUser(this, '${fishery.idFishery}')">Cancelar</button>
+            </div>
+        </div>
+        `;
+    }).join("");
+}
+
+
+
+async function cancelFisheryCreatedByUser(buttonElement, fisheriId) {
     setLoader();
 
     const reqDelete = await fetch(`/fishery/delete/${fisheriId}`, {
@@ -77,6 +102,33 @@ async function cancelFishery(buttonElement, fisheriId) {
 
     buttonElement.parentNode.parentNode.remove();
     return setModal("Pescaria cancelada com sucesso.", "", "success");
+}
+
+async function cancelFisheryReserved(buttonElement, fisheriId) {
+    setLoader();
+
+    const reqDelete = await fetch(`/fishery/delete/${fisheriId}`, {
+        method: "DELETE"
+    });
+
+    removeLoader();
+
+    if (!reqDelete.ok) {
+        return setModal("Erro ao excluir pescaria", "Tente novamente mais tarde", "error");
+    }
+
+    buttonElement.parentNode.parentNode.remove();
+    return setModal("Pescaria cancelada com sucesso.", "", "success");
+}
+
+const formatDateTime = (unformattedDate) => {
+    const date = new Date(unformattedDate)
+    const time = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    const formattedDateTime = date.toLocaleDateString("pt-br", { dateStyle: "short" }) + ` - ${time}:${minutes}`;
+
+    return formattedDateTime;
 }
 
 window.onload = () => loadPage();

@@ -62,9 +62,9 @@ const getFisheriesByHarborId = async (harborId) => {
 }
 
 const getFisheriesCreatedByUser = (userId) => {
-    const fishiries = database.execute(
+    const fisheries = database.execute(
         `
-        SELECT Fishery.*, Harbor.name AS harborName FROM Fishery
+        SELECT Fishery.*, Harbor.name AS harborName, Boat.name AS boatName FROM Fishery
         JOIN Harbor ON fkHarbor = idHarbor
         JOIN Boat ON fkBoat = idBoat
         WHERE Boat.fkBoatOwner = ?
@@ -72,7 +72,21 @@ const getFisheriesCreatedByUser = (userId) => {
         [userId]
     );
 
-    return fishiries;
+    return fisheries;
+}
+
+const getFisheriesReservedByUser = async (userId) => {
+    const fisheries = database.execute(
+        `
+        SELECT Fishery.*, Boat.name AS boatName FROM Fishery
+        JOIN Boat ON fkBoat = idBoat
+        JOIN UserFishery ON fkFishery = idFishery
+        WHERE fkUser = ?
+        `,
+        [userId]
+    );
+
+    return fisheries;
 }
 
 const deleteFishery = async (userId, fisheryId) => {
@@ -97,5 +111,6 @@ module.exports = {
     createFishery,
     getFisheriesByHarborId,
     getFisheriesCreatedByUser,
+    getFisheriesReservedByUser,
     deleteFishery
 }
