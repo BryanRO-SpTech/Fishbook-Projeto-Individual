@@ -10,12 +10,15 @@ const loadPage = async () => {
     } else {
         pageTitle.innerHTML = "Suas Reservas";
 
+        document.getElementById("create-fishery-button").innerHTML = "Pescas Criadas por você";
+        document.getElementById("create-fishery-button").href = "/fishery/organizer/list";
+
         loadParticipantFisheries();
     }
 };
 
 const loadOrganizerFisheries = async () => {
-    const reqFisheries = await fetch("/fishery/get/organizer")
+    const reqFisheries = await fetch("/fishery/get/organizer");
 
     if (!reqFisheries.ok) {
         return setModal("Erro ao carregar pescarias", "Tente novamente mais tarde...", "error");
@@ -33,7 +36,7 @@ const loadOrganizerFisheries = async () => {
                 <div class="data-content">
                     <span class="data-name">Barco: <span class="data">${fishery.boatName}</span></span>
                     <span class="data-name">Almoço: <span class="data">${fishery.lunchIncludes ? "Sim" : "Não"}</span></span>
-                    <span class="data-name">Preço: <span class="data">${(fishery.price).toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</span></span>
+                    <span class="data-name">Preço: <span class="data">${parseFloat(fishery.price).toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</span></span>
                 </div>
                 <div class="data-content">
                     <span class="data-name">Partida: <span class="data">${departureDateTime}</span></span>
@@ -45,14 +48,16 @@ const loadOrganizerFisheries = async () => {
                 </div>
             </div>
             <div class="buttons">
-                <button onclick="window.location.href = '#'" class="view-more-button">Ver mais</button>
-                <button class="cancel-button" onclick="cancelFisheryCreatedByUser(this, '${fishery.idFishery}')">Cancelar</button>
+                <button onclick="window.location.href = '/fishery/${fishery.idFishery}'" class="view-more-button">Ver mais</button>
+                ${new Date(fishery.dateTimeDeparture) > new Date() ?
+                `<button class="cancel-button" onclick="cancelFisheryCreatedByUser(this, '${fishery.idFishery}')">Cancelar</button>` :
+                `<button class="ended-button">Encerrado</button>`
+            }
             </div>
         </div>
         `;
     }).join("");
 }
-
 
 
 const loadParticipantFisheries = async () => {
@@ -77,8 +82,7 @@ const loadParticipantFisheries = async () => {
                 </div>
             </div>
             <div class="buttons">
-                <button onclick="window.location.href = '#'" class="view-more-button">Ver mais</button>
-                <button class="cancel-button" onclick="cancelFisheryCreatedByUser(this, '${fishery.idFishery}')">Cancelar</button>
+                <button onclick="window.location.href = '/fishery/${fishery.idFishery}'" class="view-more-button" style="width: 100%;">Ver mais</button>
             </div>
         </div>
         `;

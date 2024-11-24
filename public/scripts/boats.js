@@ -18,7 +18,7 @@
                 <button onclick="deleteBoat('${boat.idBoat}', event)">Excluir</button>
             </div>
         `;
-    });
+    }).join("");
 })();
 
 const deleteBoat = async (id, event) => {

@@ -196,7 +196,7 @@ async function createFishery() {
 
     if (!reqCreate.ok) {
         if (resCreate.errors === "This boat already has a fishery in this period") {
-            return setModal("Erro ao criar pescaria", "Boat does not belong to you or not exists", "error");
+            return setModal("Erro ao criar pescaria", "Seu barco já tem uma pescaria agendada neste periodo", "error");
         }
 
         return setModal("Erro ao criar pescaria", "Tente novamente mais tarde...", "error");

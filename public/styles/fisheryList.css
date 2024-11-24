@@ -89,6 +89,11 @@ h1 {
     color: red;
 }
 
+.fishery .buttons .ended-button {
+    background-color: var(--slate-gray);
+    cursor: default;
+}
+
 .fishery .cancel-button:hover {
     background-color: rgb(88, 1, 1);
     color: white;

@@ -79,7 +79,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
                 caption: post.caption,
                 dateTime: date,
                 isLiked: (await countLikesInPostByUser(userId, post.idPost)) > 0,
-                likes: (await countLikes(post.idPost)),
+                likes: (await countLikes(post.idPost)).likes,
                 postOwner: {
                     fkPostOwner: post.fkPostOwner,
                     username: post.username,
@@ -106,7 +106,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
                 caption: post.caption,
                 dateTime: date,
                 isLiked: (await countLikesInPostByUser(userId, post.idPost)) > 0,
-                likes: (await countLikes(post.idPost)),
+                likes: (await countLikes(post.idPost)).likes,
                 postOwner: {
                     fkPostOwner: post.fkPostOwner,
                     username: post.username,

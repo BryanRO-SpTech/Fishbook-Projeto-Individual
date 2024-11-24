@@ -77,4 +77,8 @@ router.get("/fishery/:organizerOrParticipant/list", authMiddleware, (req, res) =
     return res.sendFile(path.join(viewsPath, "fisheryList.html"));
 });
 
+router.get("/fishery/:fisheryId", authMiddleware, (req, res) => {
+    return res.sendFile(path.join(viewsPath, "fisheryDetails.html"));
+});
+
 module.exports = router

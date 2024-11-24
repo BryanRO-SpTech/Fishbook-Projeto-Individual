@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/fisheryDetails.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf/turf.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+
+    <script src="/components/MapBox.js"></script>
+    <script src="/components/loader.js"></script>
+    <script src="/components/messageModal.js"></script>
+
+    <script src="/scripts/fisheryDetails.js" defer></script>
+
+    <title>Fishbook - Fishery</title>
+</head>
+
+<body>
+    <script src="/components/navBar.js"></script>
+    <script src="/components/returnButton.js"></script>
+
+    <div class="boat-photo">
+        <img id="boat-image" src="" alt="Foto do barco">
+    </div>
+    <h1 id="boat-name"></h1>
+
+    <div class="container">
+        <div class="infos">
+            <span class="info-name">Destino: <span class="info-data" id="destination"></span></span>
+            <span class="info-name">Local de partida: <span class="info-data" id="departure"></span></span>
+            <span class="info-name">Dormitório: <span class="info-data" id="dormitory"></span></span>
+            <span class="info-name">Almoço Incluso: <span class="info-data" id="lunch"></span></span>
+            <span class="info-name">Sanitário: <span class="info-data" id="restroom"></span></span>
+        </div>
+
+        <div class="infos">
+            <span class="info-name">Vagas disponíveis: <span class="info-data"  id="capacity-avalable"></span></span>
+            <span class="info-name">Partida: <span class="info-data" id="departure-date"></span></span>
+            <span class="info-name">Retorno: <span class="info-data" id="return-date"></span></span>
+            <span class="info-name">Duração: <span class="info-data" id="duration"></span></span>
+            <span class="info-name">Preço (Por pessoa): <span class="info-data" id="price"></span></span>
+        </div>
+    </div>
+
+    <div id="map">
+
+    </div>
+    <div class="captions">
+        <div class="caption"><img src="/assets/icons/anchor.svg"> Local de partida</div>
+        
+        <div class="caption"><img src="/assets/icons/defaultMapMarker.png"> Local de partida</div>
+    </div>
+
+
+    <div class="button-div"><button id="action-button">Reservar Vaga</button></div>
+</body>
+
+</html>

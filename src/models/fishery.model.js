@@ -50,12 +50,12 @@ const createFishery = async (userId, {
     return true;
 }
 
-const getFisheriesByHarborId = async (harborId) => {
+const getFisheriesByHarborId = async (harborId, userId) => {
     const fisheries = await database.execute(
         `SELECT Fishery.*, Boat.name AS boatName FROM Fishery 
         JOIN Boat ON fkBoat = idBoat
-        WHERE fkHarbor = ?`,
-        [harborId]
+        WHERE fkHarbor = ? AND fkBoatOwner != ? AND Fishery.dateTimeDeparture > NOW() ORDER BY dateTimeDeparture DESC`,
+        [harborId, userId]
     );
 
     return fisheries;
@@ -81,13 +81,111 @@ const getFisheriesReservedByUser = async (userId) => {
         SELECT Fishery.*, Boat.name AS boatName FROM Fishery
         JOIN Boat ON fkBoat = idBoat
         JOIN UserFishery ON fkFishery = idFishery
-        WHERE fkUser = ?
+        WHERE fkUser = ? ORDER BY dateTimeDeparture DESC
         `,
         [userId]
     );
 
     return fisheries;
 }
+
+const getFisheryById = async (fisheryId, userId) => {
+    const [fishery] = await database.execute(
+        `SELECT 
+    Fishery.*, 
+    Boat.name AS boatName,
+    Boat.dormitory,
+    Boat.restroom,
+    Boat.boatPhotoPath,
+    Harbor.idHarbor,
+    Harbor.name AS harborName,
+    Harbor.latitude AS harborLatitude,
+    Harbor.longitude AS harborLongitude,
+    Harbor.street,
+    Harbor.number,
+    boat.maxCapacity,
+    (boat.maxCapacity - (SELECT COUNT(fkUser) FROM userfishery WHERE fkFishery = ?)) AS availableCapacity,
+    CASE 
+        WHEN Boat.fkBoatOwner = ? THEN 1
+        ELSE 0
+        END AS isCreatedByUser,
+    CASE 
+        WHEN UserFishery.fkUser = ? THEN 1  
+        ELSE 0
+    END AS isReservedByUser
+    FROM Fishery
+    JOIN Boat ON fkBoat = idBoat
+    JOIN Harbor ON fkHarbor = idHarbor
+    LEFT JOIN UserFishery ON fkFishery = idFishery AND fkUser = ?
+    WHERE idFishery = ?;
+        `,
+        [fisheryId, userId, userId, userId, fisheryId]
+    );
+
+    if (!fishery) {
+        return false;
+    }
+
+    return fishery;
+}
+
+const reserveFishery = async (userId, fisheryId) => {
+    const [fisheryReserved] = await database.execute(
+        `SELECT * FROM UserFishery WHERE fkUser = ? AND fkFishery = ?`,
+        [userId, fisheryId]
+    );
+
+    if (fisheryReserved) {
+        return appError("The User already reserverd this fishery", 400);
+    }
+
+    const [fishery] = await database.execute(
+        `SELECT * FROM Fishery JOIN Boat ON fkBoat = idBoat WHERE fkBoatOwner = ? AND idFishery = ?`,
+        [userId, fisheryId]
+    );
+
+    if (fishery) {
+        return appError("You are the creator of de fishery", 400);
+    }
+
+    const [capacityReached] = await database.execute(
+        `SELECT (Boat.maxCapacity - COUNT(fkFishery)) AS capacityReached FROM UserFishery
+        JOIN Fishery ON fkFishery = idFishery
+        JOIN Boat ON fkBoat = idBoat
+        WHERE fkFishery = ?`,
+        [fisheryId]
+    );
+
+    if (capacityReached && capacityReached.capacityReached === 0) {
+        return appError("Maximum capacity reached", 400);
+    }
+
+    await database.execute(
+        `INSERT INTO UserFishery VALUES (?, ?)`,
+        [fisheryId, userId]
+    );
+
+    return true;
+}
+
+const cancelFisheryAsParticipant = async (userId, fisheryId) => {
+    const [fishery] = await database.execute(
+        `SELECT * FROM UserFishery WHERE fkUser = ? AND fkFishery = ?`,
+        [userId, fisheryId]
+    );
+
+    if (!fishery) {
+        return appError("The user has not booked this fishing trip", 400);
+    }
+
+    await database.execute(
+        `DELETE FROM UserFishery WHERE fkUser = ? AND fkFishery = ?`,
+        [userId, fisheryId]
+    );
+
+    return true;
+}
+
 
 const deleteFishery = async (userId, fisheryId) => {
     const [fishery] = await database.execute(
@@ -112,5 +210,8 @@ module.exports = {
     getFisheriesByHarborId,
     getFisheriesCreatedByUser,
     getFisheriesReservedByUser,
+    getFisheryById,
+    reserveFishery,
+    cancelFisheryAsParticipant,
     deleteFishery
 }

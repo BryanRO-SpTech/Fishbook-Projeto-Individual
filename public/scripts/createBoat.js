@@ -19,7 +19,7 @@ function previewImage() {
     image.src = fileUrl;
 
     const cropper = new Cropper(image, {
-        aspectRatio: 16 / 10,
+        aspectRatio: 22 / 9,
         viewMode: 0,
         dragMode: 'move',
         movable: true,

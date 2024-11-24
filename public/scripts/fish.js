@@ -40,7 +40,7 @@ map.onload(async () => {
 
             let cards;
 
-            fishInfosDiv.innerHTML = resFisheries.map((fishery, index) => {
+            fishInfosDiv.innerHTML = reqFisheries.length > 0 ? resFisheries.map((fishery, index) => {
 
                 const marker = map.setDefaultMarker([fishery.fisheryPointLon, fishery.fisheryPointLat]);
 
@@ -67,7 +67,7 @@ map.onload(async () => {
                     </div>
                 `;
 
-            }).join("");
+            }).join("") : "<h2 style='text-align: center;'>Nenhuma Pesca Encontrada.</h2>"
 
 
             cards = document.querySelectorAll(".card");

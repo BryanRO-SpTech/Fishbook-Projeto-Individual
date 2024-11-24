@@ -496,8 +496,27 @@ INSERT INTO Harbor (name, street, number, postalCode, longitude, latitude) VALUE
                 (4, 9, 'Fishing Point 9', -24.404041, -46.784406, '2023-10-09 06:00:00', '2023-10-09 16:00:00', 0, 100.00),
                 (5, 10, 'Fishing Point 10', -24.573632, -46.683655, '2023-10-10 10:00:00', '2023-10-10 20:00:00', 1, 200.00);
             
-
-            
+            INSERT INTO UserFishery (fkFishery, fkUser) VALUES
+                (29, 1),
+                (29, 2),
+                (29, 3),
+                (29, 4),
+                (29, 5),
+                (29, 6),
+                (29, 7),
+                (29, 8),
+                (29, 9),
+                (29, 10),
+                (29, 11),
+                (29, 12),
+                (29, 13),
+                (29, 14),
+                (29, 15),
+                (29, 16),
+                (29, 17),
+                (29, 18),
+                (29, 19),
+                (29, 20);
 
 SELECT
     idUser,
@@ -522,3 +541,30 @@ SELECT Fishery.*, Harbor.name AS harborName FROM Fishery
         JOIN Harbor ON fkHarbor = idHarbor
         JOIN Boat ON fkBoat = idBoat
         WHERE Boat.fkBoatOwner = 33;
+
+
+
+SELECT 
+    Fishery.*, 
+    Boat.name AS boatName, 
+    Harbor.name AS harborName,
+    boat.`maxCapacity`,
+    (boat.maxCapacity - (SELECT COUNT(fkUser) FROM userfishery WHERE fkFishery = 15)) AS capacity,
+    CASE 
+        WHEN Boat.fkBoatOwner = 1 THEN TRUE
+        ELSE FALSE
+        END AS isCreatedByUser,
+    CASE 
+        WHEN UserFishery.fkUser = 1 THEN TRUE
+        ELSE FALSE
+    END AS isReservedByUser
+    FROM Fishery
+    JOIN Boat ON fkBoat = idBoat
+    JOIN Harbor ON fkHarbor = idHarbor
+    LEFT JOIN UserFishery ON fkFishery = idFishery AND fkUser = 1
+    WHERE idFishery = 15;
+
+    SELECT (Boat.maxCapacity - COUNT(fkFishery)) AS CapacityReached FROM UserFishery
+        JOIN Fishery ON fkFishery = idFishery
+        JOIN Boat ON fkBoat = idBoat
+        WHERE fkFishery = 29;

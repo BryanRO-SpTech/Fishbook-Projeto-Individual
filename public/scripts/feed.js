@@ -51,7 +51,9 @@ const loadFeed = async () => {
         setModal("Erro ao carregar feed", "Tente novamente mais tarde...", "error");
     }
 
+
     const resPosts = await reqPosts.json();
+    console.log(resPosts)
 
     if (resPosts.lastFriendPostDate) {
         lastFriendPost = resPosts.lastFriendPostDate;
