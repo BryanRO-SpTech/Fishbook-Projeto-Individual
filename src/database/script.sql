@@ -159,10 +159,7 @@ DROP VIEW userinfos;
 
 SELECT * FROM UserInfos WHERE idUser = 33;
 
-CREATE table Months (
-    idMonth INT PRIMARY KEY AUTO_INCREMENT,
-    monthName VARCHAR(3)
-)
+
 
 
 SELECT YEAR(dateTime) AS Year, DATE_FORMAT(ProfileVisit.dateTime, '%b') AS Month, COUNT(*) AS quantVisits 
