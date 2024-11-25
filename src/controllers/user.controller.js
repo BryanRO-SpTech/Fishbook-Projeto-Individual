@@ -267,6 +267,18 @@ const usageTime = async (req, res, next) => {
     }
 }
 
+const getLikeUserNameOrName = async (req, res, next) => {
+    const search = req.params.search;
+
+    try {
+        const results = await userModel.getLikeUserNameOrName(search);
+
+        return res.status(200).json(results);
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     createUser,
     updateProfilePhotoOnUserCreate,
@@ -277,5 +289,6 @@ module.exports = {
     profile,
     logout,
     deleteProfile,
-    usageTime
+    usageTime,
+    getLikeUserNameOrName
 };

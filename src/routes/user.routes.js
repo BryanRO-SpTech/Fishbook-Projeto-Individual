@@ -7,6 +7,7 @@ const router = Router();
 
 
 router.get("/get/:username", authMiddleware, userController.profile);
+router.get("/get/:search/search", authMiddleware, userController.getLikeUserNameOrName);
 
 router.post("/register", userController.createUser);
 router.post("/login", userController.auth);

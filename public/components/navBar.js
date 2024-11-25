@@ -58,14 +58,20 @@
         </ul>
     </nav>
 
-    <div class="search">
-        <input type="text" placeholder="Pesquisar">
-        <img src="/assets/icons/search.svg" alt="Lupa">
+    <div class="search-container">
+        <div class="search">
+            <input type="text" placeholder="Pesquisar usuário" oninput="search(this.value)">
+            <img src="/assets/icons/search.svg" alt="Lupa">
+        </div>
+        
+        <div id="div_results"></div>
     </div>
 
-    <div class="notification">
-        <div class="counter">99</div>
-    </div>
+    <a href="/friend-requests">
+        <div class="notification">
+            <div class="counter" id="notifications">0</div>
+        </div>
+    </a>
 
     <div class="profile" style="background-image: url(/${profilePhoto});" onclick="window.location.href = '/profile/my-profile'"></div>
 </header>
@@ -73,3 +79,43 @@
     
     `);
 })();
+
+
+async function search(value) {
+    document.getElementById("div_results").innerHTML = "";
+
+    if (!value) {
+        return;
+    }
+
+    const reqResults = await fetch(`/profile/get/${value}/search`);
+
+    if (!reqResults.ok) {
+        return setModal("Erro ao pesquisar usuários", "", "error");
+    }
+
+    const resResults = await reqResults.json();
+
+    document.getElementById("div_results").innerHTML = resResults.map((result) => {
+        return `
+                <div class="result" onclick="window.location.href = '/profile/${result.username}'">
+                    <div class="profile" style="background-image: url(${result.profilePhotoPath ? result.profilePhoto : "/assets/icons/person.svg"});"></div>
+                    <div class="user-infos">
+                        <a>${result.name}</a>
+                        <span>@${result.username}</span>
+                    </div>
+                </div>
+        `;
+    }).join("");
+}
+
+
+async function countNotifications() {
+    const reqNotifications = await fetch("/friends/list-requests");
+
+    const resNotifications = await reqNotifications.json();
+
+    document.getElementById("notifications").innerHTML = resNotifications.length;
+}
+
+window.onload = () => countNotifications();

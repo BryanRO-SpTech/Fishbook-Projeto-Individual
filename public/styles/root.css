@@ -92,12 +92,16 @@ header nav ul li svg {
     height: 32px;
 }
 
-header .search {
+header .search-container {
+    position: relative;
+}
+
+header .search-container .search {
     display: flex;
     align-items: center;
 }
 
-header .search input {
+header .search-container .search input {
     height: 30px;
     border: none;
     outline: none;
@@ -108,16 +112,52 @@ header .search input {
     font-size: 1rem;
 }
 
-header .search input::placeholder {
+header .search-container .search input::placeholder {
     color: white;
 }
 
-header .search img {
+header .search-container .search img {
     height: 30px;
     border-radius: 0 8px 8px 0;
     background-color: var(--slate-gray);
 
     cursor: pointer;
+}
+
+
+#div_results {
+    background-color: var(--midnight-blue);
+    width: 100%;
+    height: fit-content;
+
+    top: 31px;
+
+    position: absolute;
+
+    overflow: auto;
+
+}
+
+#div_results .result {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px;
+
+    border-bottom: solid 2px var(--dark-navy);
+    cursor: pointer;
+
+    font-size: 1.1rem;
+}
+
+#div_results .result span {
+    font-size: .9rem;
+}
+
+.user-infos {
+    display: flex;  
+    flex-direction: column;
 }
 
 .profile {

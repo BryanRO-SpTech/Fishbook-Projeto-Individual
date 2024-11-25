@@ -39,7 +39,6 @@ const loadPage = async () => {
 
 loadPage();
 
-
 let lastFriendPost = "";
 let lastFriendOfFriendPost = "";
 let lastRandomPost = "";
@@ -53,7 +52,6 @@ const loadFeed = async () => {
 
 
     const resPosts = await reqPosts.json();
-    console.log(resPosts)
 
     if (resPosts.lastFriendPostDate) {
         lastFriendPost = resPosts.lastFriendPostDate;

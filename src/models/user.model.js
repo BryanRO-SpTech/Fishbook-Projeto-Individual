@@ -169,6 +169,20 @@ const usageTime = async (userId) => {
     );
 }
 
+
+const getLikeUserNameOrName = (value) => {
+    if (value[0] === "@") {
+        value = value.replace("@", "");
+    }
+
+    const results = database.execute(
+        `SELECT name, username, profilePhotoPath FROM User WHERE name LIKE ? OR username LIKE ? LIMIT 5`,
+        [`%${value}%`, `%${value}%`]
+    );
+
+    return results;
+}
+
 module.exports = {
     create,
     updateProfilePhoto,
@@ -179,5 +193,6 @@ module.exports = {
     getByUsername,
     deleteProfile,
     registerProfileVisit,
-    usageTime
+    usageTime,
+    getLikeUserNameOrName
 }

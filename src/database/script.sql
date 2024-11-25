@@ -157,7 +157,7 @@ GROUP BY idUser;
 
 DROP VIEW userinfos;
 
-SELECT * FROM UserInfos WHERE idUser = 33;
+SELECT * FROM UserInfos WHERE idUser = 2;
 
 
 
@@ -630,6 +630,3 @@ SELECT
         JOIN Fishery ON fkFishery = idFishery
         JOIN Boat ON fkBoat = idBoat
         WHERE fkFishery = 29;
-
-
-
