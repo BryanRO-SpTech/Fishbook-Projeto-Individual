@@ -227,7 +227,7 @@ const profile = async (req, res, next) => {
 
 
 const logout = (req, res) => {
-    return res.status(200).clearCookie("session").redirect("/register");
+    return res.status(200).clearCookie("session").redirect("/login");
 }
 
 const deleteProfile = async (req, res, next) => {
@@ -255,6 +255,18 @@ const deleteProfile = async (req, res, next) => {
     }
 }
 
+const usageTime = async (req, res, next) => {
+    const userId = req.session.id;
+
+    try {
+        await userModel.usageTime(userId);
+
+        return res.status(204).json();
+    } catch (error) {
+        return next(error);
+    }
+}
+
 module.exports = {
     createUser,
     updateProfilePhotoOnUserCreate,
@@ -264,5 +276,6 @@ module.exports = {
     auth,
     profile,
     logout,
-    deleteProfile
+    deleteProfile,
+    usageTime
 };

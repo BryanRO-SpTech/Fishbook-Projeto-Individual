@@ -33,6 +33,7 @@ CREATE TABLE UsageTime (
     idUsageTime INT PRIMARY KEY AUTO_INCREMENT,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     usageTimeInMinutes INT,
+    lastUpdate DATETIME,
     fkUser INT NOT NULL,
     CONSTRAINT fk_UsageTime_User FOREIGN KEY (fkUser) REFERENCES User (idUser) ON DELETE CASCADE
 );
@@ -141,7 +142,71 @@ CREATE TABLE UserFishery (
     CONSTRAINT fk_UserFishery_Fishery FOREIGN KEY (fkFishery) REFERENCES Fishery (idFishery) ON DELETE CASCADE
 );
 
--- Insere 30 usuários na tabela User, com senha em hash e foto de perfil nula
+CREATE VIEW UserInfos AS 
+SELECT 
+    User.idUser, 
+    User.username, 
+    (SELECT COUNT(*) FROM Likes WHERE Likes.fkPost IN (SELECT idPost FROM Post WHERE Post.fkPostOwner = User.idUser)) AS quantLikes,
+    COUNT(Post.idPost) AS quantPosts,
+    (SELECT COUNT(*) FROM friends WHERE fkUser1 = idUser XOR fkUser2 = idUser) AS quantFriends,
+    (SELECT COUNT(*) FROM ProfileVisit WHERE fkUser = User.idUser) AS quantVisits,
+    (SELECT COUNT(*) FROM UserFishery WHERE idUser = UserFishery.fkUser) AS quantFisheries
+FROM User
+LEFT JOIN Post ON fkPostOwner = idUser
+GROUP BY idUser;
+
+DROP VIEW userinfos;
+
+SELECT * FROM UserInfos WHERE idUser = 33;
+
+CREATE table Months (
+    idMonth INT PRIMARY KEY AUTO_INCREMENT,
+    monthName VARCHAR(3)
+)
+
+
+SELECT YEAR(dateTime) AS Year, DATE_FORMAT(ProfileVisit.dateTime, '%b') AS Month, COUNT(*) AS quantVisits 
+FROM ProfileVisit 
+WHERE fkUser = 33 
+GROUP BY MONTH(dateTime), YEAR(dateTime), DATE_FORMAT(ProfileVisit.dateTime, '%b') 
+ORDER BY YEAR(dateTime), MONTH(dateTime)
+LIMIT 12;
+
+SELECT 
+    YEAR(likes.dateTime) AS year, 
+    DATE_FORMAT(likes.dateTime, '%b') AS month, 
+    COUNT(*) AS quantLikes 
+FROM Likes 
+JOIN Post ON fkPost = idPost 
+WHERE fkPostOwner = 33 
+GROUP BY YEAR(likes.dateTime), MONTH(likes.dateTime), DATE_FORMAT(likes.dateTime, '%b')
+ORDER BY YEAR(likes.dateTime) DESC, MONTH(likes.dateTime) DESC LIMIT 12;
+
+
+-- Insere os registros para o usuário com fkUser = 33
+INSERT INTO UsageTime (date, usageTimeInMinutes, lastUpdate, fkUser)
+VALUES
+    (CURRENT_DATE + INTERVAL 1 DAY, 60, CURRENT_TIMESTAMP, 33), -- Amanhã
+    (CURRENT_DATE + INTERVAL 2 DAY, 60, CURRENT_TIMESTAMP, 33), -- Depois de amanhã
+    (CURRENT_DATE + INTERVAL 3 DAY, 60, CURRENT_TIMESTAMP, 33), -- Sábado
+    (CURRENT_DATE + INTERVAL 4 DAY, 60, CURRENT_TIMESTAMP, 33), -- Domingo
+    (CURRENT_DATE + INTERVAL 5 DAY, 60, CURRENT_TIMESTAMP, 33), -- Segunda-feira
+    (CURRENT_DATE + INTERVAL 6 DAY, 60, CURRENT_TIMESTAMP, 33), -- Terça-feira da próxima semana
+    (CURRENT_DATE + INTERVAL 7 DAY, 60, CURRENT_TIMESTAMP, 33); -- Quarta-feira da próxima semana
+
+
+SELECT DAYNAME(date), usageTimeInMinutes FROM usagetime WHERE fkUser = 33 ORDER BY date DESC LIMIT 7;
+
+
+
+SELECT DATE_FORMAT(dateTimeDeparture, '%b'), COUNT(*) FROM fishery
+JOIN userfishery ON fkFishery = idFishery
+WHERE fkUser = 33
+GROUP BY MONTH(dateTimeDeparture), YEAR(dateTimeDeparture), DATE_FORMAT(dateTimeDeparture, '%b')
+ORDER BY MONTH(dateTimeDeparture) DESC, YEAR(dateTimeDeparture) DESC LIMIT 12;
+
+
+
 INSERT INTO
     User (
         name,
@@ -400,7 +465,7 @@ VALUES (
         NULL
     );
 
--- Relacionamentos de amizade entre os usuários
+
 INSERT INTO
     Friends (fkUser1, fkUser2)
 VALUES (1, 2),
@@ -568,3 +633,6 @@ SELECT
         JOIN Fishery ON fkFishery = idFishery
         JOIN Boat ON fkBoat = idBoat
         WHERE fkFishery = 29;
+
+
+

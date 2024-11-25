@@ -40,7 +40,7 @@ map.onload(async () => {
 
             let cards;
 
-            fishInfosDiv.innerHTML = reqFisheries.length > 0 ? resFisheries.map((fishery, index) => {
+            fishInfosDiv.innerHTML = resFisheries.length > 0 ? resFisheries.map((fishery, index) => {
 
                 const marker = map.setDefaultMarker([fishery.fisheryPointLon, fishery.fisheryPointLat]);
 

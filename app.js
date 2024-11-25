@@ -20,6 +20,7 @@ const postRoutes = require("./src/routes/post.routes.js");
 const harborRoutes = require("./src/routes/harbor.routes.js");
 const fisheryRoutes = require("./src/routes/fishery.routes.js");
 const boatRoutes = require("./src/routes/boat.routes.js");
+const dashboardRoutes = require("./src/routes/dashboard.routes.js");
 
 const PORTA_APP = process.env.APP_PORT;
 const HOST_APP = process.env.APP_HOST;
@@ -41,6 +42,7 @@ app.use("/post", postRoutes);
 app.use("/harbor", harborRoutes);
 app.use("/fishery", fisheryRoutes);
 app.use("/boat", boatRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 app.use(errorHandler);
 

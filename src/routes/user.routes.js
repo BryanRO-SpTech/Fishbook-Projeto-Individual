@@ -19,4 +19,6 @@ router.patch("/update-password", authMiddleware, userController.updatePassword);
 
 router.delete("/delete", authMiddleware, userController.deleteProfile);
 
+router.post("/usage-time", authMiddleware, userController.usageTime);
+
 module.exports = router;

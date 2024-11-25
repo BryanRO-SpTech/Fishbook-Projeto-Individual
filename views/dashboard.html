@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/styles/profileDashboard.css">
+
+    <script src="/scripts/usageTime.js"></script>
+
+    <script src="/components/loader.js"></script>
+    <script src="/components/messageModal.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="/scripts/dashboard.js" defer></script>
+    <title>Fishbook - User statistics</title>
+</head>
+<body>
+    <script src="/components/navBar.js" dat></script>
+    <script src="/components/returnButton.js"></script>
+
+    <h1 class="title">Estátisticas do perfil</h1>
+
+    <div class="kpis">
+        <span>Amigos: <span id="friends-kpi"></span></span>
+        <span>Publicações: <span id="posts-kpi"></span></span>
+        <span>Curtidas: <span id="likes-kpi"></span></span>
+        <span>Visitas no Perfil: <span id="visits-kpi"></span></span>
+        <span>Pescarias Reservadas: <span id="fish-kpi"></span></span>
+    </div>
+
+    <div class="container">
+        <div class="chart">
+            <h1 class="chart-title">Visitas no Perfil Mensalmente</h1>
+            <canvas id="visits-chart"></canvas>
+        </div>
+        
+        <div class="chart">
+            <h1 class="chart-title">Quantidade De Likes Mensalmente em 2024</h1>
+            <canvas id="likes-chart"></canvas>
+        </div>
+        
+        <div class="chart">
+            <h1 class="chart-title">Horas de Uso Semanal</h1>
+            <canvas id="usage-chart"></canvas>
+        </div>
+        
+        <div class="chart">
+            <h1 class="chart-title">Pescarias Reservadas Mensalmente</h1>
+            <canvas id="fishery-chart"></canvas>
+        </div>
+    </div>
+</body>
+</html

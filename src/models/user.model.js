@@ -138,8 +138,35 @@ const registerProfileVisit = async (visitedId, visitorId) => {
     } catch (error) {
         return error.code;
     }
+}
+
+const usageTime = async (userId) => {
+    const [verifyLastUsageDay] = await database.execute(
+        `SELECT * FROM UsageTime WHERE DATE(date) = CURRENT_DATE AND fkUser = ?`,
+        [userId]
+    );
+
+    if (verifyLastUsageDay) {
+        const lastUpdateInMs = Date.parse(verifyLastUsageDay.lastUpdate);
+        const currentTimeInMs = Date.parse(new Date());
+
+        const diferenceInSeconds = (currentTimeInMs - lastUpdateInMs) / 1000;
+
+        if (diferenceInSeconds < 60) {
+            return;
+        }
 
 
+
+        return await database.execute(
+            `UPDATE UsageTime SET usageTimeInMinutes = ${++verifyLastUsageDay.usageTimeInMinutes}, lastUpdate = NOW() WHERE idUsageTime = ${verifyLastUsageDay.idUsageTime}`
+        );
+    }
+
+    return await database.execute(
+        `INSERT INTO usageTime (usageTimeInMinutes, fkUser, lastUpdate) VALUES (?, ?, NOW())`,
+        [1, userId]
+    );
 }
 
 module.exports = {
@@ -151,5 +178,6 @@ module.exports = {
     getByEmail,
     getByUsername,
     deleteProfile,
-    registerProfileVisit
+    registerProfileVisit,
+    usageTime
 }
