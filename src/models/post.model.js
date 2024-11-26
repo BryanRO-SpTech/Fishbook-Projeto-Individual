@@ -34,7 +34,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
         (await database.execute(
             `SELECT * FROM Post
                 JOIN User ON fkPostOwner = idUser
-                WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10 `,
+                WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost !== "" ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10 `,
             [lastFriendPost]
         )).map(async (post) => {
             const date = formatDateTime(post.dateTime);

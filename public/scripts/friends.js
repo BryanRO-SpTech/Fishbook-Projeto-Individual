@@ -10,6 +10,8 @@ const loadPage = async () => {
 
     const resFriends = await reqFriends.json();
 
+    console.log(resFriends);
+
 
     if (resFriends.isMyFriends) {
         document.getElementById("title").innerHTML = `Seus amigos`;
@@ -26,7 +28,7 @@ const loadPage = async () => {
                     <div class="profile" style="background-image: url(/${!friend.photo ? "assets/icons/person.svg" : friend.photo})" onclick="window.location.href = '/profile/${friend.username}'"></div>
                     <span class="name" onclick="window.location.href = '/profile/${friend.username}'">${friend.name}</span>
                 </div>
-                <button onclick="removeFriend('${friend.username}')">Remover</button>
+                ${resFriends.isMyFriends ? `<button onclick="removeFriend('${friend.username}')">Remover</button>` : ""}
         </div>
         `
     }).join("");
@@ -47,9 +49,9 @@ const loadPage = async () => {
         return `
             <div class="slide-element">
                  <div class="element-container">
-                    <div onclick="window.location.href = '/profile/${suggestion.username}'" class="profile" style="background-image: url(${suggestion.photo ? suggestion.photo : "/assets/icons/person.svg"})"></div>
+                    <div onclick="window.location.href = '/profile/${suggestion.username}'" class="profile" style="background-image: url(/${suggestion.photo ? suggestion.photo : "assets/icons/person.svg"})"></div>
                     <h3 onclick="window.location.href = '/profile/${suggestion.username}'">${suggestion.name}</h3>
-                    <button onclick="sendFriendRequest('${suggestion.username}')">Adicionar</button>
+                    <button onclick="sendFriendRequest('${suggestion.username}', this)">Adicionar</button>
                 </div>
             </div>
         `;
@@ -74,7 +76,7 @@ async function removeFriend(username) {
 }
 
 
-async function sendFriendRequest(username) {
+async function sendFriendRequest(username, element) {
     const req = await fetch(`/friends/friend-request/${username}`, {
         method: "POST"
     });
@@ -83,8 +85,8 @@ async function sendFriendRequest(username) {
         return setModal("Erro ao enviar solicitação de amizade.", "Tente novamente mais tarde.", "error");
     }
 
+    element.parentNode.parentNode.remove();
 
-    loadPage();
     return setModal("Solicitação de amizade enviada", "", "success");
 }
 
