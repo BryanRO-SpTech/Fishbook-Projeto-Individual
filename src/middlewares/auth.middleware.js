@@ -1,4 +1,4 @@
-const appError = require("../errors/appError.js");
+// const appError = require("../errors/appError.js");
 const userModel = require("../models/user.model.js");
 const CryptoJS = require("crypto-js");
 

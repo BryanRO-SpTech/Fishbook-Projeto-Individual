@@ -103,8 +103,8 @@ const getFisheryById = async (fisheryId, userId) => {
     Harbor.longitude AS harborLongitude,
     Harbor.street,
     Harbor.number,
-    boat.maxCapacity,
-    (boat.maxCapacity - (SELECT COUNT(fkUser) FROM userfishery WHERE fkFishery = ?)) AS availableCapacity,
+    Boat.maxCapacity,
+    (Boat.maxCapacity - (SELECT COUNT(fkUser) FROM UserFishery WHERE fkFishery = ?)) AS availableCapacity,
     CASE 
         WHEN Boat.fkBoatOwner = ? THEN 1
         ELSE 0

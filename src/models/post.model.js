@@ -175,7 +175,7 @@ const toggleLike = async (userId, postId) => {
     }
 
     const [post] = await database.execute(
-        `SELECT * FROM POST WHERE idPost = ?`,
+        `SELECT * FROM Post WHERE idPost = ?`,
         [postId]
     );
 

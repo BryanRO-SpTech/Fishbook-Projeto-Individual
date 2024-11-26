@@ -135,6 +135,7 @@ header .search-container .search img {
     position: absolute;
 
     overflow: auto;
+    z-index: 999;
 
 }
 

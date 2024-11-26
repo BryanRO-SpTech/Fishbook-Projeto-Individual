@@ -31,7 +31,7 @@ const loadPage = async () => {
     document.getElementById("capacity-avalable").innerHTML = resFishery.availableCapacity;
     document.getElementById("departure-date").innerHTML = formatDateTime(resFishery.dateTimeDeparture);
     document.getElementById("return-date").innerHTML = formatDateTime(resFishery.dateTimeReturn);
-    document.getElementById("duration").innerHTML = (Date.parse(resFishery.dateTimeReturn) - Date.parse(resFishery.dateTimeDeparture)) / 1000 / 60 / 60 + " Horas";
+    document.getElementById("duration").innerHTML = ((Date.parse(resFishery.dateTimeReturn) - Date.parse(resFishery.dateTimeDeparture)) / 1000 / 60 / 60).toFixed(0) + " Horas";
     document.getElementById("price").innerHTML = parseFloat(resFishery.price).toLocaleString("PT-BR", { style: "currency", currency: "BRL" });
     document.getElementById("boat-image").src = `/${resFishery.boatPhotoPath}`;
 

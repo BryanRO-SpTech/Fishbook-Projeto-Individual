@@ -164,7 +164,7 @@ const usageTime = async (userId) => {
     }
 
     return await database.execute(
-        `INSERT INTO usageTime (usageTimeInMinutes, fkUser, lastUpdate) VALUES (?, ?, NOW())`,
+        `INSERT INTO UsageTime (usageTimeInMinutes, fkUser, lastUpdate) VALUES (?, ?, NOW())`,
         [1, userId]
     );
 }

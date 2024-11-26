@@ -145,7 +145,7 @@ const timeUsageGraphic = async () => {
     const resUsage = await reqUsage.json();
 
     const labels = resUsage.map(usage => usage.weekDay);
-    const data = resUsage.map(usage => `${usage.usageTimeInMinutes}`);
+    const data = resUsage.map(usage => usage.usageTimeInMinutes);
 
     const maxData = Math.max(...data);
 
