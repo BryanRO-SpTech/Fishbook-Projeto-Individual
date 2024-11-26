@@ -321,7 +321,7 @@ async function toggleComments(caption, postId) {
             <div class="comment">
                 <div class="container">
                     <a href="/profile/${comment.username}" class="comment-profile">
-                        <div class="profile" style="background-image: url(${comment.profilePhotoPath ? comment.profilePhotoPath : "/assets/icons/person.svg"});">
+                        <div class="profile" style="background-image: url(/${comment.profilePhotoPath ? comment.profilePhotoPath : "assets/icons/person.svg"});">
                         </div><span class="comment-owner">${comment.name} <span style="color: gray; font-size: 13px; text-indent: 10px">${formatDateTime}</span> </span>
                     </a>
                 </div>
@@ -367,7 +367,7 @@ async function createComment(postId) {
             <div class="comment">
                 <div class="container">
                     <a href="/profile/${localStorage.username}" class="comment-profile">
-                        <div class="profile" style="background-image: url(${localStorage.profilePhoto == "null" ? "/assets/icons/person.svg" : localStorage.profilePhoto});">
+                        <div class="profile" style="background-image: url(/${localStorage.profilePhoto == "null" ? "assets/icons/person.svg" : localStorage.profilePhoto});">
                         </div><span class="comment-owner">${localStorage.name} <span style="color: gray; font-size: 13px; text-indent: 10px">${formatDateTime}</span></span>
                     </a>
                 </div>

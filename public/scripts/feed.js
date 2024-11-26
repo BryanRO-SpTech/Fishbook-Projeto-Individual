@@ -32,6 +32,7 @@ const loadPage = async () => {
 
     main.onscroll = () => {
         if (main.scrollTop + main.clientHeight === main.scrollHeight) {
+            console.log("TEantando carregar")
             loadFeed();
         }
     };

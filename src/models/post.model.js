@@ -12,6 +12,7 @@ const createPost = async ({ postOwnerId, type, filePath, caption }) => {
 }
 
 const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRandomPost) => {
+
     if (lastFriendPost == "undefined" || lastFriendPost == "null") {
         lastFriendPost = "";
     }
@@ -67,7 +68,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
         (await database.execute(
             `SELECT * FROM Post
             JOIN User ON fkPostOwner = idUser
-            WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
+            WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost !== "" ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
             [lastFriendOfFriendPost]
         )).map(async (post) => {
             const date = formatDateTime(post.dateTime);
@@ -94,7 +95,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
         (await database.execute(
             `SELECT * FROM Post
             JOIN User ON fkPostOwner = idUser
-            WHERE fkPostOwner NOT IN(${friendsOfFriendsIds ? friendsOfFriendsIds : 0}, ${friendsIds ? friendsIds : 0}, ?) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
+            WHERE fkPostOwner NOT IN(${friendsOfFriendsIds ? friendsOfFriendsIds : 0}, ${friendsIds ? friendsIds : 0}, ?) ${lastFriendOfFriendPost !== "" ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
             [userId, lastRandomPost]
         )).map(async (post) => {
             const date = formatDateTime(post.dateTime);
