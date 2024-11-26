@@ -1,3 +1,7 @@
+let lastFriendPost = "";
+let lastFriendOfFriendPost = "";
+let lastRandomPost = "";
+
 const loadPage = async () => {
     // Carregar sugestões de amizade
 
@@ -40,15 +44,11 @@ const loadPage = async () => {
 
 loadPage();
 
-let lastFriendPost = "";
-let lastFriendOfFriendPost = "";
-let lastRandomPost = "";
-
 const loadFeed = async () => {
     const reqPosts = await fetch(`/post/feed?lastFriendPost=${lastFriendPost}&lastFriendOfFriendPost=${lastFriendOfFriendPost}&lastRandomPost=${lastRandomPost}`);
 
     if (!reqPosts.ok) {
-        setModal("Erro ao carregar feed", "Tente novamente mais tarde...", "error");
+        setModal("Sem mais publicações para carregar", "Não existem mais publicações.", "message");
     }
 
 
@@ -65,6 +65,8 @@ const loadFeed = async () => {
     if (resPosts.lastRandomPost) {
         lastRandomPost = resPosts.lastRandomPost;
     }
+
+
 
     document.getElementById("feed").innerHTML += resPosts.posts.map((post) => {
         return `
