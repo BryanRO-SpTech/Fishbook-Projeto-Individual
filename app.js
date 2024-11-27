@@ -1,9 +1,5 @@
 // var ambiente_processo = 'producao';
-<<<<<<< HEAD
 var ambiente_processo = 'dev';
-=======
-var ambiente_processo = 'desenvolvimento';
->>>>>>> c9740cc7293a531aa797f2b40393d6550ade37f7
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
