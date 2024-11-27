@@ -90,7 +90,7 @@ CREATE TABLE Notification (
     CONSTRAINT fk_Notification_Receiver FOREIGN KEY (fkReceiver) REFERENCES User (idUser) ON DELETE CASCADE,
     CONSTRAINT fk_Notification_Friend_Request FOREIGN KEY (fkFriendRequest) REFERENCES FriendRequest (idFriendRequest) ON DELETE CASCADE,
     CONSTRAINT fk_Notification_Comment FOREIGN KEY (fkComment) REFERENCES Comment (idComment) ON DELETE CASCADE,
-    CONSTRAINT fk_Notification_Like FOREIGN KEY (fkLike) REFERENCES `Like` (idLike) ON DELETE CASCADE
+    CONSTRAINT fk_Notification_Like FOREIGN KEY (fkLike) REFERENCES Likes (idLike) ON DELETE CASCADE
 );
 
 CREATE TABLE Boat (

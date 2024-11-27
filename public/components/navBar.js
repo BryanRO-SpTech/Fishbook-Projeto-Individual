@@ -91,7 +91,7 @@ async function search(value) {
     document.getElementById("div_results").innerHTML = resResults.map((result) => {
         return `
                 <div class="result" onclick="window.location.href = '/profile/${result.username}'">
-                    <div class="profile" style="background-image: url(${result.profilePhotoPath ? result.profilePhoto : "/assets/icons/person.svg"});"></div>
+                    <div class="profile" style="background-image: url(${result.profilePhotoPath ? `/${result.profilePhotoPath}` : "/assets/icons/person.svg"});"></div>
                     <div class="user-infos">
                         <a>${result.name}</a>
                         <span>@${result.username}</span>

@@ -69,10 +69,17 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
             (await database.execute(
                 `SELECT * FROM Post
                 JOIN User ON fkPostOwner = idUser
+<<<<<<< HEAD
                 WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
                 [lastFriendOfFriendPost]
             )).map(async (post) => {
                 const date = formatDateTime(post.dateTime);
+=======
+                WHERE fkPostOwner IN(${friendsIds}) ${lastFriendPost !== "" ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
+            [lastFriendPost]
+        )).map(async (post) => {
+            const date = formatDateTime(post.dateTime);
+>>>>>>> c9740cc7293a531aa797f2b40393d6550ade37f7
 
                 return {
                     idPost: post.idPost,
@@ -101,6 +108,7 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
             )).map(async (post) => {
                 const date = formatDateTime(post.dateTime);
 
+<<<<<<< HEAD
                 return {
                     idPost: post.idPost,
                     type: post.type,
@@ -115,10 +123,40 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
                         name: post.name,
                         profilePhoto: post.profilePhotoPath
                     }
+=======
+    const friendsOfFriends = await friendsModel.getFriendsOfFriends(userId);
+    const friendsOfFriendsIds = friendsOfFriends.map((friend) => {
+        return friend.idUser
+    }).join();
+
+    const friendsOfFriendsPosts = friendsOfFriends.length === 0 ? [] : await Promise.all(
+        (await database.execute(
+            `SELECT * FROM Post
+            JOIN User ON fkPostOwner = idUser
+            WHERE fkPostOwner IN(${friendsOfFriendsIds}) ${lastFriendOfFriendPost !== "" ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
+            [lastFriendOfFriendPost]
+        )).map(async (post) => {
+            const date = formatDateTime(post.dateTime);
+
+            return {
+                idPost: post.idPost,
+                type: post.type,
+                filePath: post.filePath,
+                caption: post.caption,
+                dateTime: date,
+                isLiked: (await countLikesInPostByUser(userId, post.idPost)) > 0,
+                likes: (await countLikes(post.idPost)).likes,
+                postOwner: {
+                    fkPostOwner: post.fkPostOwner,
+                    username: post.username,
+                    name: post.name,
+                    profilePhoto: post.profilePhotoPath
+>>>>>>> c9740cc7293a531aa797f2b40393d6550ade37f7
                 }
             })
         );
 
+<<<<<<< HEAD
         return {
             posts: [
                 ...friendsPosts,
@@ -132,6 +170,45 @@ const getFeed = async (userId, lastFriendPost, lastFriendOfFriendPost, lastRando
     } catch (error) {
         return appError("No content", 400);
     }
+=======
+    const randomPosts = await Promise.all(
+        (await database.execute(
+            `SELECT * FROM Post
+            JOIN User ON fkPostOwner = idUser
+            WHERE fkPostOwner NOT IN(${friendsOfFriendsIds ? friendsOfFriendsIds : 0}, ${friendsIds ? friendsIds : 0}, ?) ${lastFriendOfFriendPost !== "" ? `AND dateTime < ?` : ""} ORDER BY dateTime DESC LIMIT 10`,
+            [userId, lastRandomPost]
+        )).map(async (post) => {
+            const date = formatDateTime(post.dateTime);
+
+            return {
+                idPost: post.idPost,
+                type: post.type,
+                filePath: post.filePath,
+                caption: post.caption,
+                dateTime: date,
+                isLiked: (await countLikesInPostByUser(userId, post.idPost)) > 0,
+                likes: (await countLikes(post.idPost)).likes,
+                postOwner: {
+                    fkPostOwner: post.fkPostOwner,
+                    username: post.username,
+                    name: post.name,
+                    profilePhoto: post.profilePhotoPath
+                }
+            }
+        })
+    );
+
+    return {
+        posts: [
+            ...friendsPosts,
+            ...friendsOfFriendsPosts,
+            ...randomPosts
+        ],
+        lastFriendPostDate: friendsPosts[friendsPosts.length - 1] ? friendsPosts[friendsPosts.length - 1].dateTime : "",
+        lastFriendsOfFriendsPostDate: friendsOfFriendsPosts[friendsOfFriendsPosts.length - 1] ? friendsOfFriendsPosts[friendsOfFriendsPosts.length - 1].dateTime : "",
+        lastRandomPost: randomPosts[randomPosts.length - 1] ? randomPosts[randomPosts.length - 1].dateTime : ""
+    };
+>>>>>>> c9740cc7293a531aa797f2b40393d6550ade37f7
 }
 
 const getPostsByUsername = async (username, myUserId) => {
