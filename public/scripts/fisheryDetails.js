@@ -21,7 +21,6 @@ const loadPage = async () => {
 
     const resFishery = await reqFishery.json();
 
-    // - 
     document.getElementById("boat-name").innerHTML = resFishery.boatName;
     document.getElementById("destination").innerHTML = resFishery.fisheryPointName;
     document.getElementById("departure").innerHTML = `<a href="https://www.google.com/maps?q=${resFishery.harborLatitude},${resFishery.harborLongitude}" target="blank">${resFishery.harborName} </a>`;
@@ -133,27 +132,3 @@ const formatDateTime = (unformattedDate) => {
 
     return formattedDateTime;
 }
-
-
-
-// {
-//     "idFishery": 2,
-//     "fkHarbor": 2,
-//     "fkBoat": 2,
-//     "fisheryPointName": "Fishing Point 2",
-//     "fisheryPointLat": "-24.238377",
-//     "fisheryPointLon": "-46.692341",
-//     "dateTimeDeparture": "2023-10-02T10:00:00.000Z",
-//     "dateTimeReturn": "2023-10-02T20:00:00.000Z",
-//     "lunchIncludes": 0,
-//     "price": "120.00",
-//     "boatName": "Boat 2",
-//     "idHarbor": 2,
-//     "harborName": "Maita-Marina Itanhaém",
-//     "harborLatitude": "-24.187067",
-//     "harborLongitude": "-46.796185",
-//     "maxCapacity": 8,
-//     "availableCapacity": 8,
-//     "isCreatedByUser": 0,
-//     "isReservedByUser": 0
-// }

@@ -33,6 +33,10 @@ const getFeed = async (req, res, next) => {
     try {
         const feed = await postModel.getFeed(userId, lastFriendPost, lastFriendOfFriendPost, lastRandomPost);
 
+        if (feed && feed.isAppError) {
+            throw feed;
+        }
+
         return res.status(200).json(feed);
     } catch (error) {
         return next(error);

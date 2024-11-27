@@ -47,7 +47,7 @@ const loadFeed = async () => {
     const reqPosts = await fetch(`/post/feed?lastFriendPost=${lastFriendPost}&lastFriendOfFriendPost=${lastFriendOfFriendPost}&lastRandomPost=${lastRandomPost}`);
 
     if (!reqPosts.ok) {
-        setModal("Erro ao carregar feed", "Tente novamente mais tarde...", "error");
+        setModal("Não há mais publicações para mostrar", "", "message");
     }
 
 
