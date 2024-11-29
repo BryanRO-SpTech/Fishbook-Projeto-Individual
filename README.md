@@ -79,5 +79,5 @@ Bem-vindo ao Fishbook, a rede social criada para apaixonados por pesca e pelo mu
 
 Para dúvidas ou sugestões, entre em contato:
 - **Email:** bryan.grocha@sptech.school
-- **GitHub:** [Fishbook Repository](https://github.com/fishbook)
+- **GitHub:** [Fishbook Repository]([https://github.com/fishbook](https://github.com/BryanRO-SpTech/Fishbook-Projeto-Individual))
 
