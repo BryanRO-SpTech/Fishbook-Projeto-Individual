@@ -63,9 +63,21 @@ Bem-vindo ao Fishbook, a rede social criada para apaixonados por pesca e pelo mu
    ```
 
 3. Configure o banco de dados:
+   ```
    - Crie um banco de dados MySQL.
    - Execute os scripts CREATE_TABLE e CREATE_VIEW localizado em `/src/database` para criar as tabelas e view.
-   - Configure as variáveis de ambiente no arquivo `.env`.
+   ```
+
+4. Configure arquivo .env:
+   ```
+   - Substitua as credenciais do banco de dados pelas suas credenciais.
+   - Cria suas próprias `SECRET` para `CRYPTO_SECRET` e `COOKIE_SECRET`.
+   ```
+
+5. Crie o diretório `temp_uploads`:
+  ```
+   - Certifique-se de criar a pasta no diretório raíz do projeto (Mesmo diretório da pasta uploads).
+   ```
 
 4. Inicie o servidor:
    ```bash
